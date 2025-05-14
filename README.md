@@ -96,8 +96,7 @@ Project/
         │       ├── templates/
         │       │   └── Mail.html
         │       └── application.properties
-        └── trest/
-
+        └── test/
 ```
 
 ## 📬 Features in Progress
