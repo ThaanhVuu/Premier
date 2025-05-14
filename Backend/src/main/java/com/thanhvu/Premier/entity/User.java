@@ -1,8 +1,6 @@
 package com.thanhvu.Premier.entity;
 
-import com.thanhvu.Premier.validator.UsernameConstraint;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -18,7 +16,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int userId;
-    @Column(nullable = false, unique = true) @UsernameConstraint(min = 1)
+    @Column(nullable = false, unique = true)
     String username;
     @Column(nullable = false)
     String password;

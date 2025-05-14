@@ -1,22 +1,21 @@
 import { API_BASE_URL } from "../../config.js";
 
 let initClubs = () => {
-    var saveMode = true;
-    let form = document.getElementById("popup-form");
-    let createBtn = document.getElementById("createBtn");
-    let cancelBtn = document.getElementById("cancel-btn");
-    let submitBtn = document.getElementById("submit-btn");
-    let teamId = -1;
+    // ===== STATE =====
+    let saveMode = true;
+    let editingTeamId = null;
+    let currentEditingStadium = null;
 
-    let teamName = document.getElementById("name").value;
-    let teamShortName = document.getElementById("shortname").value;
-    let teamFoundedYear = document.getElementById("foundedYear").value;
-    let teamWebsite = document.getElementById("website").value;
-    let teamCoach = document.getElementById("coach").value;
-    let teamCurrentPosition = document.getElementById("currentPosition").value;
-    let teamstadiumId = document.getElementById("Stadium").value;
+    // ===== DOM ELEMENTS =====
+    const form = document.getElementById("popup-form");
+    const createBtn = document.getElementById("createBtn");
+    const cancelBtn = document.getElementById("cancel-btn");
+    const submitBtn = document.getElementById("submit-btn");
+    const clubContainer = document.getElementById("clubs-container");
+    const stadiumSelect = document.getElementById("stadiumInForm");
 
-    class team {
+    // ===== CLASS =====
+    class Team {
         constructor(teamId, name, shortname, foundedYear, logoUrl, website, coach, currentPosition, stadiumId) {
             this.teamId = teamId;
             this.name = name;
@@ -30,145 +29,164 @@ let initClubs = () => {
         }
     }
 
-    let renderClubs = (teams) => {
-        let container = document.getElementById("clubs-container");
-        container.innerHTML = "";
+    // ===== RENDER FUNCTIONS =====
+    function renderClubs(teams) {
+        clubContainer.innerHTML = "";
 
         teams.forEach(team => {
-            let card = document.createElement("div");
+            const card = document.createElement("div");
             card.className = "club-card";
 
-            let imageWrapper = document.createElement("div");
+            const imageWrapper = document.createElement("div");
             imageWrapper.className = "image-wrapper";
-
-            let img = document.createElement("img");
-            if (team.logoUrl != null) {
-                img.src = team.logoUrl;
-                img.alt = team.name;
-            } else {
-                img.src = "https://www.usanetwork.com/sites/usablog/files/2023/07/epl-most-valuable-teams-2023_6.jpg";
-            }
-
+            const img = document.createElement("img");
+            img.src = team.logoUrl ?? "https://www.usanetwork.com/sites/usablog/files/2023/07/epl-most-valuable-teams-2023_6.jpg";
+            img.alt = team.name;
             imageWrapper.appendChild(img);
 
-            let clubInfo = document.createElement("div");
+            const clubInfo = document.createElement("div");
             clubInfo.innerHTML = `
                 <span>${team.name}</span>
                 <span>${team.shortname}</span>
                 <span>📅 Founded Year: ${team.foundedYear}</span>
-                <span>🌐 Website : ${team.website}</span>
+                <span>🌐 Website: ${team.website}</span>
                 <span>👨🏻‍🏫 Coach: ${team.coach}</span>
                 <span>🔝 Current Position: ${team.currentPosition}</span>
-                <span>🏟 Stadium: ${team.stadium.name}</span>
+                <span>🏟 Stadium: ${team.stadium?.name}</span>
             `;
 
-            let btnDiv = document.createElement("div");
+            const btnDiv = document.createElement("div");
             btnDiv.className = "btn-func";
             btnDiv.innerHTML = `
                 <button class="update">📝 Update</button>
                 <button class="delete">🗑️ Delete</button>
             `;
 
-            // Gắn các phần vào card
+            // Nút update
+            btnDiv.querySelector(".update").onclick = () => {
+                saveMode = false;
+                editingTeamId = team.teamId;
+                currentEditingStadium = team.stadium;
+
+                form.style.display = "block";
+                loadTeamToForm(team);
+                getStadiums(false);
+            };
+
+            // Nút delete
+            btnDiv.querySelector(".delete").onclick = () => {
+                if (confirm(`Are you sure you want to delete team "${team.name}"?`)) {
+                    axios.delete(`${API_BASE_URL}team/${team.teamId}`, {
+                        headers: { Authorization: `Bearer ${token}` }
+                    })
+                        .then(response => alert(response.data.info))
+                        .catch(error => alert(error.response?.data?.info ?? error.message))
+                        .finally(loadClubs);
+                }
+            };
+
             card.appendChild(imageWrapper);
             card.appendChild(clubInfo);
             card.appendChild(btnDiv);
-            container.appendChild(card);
-
-            // Gán sự kiện
-            const updateBtn = btnDiv.querySelector(".update");
-            const deleteBtn = btnDiv.querySelector(".delete");
-
-            deleteBtn.onclick = function () {
-                if (confirm(`Are you sure you want to delete stadium "${team.name}"?`)) {
-                    axios.delete(`${API_BASE_URL}team/${team.teamId}`, { headers: { Authorization: `Bearer ${token}` } })
-                        .then(response => {
-                            alert(response.data.info);
-                        })
-                        .catch(error => {
-                            alert(error.response.data.info);
-                        })
-                        .finally(() => {
-                            loadClubs();
-                        })
-                }
-            }
-
-            updateBtn.onclick = function () {
-                form.style.display = "block";
-                saveMode = false;
-                loadtoForm(team);
-                teamId = team.teamId;
-            }
+            clubContainer.appendChild(card);
         });
     }
 
-    function loadClubs() {
-        axios.get(`${API_BASE_URL}team`)
-            .then(response => {
-                const clubs = response.data.result;
-                renderClubs(clubs);
-            })
-            .catch(error => {
-                console.log(error);
-            });
+    function renderStadium(stadiums, isCreateMode) {
+        stadiumSelect.innerHTML = "";
+
+        stadiums.forEach(stadium => {
+            const option = document.createElement("option");
+            option.value = stadium.stadiumId;
+            option.textContent = stadium.name;
+            if (!isCreateMode && stadium.stadiumId == currentEditingStadium?.stadiumId) {
+                option.selected = true;
+            }
+            stadiumSelect.appendChild(option);
+        });
     }
 
-    createBtn.onclick = () => {
-        form.style.display = "block";
+    // ===== FORM HANDLING =====
+    function resetFormInputs() {
+        form.reset();
     }
+
+    function loadTeamToForm(team) {
+        document.getElementById("name").value = team.name;
+        document.getElementById("shortname").value = team.shortname;
+        document.getElementById("foundedYear").value = team.foundedYear;
+        document.getElementById("website").value = team.website;
+        document.getElementById("coach").value = team.coach;
+        document.getElementById("currentPosition").value = team.currentPosition;
+    }
+
+    function getSelectedStadiumId() {
+        return stadiumSelect.value;
+    }
+
+    function getStadiums(isCreateMode) {
+        axios.get(`${API_BASE_URL}stadium/unassigned`)
+            .then(res => {
+                let stadiums = res.data.result;
+
+                if (!isCreateMode && currentEditingStadium) {
+                    stadiums.unshift(currentEditingStadium);
+                }
+
+                renderStadium(stadiums, isCreateMode);
+            })
+            .catch(error => alert(error.response?.data?.info ?? error.message));
+    }
+
+    // ===== EVENT HANDLERS =====
+    createBtn.onclick = () => {
+        saveMode = true;
+        editingTeamId = null;
+        currentEditingStadium = null;
+
+        form.style.display = "block";
+        resetFormInputs();
+        getStadiums(true);
+    };
 
     cancelBtn.onclick = () => {
         form.style.display = "none";
-    }
-
-    let loadtoForm = (team) => {
-        teamName = team.name;
-        teamShortName = team.shortname;
-        teamFoundedYear = team.foundedYear;
-        teamWebsite = team.website;
-        teamCoach = team.coach;
-        teamCurrentPosition = team.currentPosition;
-        teamstadiumId = team.stadium.name;
-    }
-
-    let resetForm = () => {
-        teamName = "";
-        teamShortName = "";
-        teamFoundedYear = "";
-        teamWebsite = "";
-        teamCoach = "";
-        teamCurrentPosition = "";
-        teamstadiumId = "";
-    }
-
-    let selectorStadiumForm = () =>{
-        axios.get("")
-    }
+    };
 
     submitBtn.onclick = () => {
-        team(teamName, teamShortName, teamFoundedYear, teamWebsite, teamCoach, teamCurrentPosition, teamstadiumId)
-        const method = saveMode
-            ? axios.post(`${API_BASE_URL}team`, stadium, { headers: { Authorization: `Bearer ${token}` } })
-            : axios.put(`${API_BASE_URL}team/${stadiumId}`, stadium, { headers: { Authorization: `Bearer ${token}` } });
-        method
+        const newTeam = new Team(
+            saveMode ? null : editingTeamId,
+            document.getElementById("name").value,
+            document.getElementById("shortname").value,
+            document.getElementById("foundedYear").value,
+            null,
+            document.getElementById("website").value,
+            document.getElementById("coach").value,
+            document.getElementById("currentPosition").value,
+            getSelectedStadiumId()
+        );
+
+        const request = saveMode
+            ? axios.post(`${API_BASE_URL}team`, newTeam, { headers: { Authorization: `Bearer ${token}` } })
+            : axios.put(`${API_BASE_URL}team/${editingTeamId}`, newTeam, { headers: { Authorization: `Bearer ${token}` } });
+
+        request
             .then(res => alert(res.data.info))
-            .catch(err => {
-                if (err.response?.data?.info) {
-                    alert(err.response.data.info);
-                } else {
-                    alert("Unexpected error: " + err.message);
-                }
-                console.error(err);
-            })
+            .catch(err => alert(err.response?.data?.info ?? "Unexpected error: " + err.message))
             .finally(() => {
-                loadClubs();
-                resetForm();
                 form.style.display = "none";
+                loadClubs();
             });
+    };
+
+    // ===== INITIAL LOAD =====
+    function loadClubs() {
+        axios.get(`${API_BASE_URL}team`)
+            .then(res => renderClubs(res.data.result))
+            .catch(err => console.error(err));
     }
 
     loadClubs();
-}
+};
 
 initClubs();

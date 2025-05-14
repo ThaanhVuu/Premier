@@ -61,8 +61,7 @@ public class StadiumService {
     public long countStadium(){
         return stadiumsRepository.count();
     }
-
-    @PreAuthorize("hasRole('ADMIN')")
+    
     //cac san chua lk voi team
     public List<Stadium> getUnassignedStadiums() {
         List<Stadium> unassigned = stadiumsRepository.findStadiumsNotAssignedToTeam();

@@ -1,7 +1,6 @@
 package com.thanhvu.Premier.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

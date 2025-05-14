@@ -40,5 +40,5 @@ public enum ErrorCode {
         this.statusCode = statusCode;
     }
 
-    private HttpStatusCode statusCode;
+    private final HttpStatusCode statusCode;
 }
