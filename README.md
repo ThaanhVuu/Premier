@@ -73,30 +73,31 @@ This is a web-based football information management system with three user roles
 ## 📦 Project Structure
 
 ```
-├── Project/
-│   ├── src/
-│   │   ├── FE/
-│   │   │   ├──admin/
-│   │   │   ├──home/
-│   │   │   ├──login/
-│   │   │   └──manager/
-│   │   ├── main/
-│   │   │   ├── java/
-│   │   │   │   └── com/thanhvu/Premier/
-│   │   │   │       ├── config/
-│   │   │   │       ├── controller/
-│   │   │   │       ├── model/
-│   │   │   │       ├── repository/
-│   │   │   │       ├── service/
-│   │   │   │       └── security/
-│   │   │   └── resources/
-│   │   │       ├──templates/
-│   │   │       │   └──Mail.html
-│   │   │       └── application.properties
-│   │   └── test/
-│   └── pom.xml
-└── database/
-    └── test1.1.db/
+Project/
+├── Frontend/
+│   ├── admin/
+│   ├── home/
+│   ├── login/
+│   └── manager/
+└── Backend/
+    ├── pom.xml
+    ├── test1.1.db
+    └── src/
+        ├── main/
+        │   ├── java/
+        │   │   └── com/thanhvu/Premier/
+        │   │       ├── config/
+        │   │       ├── controller/
+        │   │       ├── model/
+        │   │       ├── repository/
+        │   │       ├── service/
+        │   │       └── security/
+        │   └── resources/
+        │       ├── templates/
+        │       │   └── Mail.html
+        │       └── application.properties
+        └── trest/
+
 ```
 
 ## 📬 Features in Progress
