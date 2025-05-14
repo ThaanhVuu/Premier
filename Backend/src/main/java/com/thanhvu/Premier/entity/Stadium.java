@@ -1,0 +1,26 @@
+package com.thanhvu.Premier.entity;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+@Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Table(name = "stadiums")
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class Stadium {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int stadiumId;
+    @Column(nullable = false, unique = true)
+    String name;
+    String city;
+    int capacity;
+    String address;
+    int builtYear;
+    String photoUrl;
+}
