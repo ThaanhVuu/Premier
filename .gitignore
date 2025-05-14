@@ -1,0 +1,8 @@
+*.env
+*.yml
+*.properties
+*.idea
+*.vscode
+*.log
+*.tmp
+target/
