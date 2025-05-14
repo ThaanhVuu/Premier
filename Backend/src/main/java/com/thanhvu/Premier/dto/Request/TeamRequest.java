@@ -8,7 +8,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TeamRequest {
     private String name;
-    private String shortname;
+    private String shortName;
     private int foundedYear;
     private String logoUrl;
     private String website;

@@ -77,3 +77,10 @@ switch (savedTab) {
     case "Result": resultBtn.onclick(); break;
     default: newsBtn.onclick(); break;  // Mặc định mở News nếu không có gì
 }
+
+const toggle = document.getElementById("menu-toggle");
+const aside = document.querySelector("aside");
+
+toggle.addEventListener("click", () => {
+    aside.classList.toggle("menu-opened");
+});

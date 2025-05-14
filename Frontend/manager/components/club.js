@@ -32,8 +32,9 @@ let initClubs = () => {
     // ===== RENDER FUNCTIONS =====
     function renderClubs(teams) {
         clubContainer.innerHTML = "";
-
+        console.log(teams);
         teams.forEach(team => {
+
             const card = document.createElement("div");
             card.className = "club-card";
 
@@ -47,7 +48,7 @@ let initClubs = () => {
             const clubInfo = document.createElement("div");
             clubInfo.innerHTML = `
                 <span>${team.name}</span>
-                <span>${team.shortname}</span>
+                <span>${team.shortName}</span>
                 <span>📅 Founded Year: ${team.foundedYear}</span>
                 <span>🌐 Website: ${team.website}</span>
                 <span>👨🏻‍🏫 Coach: ${team.coach}</span>

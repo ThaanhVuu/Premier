@@ -17,7 +17,7 @@ public class Team {
     int teamId;
     @Column(nullable = false, unique = true)
     String name;
-    String shortname;
+    String shortName;
     int foundedYear;
     String logoUrl;
     String website;
