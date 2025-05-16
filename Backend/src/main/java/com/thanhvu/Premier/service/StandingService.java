@@ -49,7 +49,7 @@ public class StandingService {
     }
 
     public List<Standing> sortStandings(){
-        return rp.findAllSortedByPointsDesc();
+        return rp.getAllSortedByPoints();
     }
 
 //    static List<Standing> quickSort(List<Standing> list, int low, int high) {

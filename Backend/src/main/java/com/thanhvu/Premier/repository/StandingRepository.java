@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface StandingRepository extends JpaRepository<Standing, Long> {
-    List<Standing> findAllSortedByPointsDesc();
+    @Query("SELECT s FROM Standing s ORDER BY s.points DESC")
+    List<Standing> getAllSortedByPoints();
 }
