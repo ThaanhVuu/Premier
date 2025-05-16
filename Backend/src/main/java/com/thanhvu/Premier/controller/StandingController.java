@@ -41,6 +41,7 @@ public class StandingController {
 
     @DeleteMapping("{id}")
     APIResponse<?> deleteStanding(@PathVariable long id){
+        service.deleteStanding(id);
         return APIResponse.builder()
                 .code(200)
                 .info("Delete standing successful!")

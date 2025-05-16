@@ -105,7 +105,6 @@ Project/
 
 - [ ] Password reset via email
 - [ ] Refresh token implementation
-- [ ] Two-factor authentication
 - [ ] Account lockout after failed attempts
 
 ### User Management
@@ -132,8 +131,6 @@ Project/
 ### UI/UX Improvements
 
 - [ ] Dark mode support
-- [ ] Mobile app version
-- [ ] Real-time notifications
 - [ ] Interactive match timeline
 - [ ] Enhanced search functionality
 - [ ] Responsive design improvements
@@ -156,6 +153,10 @@ Project/
 - Modern web browser
 
 ### Configuration
+First, you have to go to inside Backend folder
+```Your path should be
+PremierLeague\Backend
+```
 
 Create and place the file at the following location:
 

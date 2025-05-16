@@ -53,11 +53,8 @@ public class TeamService {
     @PreAuthorize("hasRole('ADMIN')")
     public Team updateClub(int id, TeamRequest request){
         Team team = getTeamById(id);
-        team = teamMapper.toTeam(request);
-        team.setTeamId(id);
-        Stadium stadium = stadiumsRepository.getStadiumByStadiumId(request.getStadiumId());
-        team.setStadium(stadium);
-
+        teamMapper.updateToTeam(request, team);
+        teamRepository.save(team);
         return teamRepository.save(team);
     }
 }

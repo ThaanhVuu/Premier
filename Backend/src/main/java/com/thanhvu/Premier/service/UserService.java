@@ -70,7 +70,6 @@ public class UserService {
 
     @PostAuthorize("returnObject.username == authentication.name")
     public User getUserById(int id){
-        log.info("in method get user by id: " + id);
         if(!userRepository.existsById(id)){
             throw new AppException(ErrorCode.NOT_FOUND);
         }

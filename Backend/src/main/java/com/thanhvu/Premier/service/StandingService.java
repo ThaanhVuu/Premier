@@ -49,38 +49,37 @@ public class StandingService {
     }
 
     public List<Standing> sortStandings(){
-        List<Standing> list = getAllStanding();
-        return quickSort(list, 0, list.size() - 1);
+        return rp.findAllSortedByPointsDesc();
     }
 
-    static List<Standing> quickSort(List<Standing> list, int low, int high) {
-        if (low < high) {
-            int pi = partition(list, low, high);
-            quickSort(list, low, pi - 1);
-            quickSort(list, pi + 1, high);
-        }
-        return list;
-    }
-
-    //low la ptu dau arr. high la cuoi
-    static int partition(List<Standing> list, int low, int high) {
-        Standing pivot = list.get(high);
-        int i = low - 1;
-
-        for (int j = low; j < high; j++) {
-            if (list.get(j).getPoints() > pivot.getPoints()) { //SX giam dan
-                i++;
-                swap(list, i, j);
-            }
-        }
-
-        swap(list, i + 1, high);
-        return i + 1;
-    }
-
-    static void swap(List<Standing> list, int i, int j) {
-        Standing temp = list.get(i);
-        list.set(i, list.get(j));
-        list.set(j, temp);
-    }
+//    static List<Standing> quickSort(List<Standing> list, int low, int high) {
+//        if (low < high) {
+//            int pi = partition(list, low, high);
+//            quickSort(list, low, pi - 1);
+//            quickSort(list, pi + 1, high);
+//        }
+//        return list;
+//    }
+//
+//    //low la ptu dau arr. high la cuoi
+//    static int partition(List<Standing> list, int low, int high) {
+//        Standing pivot = list.get(high);
+//        int i = low - 1;
+//
+//        for (int j = low; j < high; j++) {
+//            if (list.get(j).getPoints() > pivot.getPoints()) { //SX giam dan
+//                i++;
+//                swap(list, i, j);
+//            }
+//        }
+//
+//        swap(list, i + 1, high);
+//        return i + 1;
+//    }
+//
+//    static void swap(List<Standing> list, int i, int j) {
+//        Standing temp = list.get(i);
+//        list.set(i, list.get(j));
+//        list.set(j, temp);
+//    }
 }

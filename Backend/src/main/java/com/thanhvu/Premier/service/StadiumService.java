@@ -40,10 +40,7 @@ public class StadiumService {
     // Cập nhật sân
     public Stadium updateStadium(int id, StadiumRequest request) {
         Stadium stadium = getStadium(id);
-
-        stadium = stadiumMapper.toStadium(request);
-        stadium.setStadiumId(id);
-
+        stadiumMapper.updateToStadium(request, stadium);
         return stadiumsRepository.save(stadium);
     }
 

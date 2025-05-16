@@ -7,13 +7,11 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import com.thanhvu.Premier.dto.Request.IntrospectRequest;
 import com.thanhvu.Premier.dto.Request.UserRequest;
-import com.thanhvu.Premier.entity.Role;
 import com.thanhvu.Premier.entity.User;
 import com.thanhvu.Premier.exceptions.AppException;
 import com.thanhvu.Premier.exceptions.ErrorCode;
 import com.thanhvu.Premier.repository.UserRepository;
 import lombok.AccessLevel;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
@@ -24,11 +22,8 @@ import org.springframework.util.CollectionUtils;
 
 import java.text.ParseException;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.StringJoiner;
 
 @Service
