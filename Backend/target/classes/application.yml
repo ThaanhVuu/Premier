@@ -33,18 +33,18 @@ spring:
           starttls:
             enable: true
 
-URL_frontend: http://127.0.0.1:5500
+URL_frontend: https://thaanhvuu.github.io/Premier
 
+##logging:
+##  level:
+##    root: DEBUG  # Set the log level for the root logger
+##    org.springframework: DEBUG  # Set the log level for Spring Framework
+##    org.hibernate: DEBUG  # Set the log level for Hibernate
 #logging:
 #  level:
-#    root: DEBUG  # Set the log level for the root logger
-#    org.springframework: DEBUG  # Set the log level for Spring Framework
+#    org.hibernate.SQL: DEBUG
+#    org.hibernate.tool.hbm2ddl: DEBUG
 #    org.hibernate: DEBUG  # Set the log level for Hibernate
-logging:
-  level:
-    org.hibernate.SQL: DEBUG
-    org.hibernate.tool.hbm2ddl: DEBUG
-    org.hibernate: DEBUG  # Set the log level for Hibernate
 
 jwt:
   signerKey: KpDU0T82a7oaCgJ5Z98BlR2kIzDiliRHGgXL/xCo2LSjxeJ0tvkaDtWazIPxeP7m
