@@ -1,0 +1,273 @@
+#content {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+}
+
+#content .nav {
+    gap: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#searchInput {
+    padding: 13px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    width: 250px;
+}
+
+#content #createBtn {
+    background-color: #0c4076;
+    color: white;
+}
+
+#content #createBtn:hover {
+    background-color: #093563;
+}
+
+/* ================== Stats card =========== */
+.card-in {
+    background-color: #f9f9f9;
+    padding: 10px 15px 10px 15px;
+    border-radius: 8px;
+    border-left: 4px solid #0c4076;
+
+}
+
+.card {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+/*======================= Club container========================= */
+#clubs-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Card: dùng height 100% và flex layout */
+.club-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 100%;
+}
+
+.club-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Chiều cao ảnh đồng nhất */
+.image-wrapper {
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 180px;
+  padding: 16px;
+}
+
+.club-card img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* Thông tin trong card */
+.club-card > div:not(.btn-func) {
+  padding: 16px;
+  flex-grow: 1; /* để nội dung giãn đầy phần còn lại */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 15px;
+  color: #333;
+}
+
+.club-card span {
+  line-height: 1.5;
+}
+
+/* Nút chức năng */
+.btn-func {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+  padding: 12px 16px;
+  background-color: #fafafa;
+  border-top: 1px solid #eee;
+}
+
+.btn-func button {
+  background-color: #007bff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-func button.delete {
+  background-color: #dc3545;
+}
+
+.btn-func button:hover {
+  opacity: 0.9;
+}
+
+/*======================================== pop up======================= */
+#popup-form {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    padding: 25px;
+    width: 450px;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    z-index: 1000;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: fit-content;
+}
+
+#popup-form h3 {
+    margin-top: 0;
+    color: #2c3e50;
+    font-size: 24px;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+#popup-form div {
+    margin-bottom: 16px;
+}
+
+#popup-form span {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #34495e;
+    font-size: 14px;
+}
+
+#popup-form input,
+#popup-form textarea,
+#popup-form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+#popup-form textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+#popup-form input:focus,
+#popup-form textarea:focus,
+#popup-form select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Overlay background */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+/* Add form button styling */
+#submit-btn {
+    background-color: #3498db;
+    color: white;
+    float: right;
+}
+
+#submit-btn:hover {
+    background-color: #2980b9;
+}
+
+#cancel-btn {
+    background-color: #e74c3c;
+    color: white;
+    margin-right: 10px;
+    float: right;
+}
+
+#cancel-btn:hover {
+    background-color: #c0392b;
+}
+
+/* Clear float */
+.form-buttons::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Animation for popup */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+#popup-form {
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Form validation */
+input:invalid,
+textarea:invalid,
+select:invalid {
+    border-color: #e74c3c;
+}
+
+/* Responsive adjustments */
+@media (max-width: 500px) {
+    #popup-form {
+        padding: 15px;
+    }
+
+    #submit-btn,
+    #cancel-btn {
+        width: 100%;
+        float: none;
+        margin: 10px 0 0 0;
+    }
+}
