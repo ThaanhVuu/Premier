@@ -12,15 +12,16 @@ import java.time.LocalDate;
 public class Player {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     long playerId;
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    Team team;
     String name;
     String nationality;
     String position;
     int jerseyNumber;
-    LocalDate dateOfBirth;
+    @Column(name = "date_of_birth")
+    String dateOfBirth;
     double height;
     int weight;
     String photoUrl;
-    @ManyToOne
-            @JoinColumn(name = "team_id")
-    Team team;
 }
