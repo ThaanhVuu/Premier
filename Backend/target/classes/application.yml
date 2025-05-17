@@ -7,31 +7,31 @@ spring:
   #    driver-class-name: org.sqlite.JDBC
 
   datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: jdbc:postgresql://ep-lucky-darkness-a19d99aq-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require
+    username: neondb_owner
+    password: npg_SpWJwg5T1Bbs
 
   jpa:
     hibernate:
-      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
-    database-platform: ${SPRING_JPA_DATABASE_PLATFORM:org.hibernate.dialect.PostgreSQLDialect}
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
-  #  jpa:
+#  jpa:
 #    database-platform: org.hibernate.community.dialect.SQLiteDialect
 #    hibernate:
 #      ddl-auto: update
 
   mail:
-    host: ${SPRING_MAIL_HOST:smtp.gmail.com}
-    port: ${SPRING_MAIL_PORT:587}
-    username: ${SPRING_MAIL_USERNAME}
-    password: ${SPRING_MAIL_PASSWORD}
+    host: smtp.gmail.com
+    port: 587
+    username: thanhvu7623@gmail.com
+    password: brev bago trwi eeko
     properties:
       mail:
         smtp:
-          auth: ${SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH:true}
+          auth: true
           starttls:
-            enable: ${SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE:true}
+            enable: true
 
 URL_frontend: http://127.0.0.1:5500
 
@@ -40,9 +40,14 @@ URL_frontend: http://127.0.0.1:5500
 #    root: DEBUG  # Set the log level for the root logger
 #    org.springframework: DEBUG  # Set the log level for Spring Framework
 #    org.hibernate: DEBUG  # Set the log level for Hibernate
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.tool.hbm2ddl: DEBUG
+    org.hibernate: DEBUG  # Set the log level for Hibernate
 
 jwt:
-  signerKey: ${JWT_SIGNERKEY}
+  signerKey: KpDU0T82a7oaCgJ5Z98BlR2kIzDiliRHGgXL/xCo2LSjxeJ0tvkaDtWazIPxeP7m
 
 server:
   address: 0.0.0.0

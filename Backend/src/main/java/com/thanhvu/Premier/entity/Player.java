@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
-
 @Entity @Table(name = "Players")
 @Data @AllArgsConstructor @NoArgsConstructor
 @Builder @FieldDefaults(level = AccessLevel.PRIVATE)
