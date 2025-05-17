@@ -28,6 +28,7 @@ public class InitAdmin {
                 User user = User.builder()
                         .username("admin")
                         .password(encoder.encode("admin"))
+                        .name("ADMIN")
                         .roles(roles)
                         .build();
                 userRepository.save(user);

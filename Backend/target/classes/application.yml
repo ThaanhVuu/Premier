@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: Premier
+
+  #  datasource:
+  #    url: jdbc:sqlite:test1.3.db
+  #    driver-class-name: org.sqlite.JDBC
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+    database-platform: ${SPRING_JPA_DATABASE_PLATFORM:org.hibernate.dialect.PostgreSQLDialect}
+
+  #  jpa:
+#    database-platform: org.hibernate.community.dialect.SQLiteDialect
+#    hibernate:
+#      ddl-auto: update
+
+  mail:
+    host: ${SPRING_MAIL_HOST:smtp.gmail.com}
+    port: ${SPRING_MAIL_PORT:587}
+    username: ${SPRING_MAIL_USERNAME}
+    password: ${SPRING_MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: ${SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH:true}
+          starttls:
+            enable: ${SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE:true}
+
+URL_frontend: http://127.0.0.1:5500
+
+#logging:
+#  level:
+#    root: DEBUG  # Set the log level for the root logger
+#    org.springframework: DEBUG  # Set the log level for Spring Framework
+#    org.hibernate: DEBUG  # Set the log level for Hibernate
+
+jwt:
+  signerKey: ${JWT_SIGNERKEY}
+
+server:
+  address: 0.0.0.0
+  port: 8080

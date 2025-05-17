@@ -37,5 +37,17 @@
         </library>
       </libraries>
     </data-source>
+    <data-source source="LOCAL" name="neondb" uuid="4e04b2ac-4775-4120-8668-36ee23f74b7c">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://ep-lucky-darkness-a19d99aq-pooler.ap-southeast-1.aws.neon.tech:5432/postgres</jdbc-url>
+      <jdbc-additional-properties>
+        <property name="com.intellij.clouds.kubernetes.db.host.port" />
+        <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
+        <property name="com.intellij.clouds.kubernetes.db.container.port" />
+      </jdbc-additional-properties>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
