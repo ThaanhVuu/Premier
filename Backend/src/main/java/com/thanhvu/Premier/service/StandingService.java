@@ -20,6 +20,7 @@ import java.util.List;
 public class StandingService {
     StandingRepository rp;
     StandingMapper mp;
+    TeamService team;
 
     public List<Standing> getAllStanding() {
         return rp.findAll();
@@ -33,6 +34,7 @@ public class StandingService {
     @PreAuthorize("hasRole('ADMIN')")
     public Standing createStanding(StandingRequest rq) {
         Standing standing = mp.toStanding(rq);
+        standing.setTeam(team.getTeamById(rq.getTeamId()));
         return rp.save(standing);
     }
 
@@ -40,6 +42,7 @@ public class StandingService {
     public Standing updateStanding(long id, StandingRequest rq) {
         Standing standing = getStanding(id);
         mp.updateToStanding(rq, standing);
+        standing.setTeam(team.getTeamById(rq.getTeamId()));
         return rp.save(standing);
     }
 

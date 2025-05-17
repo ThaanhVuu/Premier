@@ -20,6 +20,7 @@ import java.util.List;
 public class MatchService {
     MatchMapper mp;
     MatchRepository rp;
+    TeamService teamService;
 
     public List<Match> getAllMatches(){
         return rp.findAll();
@@ -28,15 +29,20 @@ public class MatchService {
     public Match getMatch(long id){
         return rp.findById(id).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
     }
+
     @PreAuthorize("hasRole('ADMIN')")
     public Match updateMatch(long id, MatchRequest rq){
         Match match = getMatch(id);
         mp.updateMatch(rq, match);
+        match.setHomeTeamId(teamService.getTeamById(rq.getHomeTeamId()));
+        match.setAwayTeamId(teamService.getTeamById(rq.getAwayTeamId()));
         return rp.save(match);
     }
     @PreAuthorize("hasRole('ADMIN')")
     public Match createMatch(MatchRequest rq){
         Match match = mp.toMatch(rq);
+        match.setHomeTeamId(teamService.getTeamById(rq.getHomeTeamId()));
+        match.setAwayTeamId(teamService.getTeamById(rq.getAwayTeamId()));
         return rp.save(match);
     }
     @PreAuthorize("hasRole('ADMIN')")

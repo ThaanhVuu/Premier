@@ -53,6 +53,7 @@ public class NewsService {
     public List<News> getAllNews(){
         return newsRepo.findAll();
     }
+
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteNews(int id){
         News news = getANews(id);
@@ -72,10 +73,12 @@ public class NewsService {
     public long countTotalNews(){
         return newsRepo.count();
     }
+
     @PreAuthorize("hasRole('ADMIN')")
     public long getTotalViews(){
         return newsRepo.getTotalView();
     }
+
     @PreAuthorize("hasRole('ADMIN')")
     public long countNewsInDay(){
         LocalDate today = LocalDate.now();
