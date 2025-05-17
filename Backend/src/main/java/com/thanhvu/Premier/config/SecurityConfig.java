@@ -37,8 +37,8 @@ public class SecurityConfig {
         // "/api/users/**"
         // };
 
-        @Value("${URL_frontend}")
-        private String uRL_frontend;
+        @Value("#{'${URL_frontend}'.split(',')}")
+        private List<String> uRL_frontend;
 
         @Value("${jwt.signerKey}")
         private String signerKey;
@@ -46,8 +46,7 @@ public class SecurityConfig {
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
                 httpSecurity
-                                .cors(cors -> {
-                                })
+                                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                                 .csrf(AbstractHttpConfigurer::disable)
                                 .authorizeHttpRequests(request ->
                                 // cho phep request cac endpoint ma k can xac thuc
@@ -85,10 +84,10 @@ public class SecurityConfig {
         @Bean
         public CorsConfigurationSource corsConfigurationSource() {
                 CorsConfiguration config = new CorsConfiguration();
-                config.setAllowedOrigins(List.of(uRL_frontend));
+                config.setAllowedOrigins(uRL_frontend);
                 config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                 config.setAllowedHeaders(List.of("*"));
-                config.setAllowCredentials(true); // bỏ nếu dùng "*" ở AllowedOrigins
+                config.setAllowCredentials(true);
 
                 UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
                 source.registerCorsConfiguration("/**", config);
