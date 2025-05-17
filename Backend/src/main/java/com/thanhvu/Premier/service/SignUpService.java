@@ -47,6 +47,10 @@ public class SignUpService {
     @NonFinal
     String signerKey;
 
+    @Value("${URL_frontend}")
+            @NonFinal
+    String urlConfirmToken;
+
     public User signUpRequest(UserRequest request) {
         if (userRepo.existsByUsername(request.getUsername()))
             throw new AppException(ErrorCode.ALREADY_EXISTS);
@@ -54,7 +58,7 @@ public class SignUpService {
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         // tao link token
-        String link = "http://127.0.0.1:5500/src/FE/login/confirm.html?token=" + generateSignUpToken(user);
+        String link = urlConfirmToken + "/login/confirm.html?token=" + generateSignUpToken(user);
         // gui token toi email (username la email), link nen dan toi mot trang web
         // confirm, web doc token va goi api confirm
         sendVerificationEmail(request.getUsername(), link, request.getName());
