@@ -17,5 +17,6 @@ FROM amazoncorretto:21.0.4
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 
+EXPOSE 8080
 # Command to run application
 ENTRYPOINT ["java", "-jar","app.jar"]
