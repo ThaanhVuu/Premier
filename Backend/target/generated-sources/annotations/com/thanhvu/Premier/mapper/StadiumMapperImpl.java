@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-18T06:35:30+0700",
-    comments = "version: 1.6.2, compiler: Eclipse JDT (IDE) 3.42.0.v20250514-1000, environment: Java 21.0.7 (Eclipse Adoptium)"
+    date = "2025-05-18T06:46:07+0700",
+    comments = "version: 1.6.2, compiler: javac, environment: Java 21.0.7 (Oracle Corporation)"
 )
 @Component
 public class StadiumMapperImpl implements StadiumMapper {
@@ -21,11 +21,11 @@ public class StadiumMapperImpl implements StadiumMapper {
 
         Stadium.StadiumBuilder stadium = Stadium.builder();
 
+        stadium.name( request.getName() );
+        stadium.city( request.getCity() );
+        stadium.capacity( request.getCapacity() );
         stadium.address( request.getAddress() );
         stadium.builtYear( request.getBuiltYear() );
-        stadium.capacity( request.getCapacity() );
-        stadium.city( request.getCity() );
-        stadium.name( request.getName() );
         stadium.photoUrl( request.getPhotoUrl() );
 
         return stadium.build();
@@ -37,11 +37,11 @@ public class StadiumMapperImpl implements StadiumMapper {
             return;
         }
 
+        stadium.setName( rq.getName() );
+        stadium.setCity( rq.getCity() );
+        stadium.setCapacity( rq.getCapacity() );
         stadium.setAddress( rq.getAddress() );
         stadium.setBuiltYear( rq.getBuiltYear() );
-        stadium.setCapacity( rq.getCapacity() );
-        stadium.setCity( rq.getCity() );
-        stadium.setName( rq.getName() );
         stadium.setPhotoUrl( rq.getPhotoUrl() );
     }
 }
