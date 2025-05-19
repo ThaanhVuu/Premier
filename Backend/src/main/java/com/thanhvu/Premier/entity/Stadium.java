@@ -14,6 +14,7 @@ import lombok.experimental.FieldDefaults;
 public class Stadium {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "stadium_id")
     int stadiumId;
     @Column(nullable = false, unique = true)
     String name;

@@ -58,6 +58,8 @@ public class SignUpService {
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         // tao link token
+        //khi nguoi dung an vao xac nhan o mail, se nhay sang confirm.html, taị đây confirm.html sẽ đọc
+        // từ ?token=... , và gọi api confirm token (api/auth/confirm?token=
         String link = urlConfirmToken + "/login/confirm.html?token=" + generateSignUpToken(user);
         // gui token toi email (username la email), link nen dan toi mot trang web
         // confirm, web doc token va goi api confirm

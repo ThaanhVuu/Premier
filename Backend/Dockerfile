@@ -6,8 +6,9 @@ FROM maven:3.9.9-amazoncorretto-21 AS build
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
+COPY test1.3.db .
 
-RUN mvn clean package -DskipTests
+RUN mvn clean package
 
 # Stage 2
 # create image
@@ -16,6 +17,7 @@ FROM amazoncorretto:21.0.4
 
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /app/test1.3.db ./test1.3.db
 
 EXPOSE 8080
 

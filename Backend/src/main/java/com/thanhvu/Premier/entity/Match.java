@@ -21,13 +21,12 @@ public class Match {
     @ManyToOne
     @JoinColumn(name = "stadium_id")
     Stadium stadium;
-    @Column(nullable = false)
     LocalDateTime matchDate;
     int matchWeek;
     String season;
     MatchStatus status;
     String referee;
-    int attendance;
-    int homeScore;
-    int awayScore;
+    Integer attendance;
+    Integer homeScore;
+    Integer awayScore;
 }

@@ -10,5 +10,6 @@ import org.mapstruct.MappingTarget;
 public interface NewsMapper {
     @Mapping(target = "newsId", ignore = true)
     News toNews(NewsRequest request);
+    @Mapping(target = "author", ignore = true)
     void updateNewsFromRequest(NewsRequest request, @MappingTarget News news);
 }

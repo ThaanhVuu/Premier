@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/match")
 public class MatchController {
-    MatchService sv;
+    private final MatchService sv;
 
     @GetMapping
     APIResponse<?> getAllmatches(){

@@ -16,6 +16,7 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     int userId;
     @Column(nullable = false, unique = true)
     String username;

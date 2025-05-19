@@ -3,7 +3,6 @@ package com.thanhvu.Premier.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -22,6 +21,7 @@ public class News {
     LocalDateTime publishDate;
     String imageURL;
     int views;
-    @ManyToOne @JoinColumn(name = "authorId", referencedColumnName = "userId", nullable = true)
+    @OneToOne
+    @JoinColumn(name = "author_id", referencedColumnName = "user_id")
     User author;
 }

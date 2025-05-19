@@ -24,6 +24,6 @@ public class Team {
     String coach;
     int currentPosition;
     @OneToOne
-    @JoinColumn(name = "stadiumId", referencedColumnName = "stadiumId") // tạo cột stadiumId và là khoá ngoại nối tới stadium
-    private Stadium stadium;
+    @JoinColumn(name = "stadium_id", referencedColumnName = "stadium_id") // tạo cột stadiumId và là khoá ngoại nối tới stadium
+    Stadium stadium;
 }

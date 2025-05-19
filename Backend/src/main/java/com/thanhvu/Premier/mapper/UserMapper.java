@@ -10,6 +10,7 @@ import org.mapstruct.MappingTarget;
 public interface UserMapper {
     @Mapping(target = "userId", ignore = true)
     User toUser(UserRequest userRequest);
+    @Mapping(target = "userId", ignore = true)
     void updateUserFromRequest(UserRequest request, @MappingTarget User user);
 }
 

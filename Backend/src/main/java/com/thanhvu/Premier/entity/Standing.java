@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.List;
-
 @Entity @Table(name = "standings")
 @NoArgsConstructor @AllArgsConstructor
 @Data @Builder
