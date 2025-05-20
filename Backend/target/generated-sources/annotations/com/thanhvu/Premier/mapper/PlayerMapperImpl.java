@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-20T08:47:41+0700",
-    comments = "version: 1.6.2, compiler: javac, environment: Java 21.0.7 (Oracle Corporation)"
+    date = "2025-05-20T11:34:16+0700",
+    comments = "version: 1.6.2, compiler: Eclipse JDT (IDE) 3.42.0.v20250514-1000, environment: Java 21.0.7 (Eclipse Adoptium)"
 )
 @Component
 public class PlayerMapperImpl implements PlayerMapper {
@@ -22,17 +22,17 @@ public class PlayerMapperImpl implements PlayerMapper {
 
         Player.PlayerBuilder player = Player.builder();
 
-        player.playerId( rq.getPlayerId() );
-        player.name( rq.getName() );
-        player.nationality( rq.getNationality() );
-        player.position( rq.getPosition() );
-        player.jerseyNumber( rq.getJerseyNumber() );
         if ( rq.getDateOfBirth() != null ) {
             player.dateOfBirth( DateTimeFormatter.ISO_LOCAL_DATE.format( rq.getDateOfBirth() ) );
         }
         player.height( rq.getHeight() );
-        player.weight( rq.getWeight() );
+        player.jerseyNumber( rq.getJerseyNumber() );
+        player.name( rq.getName() );
+        player.nationality( rq.getNationality() );
         player.photoUrl( rq.getPhotoUrl() );
+        player.playerId( rq.getPlayerId() );
+        player.position( rq.getPosition() );
+        player.weight( rq.getWeight() );
 
         return player.build();
     }
@@ -43,11 +43,6 @@ public class PlayerMapperImpl implements PlayerMapper {
             return;
         }
 
-        player.setPlayerId( rq.getPlayerId() );
-        player.setName( rq.getName() );
-        player.setNationality( rq.getNationality() );
-        player.setPosition( rq.getPosition() );
-        player.setJerseyNumber( rq.getJerseyNumber() );
         if ( rq.getDateOfBirth() != null ) {
             player.setDateOfBirth( DateTimeFormatter.ISO_LOCAL_DATE.format( rq.getDateOfBirth() ) );
         }
@@ -55,7 +50,12 @@ public class PlayerMapperImpl implements PlayerMapper {
             player.setDateOfBirth( null );
         }
         player.setHeight( rq.getHeight() );
-        player.setWeight( rq.getWeight() );
+        player.setJerseyNumber( rq.getJerseyNumber() );
+        player.setName( rq.getName() );
+        player.setNationality( rq.getNationality() );
         player.setPhotoUrl( rq.getPhotoUrl() );
+        player.setPlayerId( rq.getPlayerId() );
+        player.setPosition( rq.getPosition() );
+        player.setWeight( rq.getWeight() );
     }
 }

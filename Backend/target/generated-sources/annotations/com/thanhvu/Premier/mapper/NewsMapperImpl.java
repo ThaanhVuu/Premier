@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-20T08:47:41+0700",
-    comments = "version: 1.6.2, compiler: javac, environment: Java 21.0.7 (Oracle Corporation)"
+    date = "2025-05-20T11:34:16+0700",
+    comments = "version: 1.6.2, compiler: Eclipse JDT (IDE) 3.42.0.v20250514-1000, environment: Java 21.0.7 (Eclipse Adoptium)"
 )
 @Component
 public class NewsMapperImpl implements NewsMapper {
@@ -21,10 +21,10 @@ public class NewsMapperImpl implements NewsMapper {
 
         News.NewsBuilder news = News.builder();
 
-        news.title( request.getTitle() );
         news.content( request.getContent() );
-        news.publishDate( request.getPublishDate() );
         news.imageURL( request.getImageURL() );
+        news.publishDate( request.getPublishDate() );
+        news.title( request.getTitle() );
 
         return news.build();
     }
@@ -35,9 +35,9 @@ public class NewsMapperImpl implements NewsMapper {
             return;
         }
 
-        news.setTitle( request.getTitle() );
         news.setContent( request.getContent() );
-        news.setPublishDate( request.getPublishDate() );
         news.setImageURL( request.getImageURL() );
+        news.setPublishDate( request.getPublishDate() );
+        news.setTitle( request.getTitle() );
     }
 }
