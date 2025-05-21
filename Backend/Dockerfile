@@ -7,7 +7,7 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 
-RUN mvn clean package
+RUN mvn clean package || (echo "=== Surefire Files ===" && find target/surefire-reports -type f && cat target/surefire-reports/*.txt && exit 1)
 
 # Stage 2
 # create image
