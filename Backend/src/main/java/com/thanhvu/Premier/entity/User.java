@@ -26,7 +26,7 @@ public class User {
     String password;
 
     String name;
-
+    @Enumerated(EnumType.STRING)
     Role role;
 }
 
