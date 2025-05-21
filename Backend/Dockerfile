@@ -6,7 +6,6 @@ FROM maven:3.9.9-amazoncorretto-21 AS build
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
-COPY test1.5.db .
 
 RUN mvn clean package
 
@@ -17,7 +16,6 @@ FROM amazoncorretto:21.0.4
 
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
-COPY --from=build /app/test1.5.db ./test1.5.db
 
 EXPOSE 8080
 
