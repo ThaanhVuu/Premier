@@ -1,5 +1,9 @@
 import { API_BASE_URL } from "../../config.js";
 
+if (token == null) {
+    window.location.href = "../login/index.html";
+}
+
 let initClubs = () => {
     // ===== STATE =====
     let saveMode = true;

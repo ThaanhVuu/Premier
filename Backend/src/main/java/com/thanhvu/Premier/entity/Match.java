@@ -24,6 +24,7 @@ public class Match {
     LocalDateTime matchDate;
     int matchWeek;
     String season;
+    @Enumerated(EnumType.STRING)
     MatchStatus status;
     String referee;
     Integer attendance;

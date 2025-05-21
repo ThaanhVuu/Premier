@@ -4,6 +4,12 @@
     flex-direction: column;
 }
 
+.in-nav{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 #content .nav {
     gap: 30px;
     display: flex;
@@ -22,6 +28,8 @@
 #content #createBtn {
     background-color: #0c4076;
     color: white;
+    display: flex;
+    align-items: center;
 }
 
 #content #createBtn:hover {
@@ -100,7 +108,7 @@
 .action {
     display: flex;
     justify-content: space-around;
-    gap: 10px;
+    gap: 25px;
 }
 
 .updateBtn {

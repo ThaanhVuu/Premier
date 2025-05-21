@@ -4,6 +4,12 @@
     flex-direction: column;
 }
 
+.action{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
 #content .nav {
     gap: 30px;
     display: flex;

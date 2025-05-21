@@ -3,6 +3,7 @@ import { API_BASE_URL } from '../../config.js';
 if(sessionStorage.getItem("accessToken") == null){
     window.location.href="../../login/index.html";
 }
+
 function initNews() {
     loadNews();
     let token = sessionStorage.getItem("accessToken");
@@ -51,7 +52,7 @@ function initNews() {
                 </div>
                 <div>
                     <hr />
-                    <div>
+                    <div class="action">
                     <button type="button" class="updateBtn">📝 Update</button>
                     <button type="button" class="deleteBtn">🗑️ Delete</button>
                     </div>

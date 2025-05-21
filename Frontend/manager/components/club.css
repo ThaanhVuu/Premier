@@ -28,6 +28,8 @@
 #content #createBtn {
     background-color: #0c4076;
     color: white;
+    display: flex;
+    align-items: center;
 }
 
 #content #createBtn:hover {
