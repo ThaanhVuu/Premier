@@ -121,6 +121,10 @@ button {
     font-size: 14px;
     border: none;
     border-radius: 6px;
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 button:hover{

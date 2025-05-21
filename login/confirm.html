@@ -55,33 +55,13 @@
   <body>
     <div class="success-container">
       <h1>Notification!</h1>
-      <div class="success-message" id="confirm-result">Đang tải thông báo...</div>
-      <a href="../index.html" class="btn-back">Quay lại</a>
+      <div class="success-message" id="confirm-result">
+        Đang tải thông báo...
+      </div>
+      <a href="index.html" class="btn-back">Quay lại</a>
     </div>
-
-    <script>
-      const resultEl = document.getElementById("confirm-result");
-      const params = new URLSearchParams(window.location.search);
-      const token = params.get("token");
-
-      if (!token) {
-        resultEl.innerText = "Không tìm thấy token xác nhận.";
-      } else {
-        fetch(`http://localhost:8080/api/auth/confirm?token=${encodeURIComponent(token)}`)
-          .then((res) => {
-            if (!res.ok) {
-              throw new Error("Server trả về lỗi.");
-            }
-            return res.json();
-          })
-          .then((data) => {
-            resultEl.innerText = data.info || "Xác nhận thành công.";
-          })
-          .catch((err) => {
-            resultEl.innerText = "Lỗi khi xác nhận tài khoản.";
-            console.error(err);
-          });
-      }
-    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="confirm.js" type="module"></script>
   </body>
 </html>

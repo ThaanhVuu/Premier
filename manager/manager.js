@@ -75,12 +75,5 @@ switch (savedTab) {
     case "Stadium": stadiumBtn.onclick(); break;
     case "Club": clubBtn.onclick(); break;
     case "Result": resultBtn.onclick(); break;
-    default: newsBtn.onclick(); break;  // Mặc định mở News nếu không có gì
+    default: matchBtn.onclick(); break;  // Mặc định mở .. nếu không có gì
 }
-
-const toggle = document.getElementById("menu-toggle");
-const aside = document.querySelector("aside");
-
-toggle.addEventListener("click", () => {
-    aside.classList.toggle("menu-opened");
-});
