@@ -5,6 +5,7 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.thanhvu.Premier.dto.Request.UserRequest;
+import com.thanhvu.Premier.entity.Role;
 import com.thanhvu.Premier.entity.User;
 import com.thanhvu.Premier.exceptions.AppException;
 import com.thanhvu.Premier.exceptions.ErrorCode;
@@ -25,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -60,7 +62,7 @@ public class SignUpService {
         // tao link token
         //khi nguoi dung an vao xac nhan o mail, se nhay sang confirm.html, taị đây confirm.html sẽ đọc
         // từ ?token=... , và gọi api confirm token (api/auth/confirm?token=
-        String link = urlConfirmToken + "/login/confirm.html?token=" + generateSignUpToken(user);
+        String link = urlConfirmToken + "/Premier" + "/login/confirm.html?token=" + generateSignUpToken(user);
         // gui token toi email (username la email), link nen dan toi mot trang web
         // confirm, web doc token va goi api confirm
         sendVerificationEmail(request.getUsername(), link, request.getName());
@@ -94,8 +96,8 @@ public class SignUpService {
 
     public void sendVerificationEmail(String to, String linkToken, String username) {
         try {
-            String template = new ClassPathResource("templates/Mail.html").getFile().getPath();
-            String content = Files.readString(Path.of(template), StandardCharsets.UTF_8);
+            InputStream is = new ClassPathResource("templates/Mail.html").getInputStream();
+            String content = new String(is.readAllBytes(), StandardCharsets.UTF_8);
 
             content = content.replace("{name}", username);
             content = content.replace("{verificationLink}", linkToken);
@@ -130,14 +132,12 @@ public class SignUpService {
             String username = claims.getSubject();
             String password = claims.getStringClaim("password");
             String name = claims.getStringClaim("name");
-            HashSet<String> roles = new HashSet<>();
-            roles.add("USER");
 
             User user = User.builder()
                     .username(username)
                     .password(password)
                     .name(name)
-                    .roles(roles)
+                    .role(Role.USER)
                     .build();
             userRepo.save(user);
             return "Tạo tài khoản thành công! Bạn có thể đăng nhập.";

@@ -29,7 +29,7 @@ public class InitAdmin {
                         .username("admin")
                         .password(encoder.encode("admin"))
                         .name("ADMIN")
-                        .roles(roles)
+                        .role(Role.ADMIN)
                         .build();
                 userRepository.save(user);
             }

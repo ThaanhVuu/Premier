@@ -5,10 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.Set;
-
 @Entity
-@Data @Table(name = "users")
+@Table(name = "users")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -18,11 +17,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     int userId;
+
     @Column(nullable = false, unique = true)
     String username;
+
     @Column(nullable = false)
     @JsonIgnore
     String password;
+
     String name;
-    Set<String> roles;
+
+    Role role;
 }
+

@@ -18,13 +18,11 @@ import lombok.experimental.NonFinal;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.StringJoiner;
 
 @Service
 @RequiredArgsConstructor
@@ -71,7 +69,7 @@ public class AuthenticationService {
                     .issuer("HaThanhVu")
                     .issueTime(new Date())
                     .expirationTime(new Date(Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()))
-                    .claim("scope", buildScope(user))
+                    .claim("scope", user.getRole())
                     .claim("userId", user.getUserId())
                     .build();
 
@@ -85,12 +83,12 @@ public class AuthenticationService {
             throw new RuntimeException(ex);
         }
     }
-
-    private String buildScope(User user){
-        StringJoiner stringJoiner = new StringJoiner(" ");
-        if(!CollectionUtils.isEmpty(user.getRoles()))
-            user.getRoles().forEach(stringJoiner::add);
-
-        return stringJoiner.toString();
-    }
+//
+//    private String buildScope(User user){
+//        StringJoiner stringJoiner = new StringJoiner(" ");
+//        if(!CollectionUtils.isEmpty(user.getRoles()))
+//            user.getRoles().forEach(stringJoiner::add);
+//
+//        return stringJoiner.toString();
+//    }
 }

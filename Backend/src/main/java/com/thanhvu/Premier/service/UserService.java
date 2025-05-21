@@ -34,13 +34,10 @@ public class UserService {
         if (userRepository.existsByUsername(userRequest.getUsername()))
             throw new AppException(ErrorCode.ALREADY_EXISTS);
 
-        HashSet<String> roles = new HashSet<>();
-        roles.add(Role.USER.name());
-
         User user = User.builder()
                 .username(userRequest.getUsername())
                 .password(passwordEncoder.encode(userRequest.getPassword()))
-                .roles(roles)
+                .role(Role.USER)
                 .name(userRequest.getName())
                 .build();
         return userRepository.save(user);
@@ -56,7 +53,6 @@ public class UserService {
         authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
 
         List<User> list = userRepository.findAll();
-        list.forEach(user -> user.setPassword("******"));
         return list;
     }
 
