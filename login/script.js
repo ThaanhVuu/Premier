@@ -1,6 +1,8 @@
 import { API_BASE_URL } from "../config.js";
 
 const initLogin = () => {
+    console.log(API_BASE_URL);
+    
     const container = document.getElementById('container');
     const registerBtn = document.getElementById('register');
     const loginBtn = document.getElementById('login');
@@ -84,6 +86,8 @@ const initLogin = () => {
 
                 if (error.code === "ECONNABORTED") {
                     message = "Server không phản hồi, vui lòng thử lại sau";
+                    console.log(`${API_BASE_URL}auth/token`);
+                    
                 } else if (error.response) {
                     // Server trả về lỗi (4xx, 5xx)
                     message = error.response.data.info || "Sai tên đăng nhập hoặc mật khẩu";
