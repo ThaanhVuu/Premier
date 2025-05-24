@@ -5,13 +5,14 @@ if (token == null) {
 }
 
 
-let initClubs = () => {
+const initClubs = () => {
     // ===== STATE =====
     let saveMode = true;
 
     // ===== DOM ELEMENTS =====
 
-    const form = document.getElementById
+    const form = document.getElementById("form-popup");
+    const createBtn = document.getElementById("createBtn")
 
     // ===== CLASS =====
     class match {
@@ -32,7 +33,7 @@ let initClubs = () => {
     }
 
     // ===== RENDER FUNCTIONS =====
-    let render = (matches) => {
+    const render = (matches) => {
         let container = document.getElementById("matches-container");
         container.innerHTML = "";
 
@@ -106,11 +107,17 @@ let initClubs = () => {
     const loadTable = () => {
         axios.get(`${API_BASE_URL}match`)
             .then(response => {
-                console.log(response.data);
                 render(response.data.result);
             })
     }
     loadTable();
+
+//================= BTN ================================
+
+    document.getElementById("createBtn").addEventListener("click", () => {
+    console.log("addbtn");
+    form.style.display = "flex";
+});
 }
 
 initClubs();

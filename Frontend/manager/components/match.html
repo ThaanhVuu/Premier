@@ -2,7 +2,7 @@
   <h2>Football news</h2>
   <div class="in-nav">
     <input type="search" id="searchInput" placeholder="Search" />
-    <button id="createBtn">+ Create news</button>
+    <button id="createBtn">+ Create match</button>
   </div>
 </section>
 
@@ -30,3 +30,48 @@
 <section id="matches-container">
   
 </section>
+
+<section id="form-popup">
+  <form>
+      <h3>Players Update</h3>
+      <label>Home team</label>
+      <input type="text" placeholder="Home team" required />
+
+      <label>Score for Home Team</label>
+      <input type="text" placeholder="Score for Home Team" />
+
+      <label>Away Team</label>
+      <input type="text" placeholder="Away Team" />
+
+      <label>Score for Away Team</label>
+      <input type="text" placeholder="Score for Away Team" />
+
+      <label>Stadium</label>
+      <select value="dsStadium">
+      </select>
+
+      <label>Match date</label>
+      <input type="date" placeholder="Date" />
+
+      <label>Week</label>
+      <input type="number" placeholder="Week" />
+
+      <label>Season</label>
+      <input type="text" placeholder="height" />
+
+      <label>Referee</label>
+      <input type="text" placeholder="weight" />
+
+      <label>Status</label>
+      <select id="statusMatch">
+        <option value="canceled">Canceled</option>
+        <option value="finished">Finished</option>
+        <option value="sheduled">Scheduled</option>
+      </select>
+      <div>
+        <button class="saveBtn" type="button">Save</button>
+        <button class="cancelBtn" type="button">Cancel</button>
+      </div>
+    </form>
+</section>
+
