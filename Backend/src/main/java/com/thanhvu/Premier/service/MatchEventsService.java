@@ -33,8 +33,6 @@ public class MatchEventsService {
 
     public MatchEvent createMatch(MatchEventRequest rq){
         MatchEvent matchEvent = mp.toMatch(rq);
-        matchEvent.setPlayer(playerService.getPlayer(rq.getPlayerId()));
-        matchEvent.setTeam(teamService.getTeamById(rq.getTeamId()));
         matchEvent.setMatch(matchService.getMatch(rq.getMatchId()));
 
         return rp.save(matchEvent);
@@ -43,8 +41,6 @@ public class MatchEventsService {
     public MatchEvent updateMatchEvents(long id, MatchEventRequest rq){
         MatchEvent matchEvent = getMatchEvent(id);
         mp.updateToMatchEvent(rq, matchEvent);
-        matchEvent.setPlayer(playerService.getPlayer(rq.getPlayerId()));
-        matchEvent.setTeam(teamService.getTeamById(rq.getTeamId()));
         matchEvent.setMatch(matchService.getMatch(rq.getMatchId()));
         return rp.save(matchEvent);
     }

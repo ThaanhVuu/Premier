@@ -12,10 +12,6 @@ public class MatchEvent {
     long eventId;
     @ManyToOne @JoinColumn(name = "match_id")
     Match match;
-    @ManyToOne
-    Team team;
-    @ManyToOne
-    Player player;
     @Enumerated(EnumType.STRING)
     EventType eventType;
     int minute;
