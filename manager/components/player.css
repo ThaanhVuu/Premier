@@ -52,7 +52,7 @@
 }
 
 /*========================= card player ==============================*/
-.player-container {
+#player-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 10px;
@@ -142,7 +142,7 @@
 
 
 /* ============= form ==================== */
-.form-popup {
+#form-popup {
     position: fixed;
     top: 0;
     left: 0;

@@ -75,5 +75,5 @@ switch (savedTab) {
     case "Stadium": stadiumBtn.onclick(); break;
     case "Club": clubBtn.onclick(); break;
     case "Result": resultBtn.onclick(); break;
-    default: matchBtn.onclick(); break;  // Mặc định mở .. nếu không có gì
+    default: playerBtn.onclick(); break;  // Mặc định mở .. nếu không có gì
 }
