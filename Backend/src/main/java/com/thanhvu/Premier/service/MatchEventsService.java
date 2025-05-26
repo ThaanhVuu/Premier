@@ -36,6 +36,7 @@ public class MatchEventsService {
         matchEvent.setPlayer(playerService.getPlayer(rq.getPlayerId()));
         matchEvent.setTeam(teamService.getTeamById(rq.getTeamId()));
         matchEvent.setMatch(matchService.getMatch(rq.getMatchId()));
+
         return rp.save(matchEvent);
     }
 

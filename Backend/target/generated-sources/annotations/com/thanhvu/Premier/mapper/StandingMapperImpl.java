@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-23T19:10:37+0700",
-    comments = "version: 1.6.2, compiler: Eclipse JDT (IDE) 3.42.0.v20250514-1000, environment: Java 21.0.7 (Eclipse Adoptium)"
+    date = "2025-05-26T16:32:40+0700",
+    comments = "version: 1.6.2, compiler: javac, environment: Java 21.0.7 (Oracle Corporation)"
 )
 @Component
 public class StandingMapperImpl implements StandingMapper {
@@ -21,16 +21,16 @@ public class StandingMapperImpl implements StandingMapper {
 
         Standing.StandingBuilder standing = Standing.builder();
 
-        standing.drawn( request.getDrawn() );
-        standing.goalDifference( request.getGoalDifference() );
-        standing.goalsAgainst( request.getGoalsAgainst() );
-        standing.goalsFor( request.getGoalsFor() );
-        standing.lost( request.getLost() );
-        standing.played( request.getPlayed() );
-        standing.points( request.getPoints() );
-        standing.position( request.getPosition() );
         standing.season( request.getSeason() );
+        standing.position( request.getPosition() );
+        standing.played( request.getPlayed() );
         standing.won( request.getWon() );
+        standing.drawn( request.getDrawn() );
+        standing.lost( request.getLost() );
+        standing.goalsFor( request.getGoalsFor() );
+        standing.goalsAgainst( request.getGoalsAgainst() );
+        standing.goalDifference( request.getGoalDifference() );
+        standing.points( request.getPoints() );
 
         return standing.build();
     }
@@ -41,15 +41,15 @@ public class StandingMapperImpl implements StandingMapper {
             return;
         }
 
-        standing.setDrawn( request.getDrawn() );
-        standing.setGoalDifference( request.getGoalDifference() );
-        standing.setGoalsAgainst( request.getGoalsAgainst() );
-        standing.setGoalsFor( request.getGoalsFor() );
-        standing.setLost( request.getLost() );
-        standing.setPlayed( request.getPlayed() );
-        standing.setPoints( request.getPoints() );
-        standing.setPosition( request.getPosition() );
         standing.setSeason( request.getSeason() );
+        standing.setPosition( request.getPosition() );
+        standing.setPlayed( request.getPlayed() );
         standing.setWon( request.getWon() );
+        standing.setDrawn( request.getDrawn() );
+        standing.setLost( request.getLost() );
+        standing.setGoalsFor( request.getGoalsFor() );
+        standing.setGoalsAgainst( request.getGoalsAgainst() );
+        standing.setGoalDifference( request.getGoalDifference() );
+        standing.setPoints( request.getPoints() );
     }
 }

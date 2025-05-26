@@ -16,8 +16,9 @@ public class MatchEvent {
     Team team;
     @ManyToOne
     Player player;
+    @Enumerated(EnumType.STRING)
     EventType eventType;
     int minute;
-    int related_player_id;
+    Integer related_player_id;
     String description;
 }
