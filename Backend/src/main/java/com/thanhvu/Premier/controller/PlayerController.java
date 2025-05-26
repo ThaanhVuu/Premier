@@ -39,7 +39,7 @@ public class PlayerController {
                 .build();
     }
 
-    @DeleteMapping
+    @DeleteMapping("{id}")
     APIResponse<?> deletePlayer(@PathVariable long id){
         return APIResponse.builder()
                 .code(200)
