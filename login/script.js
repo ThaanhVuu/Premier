@@ -71,10 +71,12 @@ const initLogin = () => {
 
                 // Giải mã token để lấy scope (role)
                 const decoded = jwt_decode(token);  // cần thêm <script> jwt-decode
+                console.log(decoded);
+                
                 const scope = decoded.scope;
 
                 // Điều hướng theo scope
-                if (scope === "ADMIN") {
+                if (scope === 'ADMIN') {
                     window.location.href = "../admin/admin.html";
                 }
                 else if (scope === 'MANAGER'){
@@ -94,14 +96,13 @@ const initLogin = () => {
                     console.log(`${API_BASE_URL}auth/token`);
 
                 } else if (error.response) {
-                    // Server trả về lỗi (4xx, 5xx)
                     message = error.response.data.info || "Sai tên đăng nhập hoặc mật khẩu";
                 } else if (error.request) {
-                    // Yêu cầu được gửi nhưng không nhận được phản hồi
                     message = "Không thể kết nối đến server";
                 }
                 alert(message);
             });
     }
 }
+
 initLogin();
