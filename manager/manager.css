@@ -9,14 +9,28 @@ body {
 }
 
 header {
-    width: 100%;
-    background-color: #0c4076;
+    width:100%;
     display: flex;
     justify-content: center;
 }
+.section-header {
+  background: linear-gradient(120deg, #5bd7ff, #7139eb, #832acd),
+              url('https://www.premierleague.com/resources/rebrand/v7.153.70/i/elements/backgrounds/primary-graphic.svg');
+  background-size: cover;
+  background-blend-mode: overlay;
+  background-repeat: no-repeat;
+  background-size: auto;
+  width: 100%;
+  color: white;
+  padding: 40px 25px;
+  font-size: 36px;
+  font-weight: bold;
+  position: relative;
+  overflow: hidden;
+}
 
 .header-container {
-    width: 75%;
+    width: 100%;
     height: 15vh;
     display: flex;
     justify-content: space-between;
