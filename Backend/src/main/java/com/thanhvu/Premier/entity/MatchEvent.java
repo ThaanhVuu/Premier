@@ -10,7 +10,7 @@ import lombok.experimental.FieldDefaults;
 public class MatchEvent {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     long eventId;
-    @ManyToOne
+    @ManyToOne @JoinColumn(name = "player_id")
     Player player;
     @ManyToOne @JoinColumn(name = "match_id")
     Match match;
