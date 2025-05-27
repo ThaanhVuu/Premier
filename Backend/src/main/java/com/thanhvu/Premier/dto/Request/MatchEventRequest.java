@@ -6,6 +6,7 @@ import lombok.Value;
 @Value
 public class MatchEventRequest {
     long matchId;
+    long playerId;
     EventType eventType;
     int minute;
     Integer related_player_id;

@@ -28,7 +28,7 @@ public class NewsService {
     NewsMapper mapper;
     UserRepository userRepo;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MANAGER')")
     public News createNews(NewsRequest request) {
         News news = mapper.toNews(request);
         news.setViews(1);
@@ -54,12 +54,12 @@ public class NewsService {
         return newsRepo.findAll();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MANAGER')")
     public void deleteNews(int id){
         News news = getANews(id);
         newsRepo.delete(news);
     }
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MANAGER')")
     public News updateNews(int id, NewsRequest request){
         News news = getANews(id);
         mapper.updateNewsFromRequest(request, news);
@@ -69,17 +69,17 @@ public class NewsService {
         return newsRepo.save(news);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MANAGER')")
     public long countTotalNews(){
         return newsRepo.count();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MANAGER')")
     public long getTotalViews(){
         return newsRepo.getTotalView();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MANAGER')")
     public long countNewsInDay(){
         LocalDate today = LocalDate.now();
         LocalDateTime startOfDay = today.atStartOfDay(); // 00:00

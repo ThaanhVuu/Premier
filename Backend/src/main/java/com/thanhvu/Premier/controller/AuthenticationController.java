@@ -2,7 +2,7 @@ package com.thanhvu.Premier.controller;
 
 import com.nimbusds.jose.JOSEException;
 import com.thanhvu.Premier.dto.Request.IntrospectRequest;
-import com.thanhvu.Premier.dto.Request.UserRequest;
+import com.thanhvu.Premier.dto.Request.UserRequestSignUp;
 import com.thanhvu.Premier.dto.Response.APIResponse;
 import com.thanhvu.Premier.entity.User;
 import com.thanhvu.Premier.service.AuthenticationService;
@@ -11,7 +11,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
-import lombok.Builder;
 
 import java.text.ParseException;
 
@@ -24,7 +23,7 @@ public class AuthenticationController {
     SignUpService signUpService;
 
     @PostMapping("/token")
-    APIResponse<?> authenticated(@RequestBody UserRequest request){
+    APIResponse<?> authenticated(@RequestBody UserRequestSignUp request){
         return APIResponse.<String>builder()
                 .code(200)
                 .info("Login successful!")
@@ -43,7 +42,7 @@ public class AuthenticationController {
 
     //dang ki tai khoan
     @PostMapping("/signup")
-    APIResponse<?> signUp(@RequestBody UserRequest request){
+    APIResponse<?> signUp(@RequestBody UserRequestSignUp request){
         User user = signUpService.signUpRequest(request);
         user.setPassword("******");
         return APIResponse.builder()

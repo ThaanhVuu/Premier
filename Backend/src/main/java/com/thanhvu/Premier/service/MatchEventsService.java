@@ -9,6 +9,7 @@ import com.thanhvu.Premier.repository.MatchEventRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +20,6 @@ import java.util.List;
 public class MatchEventsService {
     MatchEventMapper mp;
     MatchEventRepository rp;
-    TeamService teamService;
     PlayerService playerService;
     MatchService matchService;
 
@@ -30,21 +30,23 @@ public class MatchEventsService {
     public MatchEvent getMatchEvent(long id){
         return rp.findById(id).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
     }
-
+    @PreAuthorize("hasRole('MANAGER')")
     public MatchEvent createMatch(MatchEventRequest rq){
         MatchEvent matchEvent = mp.toMatch(rq);
         matchEvent.setMatch(matchService.getMatch(rq.getMatchId()));
-
+        matchEvent.setPlayer(playerService.getPlayer(rq.getPlayerId()));
         return rp.save(matchEvent);
     }
-
+    @PreAuthorize("hasRole('MANAGER')")
     public MatchEvent updateMatchEvents(long id, MatchEventRequest rq){
         MatchEvent matchEvent = getMatchEvent(id);
         mp.updateToMatchEvent(rq, matchEvent);
         matchEvent.setMatch(matchService.getMatch(rq.getMatchId()));
+        matchEvent.setPlayer(playerService.getPlayer(rq.getPlayerId()));
         return rp.save(matchEvent);
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     public String deleteMatchEvents(long id){
         rp.delete(getMatchEvent(id));
         return "Deleted MatchEvent with id "+id;

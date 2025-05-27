@@ -21,7 +21,7 @@ public class TeamService {
     private final TeamMapper teamMapper;
     private final StadiumsRepository stadiumsRepository;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MANAGER')")
     public Team createTeam(TeamRequest request){
         Team team = teamMapper.toTeam(request);
 
@@ -31,7 +31,7 @@ public class TeamService {
         return teamRepository.save(team);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MANAGER')")
     public void deleteTeam(int id){
         if(!teamRepository.existsById(id)){
             throw new AppException(ErrorCode.NOT_FOUND);
@@ -50,7 +50,7 @@ public class TeamService {
         return teamRepository.getTeamByTeamId(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MANAGER')")
     public Team updateClub(int id, TeamRequest request){
         Team team = getTeamById(id);
         teamMapper.updateToTeam(request, team);

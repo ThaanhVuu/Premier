@@ -30,7 +30,7 @@ public class MatchService {
         return rp.findById(id).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MANAGER')")
     public Match updateMatch(long id, MatchRequest rq){
         Match match = getMatch(id);
         mp.updateMatch(rq, match);
@@ -38,14 +38,14 @@ public class MatchService {
         match.setAwayTeamId(teamService.getTeamById(rq.getAwayTeamId()));
         return rp.save(match);
     }
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MANAGER')")
     public Match createMatch(MatchRequest rq){
         Match match = mp.toMatch(rq);
         match.setHomeTeamId(teamService.getTeamById(rq.getHomeTeamId()));
         match.setAwayTeamId(teamService.getTeamById(rq.getAwayTeamId()));
         return rp.save(match);
     }
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MANAGER')")
     public void deleteMatch(long id){
         rp.delete(getMatch(id));
     }

@@ -10,6 +10,8 @@ import lombok.experimental.FieldDefaults;
 public class MatchEvent {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     long eventId;
+    @ManyToOne
+    Player player;
     @ManyToOne @JoinColumn(name = "match_id")
     Match match;
     @Enumerated(EnumType.STRING)

@@ -29,14 +29,14 @@ public class StadiumService {
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MANAGER')")
     // Tạo mới sân
     public Stadium createStadium(StadiumRequest request) {
         Stadium stadium = stadiumMapper.toStadium(request);
         return stadiumsRepository.save(stadium);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MANAGER')")
     // Cập nhật sân
     public Stadium updateStadium(int id, StadiumRequest request) {
         Stadium stadium = getStadium(id);
@@ -44,7 +44,7 @@ public class StadiumService {
         return stadiumsRepository.save(stadium);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MANAGER')")
     // Xoá sân
     public void deleteStadium(int id) {
         if (!stadiumsRepository.existsById(id)) {
@@ -53,7 +53,7 @@ public class StadiumService {
         stadiumsRepository.deleteById(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MANAGER')")
     //Đếm tổng số sân
     public long countStadium(){
         return stadiumsRepository.count();

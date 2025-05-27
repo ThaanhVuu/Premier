@@ -26,26 +26,26 @@ public class PlayerService {
         return rp.findAll();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MANAGER')")
     public Player getPlayer(long id){
         return rp.findById(id).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MANAGER')")
     public Player createPlayer(PlayerRequest rq){
         Player player = mp.toPlayer(rq);
         player.setTeam(teamService.getTeamById(rq.getTeamId()));
         return rp.save(player);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MANAGER')")
     public Player updatePlayer(long id, PlayerRequest rq){
         Player player = getPlayer(id);
         mp.updatePlayer(rq, player);
         return rp.save(player);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MANAGER')")
     public String deletePlayer(long id){
         rp.delete(getPlayer(id));
         return "Delete player id: " + id;

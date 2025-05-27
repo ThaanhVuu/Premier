@@ -1,5 +1,6 @@
 package com.thanhvu.Premier.controller;
 import com.thanhvu.Premier.dto.Request.UserRequest;
+import com.thanhvu.Premier.dto.Request.UserRequestSignUp;
 import com.thanhvu.Premier.dto.Response.APIResponse;
 import com.thanhvu.Premier.entity.User;
 import com.thanhvu.Premier.service.UserService;
@@ -21,7 +22,6 @@ public class UserController {
     @PostMapping
     APIResponse<User> createUser(@RequestBody UserRequest request) {
         User user = userService.createUser(request);
-        user.setPassword("******");
         return APIResponse.<User>builder()
                 .code(200)
                 .info("Create user successful!")
@@ -42,7 +42,6 @@ public class UserController {
     @PutMapping("{id}")
     APIResponse<?> updateUser(@PathVariable int id, @RequestBody UserRequest request){
         User user = userService.updateUser(id, request);
-        user.setPassword("******");
         return APIResponse.<User>builder()
                 .code(200)
                 .info("Update user successful!")

@@ -26,19 +26,19 @@ public class StandingService {
         return rp.findAll();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MANAGER')")
     public Standing getStanding(long id) {
         return rp.findById(id).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MANAGER')")
     public Standing createStanding(StandingRequest rq) {
         Standing standing = mp.toStanding(rq);
         standing.setTeam(team.getTeamById(rq.getTeamId()));
         return rp.save(standing);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MANAGER')")
     public Standing updateStanding(long id, StandingRequest rq) {
         Standing standing = getStanding(id);
         mp.updateToStanding(rq, standing);
@@ -46,7 +46,7 @@ public class StandingService {
         return rp.save(standing);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MANAGER')")
     public void deleteStanding(long id) {
         rp.delete(getStanding(id));
     }

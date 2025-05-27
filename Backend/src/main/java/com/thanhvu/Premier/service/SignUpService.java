@@ -4,7 +4,7 @@ import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
-import com.thanhvu.Premier.dto.Request.UserRequest;
+import com.thanhvu.Premier.dto.Request.UserRequestSignUp;
 import com.thanhvu.Premier.entity.Role;
 import com.thanhvu.Premier.entity.User;
 import com.thanhvu.Premier.exceptions.AppException;
@@ -28,12 +28,9 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.HashSet;
 
 @Service
 @RequiredArgsConstructor
@@ -53,7 +50,7 @@ public class SignUpService {
             @NonFinal
     String urlConfirmToken;
 
-    public User signUpRequest(UserRequest request) {
+    public User signUpRequest(UserRequestSignUp request) {
         if (userRepo.existsByUsername(request.getUsername()))
             throw new AppException(ErrorCode.ALREADY_EXISTS);
 

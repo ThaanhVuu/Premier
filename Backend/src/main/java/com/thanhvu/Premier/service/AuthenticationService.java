@@ -6,7 +6,7 @@ import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import com.thanhvu.Premier.dto.Request.IntrospectRequest;
-import com.thanhvu.Premier.dto.Request.UserRequest;
+import com.thanhvu.Premier.dto.Request.UserRequestSignUp;
 import com.thanhvu.Premier.entity.User;
 import com.thanhvu.Premier.exceptions.AppException;
 import com.thanhvu.Premier.exceptions.ErrorCode;
@@ -48,7 +48,7 @@ public class AuthenticationService {
         return signedJWT.verify(verifier) && expiryTime.after(new Date());
     }
 
-    public String authenticate(UserRequest request){
+    public String authenticate(UserRequestSignUp request){
         var user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
 

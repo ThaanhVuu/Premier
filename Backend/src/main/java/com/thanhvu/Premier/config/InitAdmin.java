@@ -33,6 +33,16 @@ public class InitAdmin {
                         .build();
                 userRepository.save(user);
             }
+
+            if(userRepository.findByUsername("manager").isEmpty()){
+                User user2 = User.builder()
+                        .username("manager")
+                        .password(encoder.encode("manager"))
+                        .name("MANAGER")
+                        .role(Role.MANAGER)
+                        .build();
+                userRepository.save(user2);
+            }
         };
     }
 
