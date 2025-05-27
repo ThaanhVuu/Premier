@@ -208,8 +208,8 @@ header{
 }
 /* main  */
 .section-header {
-  background: linear-gradient(120deg, #5bd7ff, #7139eb, #832acd),
-              url('https://www.premierleague.com/resources/rebrand/v7.153.70/i/elements/backgrounds/primary-graphic.svg');
+    background: linear-gradient(120deg, #5bd7ff, #7139eb, #832acd),
+                url('https://www.premierleague.com/resources/rebrand/v7.153.70/i/elements/backgrounds/primary-graphic.svg');
   background-size: cover;
   background-blend-mode: overlay;
   background-repeat: no-repeat;
@@ -228,24 +228,67 @@ header{
   z-index: 1;
 }
 .container{
+    color: #37003c;
+    gap: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     padding: 20px;
 }
-.club{
-    color: #37003c;
-    width: 300px;
-    height: 260px;
-}
-.club img{
-    width: 82px;
+.club-area{
+    width: 320px;
     height: auto;
+    border-radius: 5px;
+    outline: .1rem solid #ebe5eb;
+    position: relative;
+    overflow: hidden;
+}
+.club-area img{
+    width: auto;
+    height: 90px;
+    padding: 10px;
 }
 .club-name{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.club-name{
+    font-size: 18px;
+    font-weight: 700;
 }
 .line{
     width: 100%;
     height: 5px;
-    background: linear-gradient(284.38deg, #be000a, #ff0203);;
+    background: linear-gradient(284.38deg, #be000a, #ff0203);
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
+.club-area:hover {
+    background:linear-gradient(284.38deg, #be000a, #ff0203);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    color: white;
+}
+
+.club-area:hover::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: url('https://www.premierleague.com/resources/rebrand/v7.153.70/i/elements/backgrounds/primary-graphic.svg') no-repeat center center;
+    background-size: cover;
+     filter: hue-rotate(+90deg) saturate(1); /* Đổi màu */
+    opacity: 0.2; 
+    pointer-events: none;
+}
+.club-area > *:not(.line) {
+    position: relative;
+    z-index: 1;
+}
+

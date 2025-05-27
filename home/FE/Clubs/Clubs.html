@@ -61,9 +61,10 @@
                 <!-- navright -->
                 <div class="header-navright">
                     <div class="header-boder" >
-                        <button class="signin-btn">Sign in</button>
+                        <a href="/login/index.html">
+                            <button class="signin-btn">Sign in</button>
+                        </a>
                     </div>
-                    <button style="all: unset; cursor: pointer;color: #ffffff; font-size: 1.6vw;"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </div>
             </div>
             <div class="header-container">
@@ -82,16 +83,10 @@
         <div class="section-header">
             <h2>Clubs</h2>
         </div>
-        <div class="container">
-            <div class="club">
-                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/800px-Arsenal_FC.svg.png" alt="">
-                <div class="club-name">
-                    <h2>Arsenal</h2>
-                    <i class="fas fa-arrow-right"></i>
-                </div>
-                <div class="line"></div>
-            </div>
-        </div>  
+        <div class="container" id="club-container">
+    <!-- Các phần tử .club-area sẽ được JS thêm vào đây -->
+        </div>
+
     </main>
 
     <footer class="footer">
@@ -122,5 +117,6 @@
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="../js/logo_clubsite.js"></script>
+    <script src="club.js"></script>
 </body>
 </html>

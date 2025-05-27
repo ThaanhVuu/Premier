@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Premier Leauge</title>
-    <link rel="stylesheet" href="Stadium.css">
+    <link rel="stylesheet" href="Clubs.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -36,7 +36,7 @@
                         <div class="dropdown-content">
                             <a href="../home/home.html">Home</a>
                             <a href="../News/News.html">News</a>
-                            <a href="../News/News.html">Stadiums</a>
+                            <a href="../Stadium/Stadium.html">Stadiums</a>
                         </div>
                     </span>
                     <span class="dropdown">
@@ -69,11 +69,11 @@
             </div>
             <div class="header-container">
                 <a href="../home/home.html" class="header-font-gray line-hover">Home</a>
-                <a href="../News/News.html"class="header-font-gray line-hover">News</a>
-                <a href="../Stadium/Stadium.html"class="header-font-gray line-hover">Stadiums</a>
-                <a href="../Clubs/Clubs.html"class="header-font-gray line-hover">Clubs</a>
-                <a href="../Players/Player.html"class="header-font-gray line-hover">Players</a>
-                <a href="../Results/Results.html"class="header-font-gray line-hover">Results</a>
+                <a href="../News/News.html" class="header-font-gray line-hover">News</a>
+                <a href="../Stadium/Stadium.html" class="header-font-gray line-hover">Stadiums</a>
+                <a href="../Clubs/Clubs.html" class="header-font-gray line-hover">Clubs</a>
+                <a href="../Players/Player.html" class="header-font-gray line-hover">Players</a>
+                <a href="../Results/Results.html" class="header-font-gray line-hover">Results</a>
                 <a href="../Tables/table.html" class="header-font-gray line-hover">Tables</a>
             </div>
         </section>
@@ -81,29 +81,8 @@
 
     <main>
         <div class="section-header">
-            <h2>Stadium</h2>
-        </div>
-        <div class="controls">
-            <div class="filter-section">
-                <div>
-                    <select class="filter-select">
-                        <option value="capacity-desc">Capacity (high - low)</option>
-                        <option value="capacity-asc">Capacity (low - high)</option>
-                    </select>
-                </div>
-                <div>
-                    <select class="filter-select">
-                        <option value="year-desc">Year (new - old)</option>
-                        <option value="year-asc">Year (old - new)</option>
-                    </select>
-                </div>
-            </div>
-            <div class="search-container">
-                <input type="text" id="searchInput" class="searchInput">
-                <button><i class="fa-solid fa-magnifying-glass"></i></button>
-            </div>
-        </div>
-        <div id="stadiumList"></div>
+            <h2>Clubs</h2>
+        
 
     </main>
 
@@ -135,6 +114,5 @@
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="../js/logo_clubsite.js"></script>
-    <script src="stadium.js"></script>
 </body>
 </html>
