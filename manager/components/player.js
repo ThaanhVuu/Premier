@@ -13,6 +13,7 @@ const init = () => {
     const cancelBtn = document.getElementById("cancelBtn");
     const formData = document.getElementById("playerForm");
     const teamSelection = document.getElementById("team");
+    const clubSelect = document.getElementById("club");
 
     // ===== RENDER FUNCTIONS =====
     //render team
@@ -32,14 +33,22 @@ const init = () => {
         axios.get(`${API_BASE_URL}team`)
             .then(response => {
                 renderTeam(response.data.result);
+                renderTeamSelectionForm(response.data.result);
             })
             .catch(error => {
                 console.log("error in loadteamselection");
-                
                 alert(error.response.data.info) || alert(error.message);
             })
     }
 
+    const renderTeamSelectionForm = (teams) => {
+        clubSelect.innerHTML = ``;
+        teams.forEach(team => {
+            clubSelect.innerHTML += `
+            <option value="${team.teamId}">${team.name}</option>
+            `;
+        })
+    }
 
 
     //render player
@@ -48,10 +57,10 @@ const init = () => {
         const container = document.getElementById("player-container");
         container.innerHTML = "";
         //loc player theo team id
-        if(teamId != -1){
+        if (teamId != -1) {
             playerFilter = players.filter(player => player.team.teamId == teamId);
         }
-        
+
         playerFilter.forEach(player => {
             let card = document.createElement("div");
             card.className = "card-player";
@@ -105,6 +114,8 @@ const init = () => {
                 renderInfoToForm(player);
                 form.style.display = "flex";
                 updateId = player.playerId;
+                console.log(updateId);
+                
             }
 
             //gan logic cho delete btn
@@ -132,8 +143,8 @@ const init = () => {
     const loadData = () => {
         axios.get(`${API_BASE_URL}player`)
             .then(response => {
-                let teams = response.data.result
-                renderData(teams);
+                let players = response.data.result
+                renderData(players);
             })
             .catch(error => {
                 alert(error.response?.data.info ?? error.message);
@@ -141,13 +152,26 @@ const init = () => {
             })
     }
 
-    
     // ===== FORM HANDLING =====
     const getDataFromForm = () => {
-        const formPlayer = new FormData(formData);
-        const player = Object.fromEntries(formPlayer.entries());
-        return player;
-    }
+    const formPlayer = new FormData(formData);
+    const raw = Object.fromEntries(formPlayer.entries());
+
+    const player = {
+        name: raw.name,
+        nationality: raw.nationality,
+        position: raw.position,
+        jerseyNumber: parseInt(raw.jerseyNumber, 10),
+        dateOfBirth: raw.dateOfBirth, // giữ nguyên định dạng "yyyy-MM-dd"
+        height: parseFloat(raw.height),
+        weight: parseInt(raw.weight, 10),
+        photoUrl: raw.photoUrl,
+        teamId: parseInt(raw.teamId, 10),
+    };
+
+    return player;
+};
+
 
     const renderInfoToForm = (player) => {
         document.getElementById("playerName").value = player.name;
@@ -180,40 +204,41 @@ const init = () => {
     });
 
     saveBtn.addEventListener("click", function () {
-    const playerData = getDataFromForm();
-    
-    if (createMode) {
-        axios.post(`${API_BASE_URL}player`, playerData, {
-            headers: {
-                Authorization: `Bearer ${token}` 
-            }
-        })
-        .then(response => {
-            alert(response.data.info);
-            form.style.display = "none";  
-            clearForm();                  
-            loadData();                   
-        })
-        .catch(error => {
-            alert(error.response?.data?.info || error.message);
-        });
-    }else{
-        axios.post(`${API_BASE_URL}player/${updateId}`, playerData, {
-            headers: {
-                Authorization: `Bearer ${token}` 
-            }
-        })
-        .then(response => {
-            alert(response.data.info);
-            form.style.display = "none";  
-            clearForm();                  
-            loadData();                   
-        })
-        .catch(error => {
-            alert(error.response?.data?.info || error.message);
-        });
-    }
-});
+        const playerData = getDataFromForm();
+        console.log(playerData);
+        
+        if (createMode) {
+            axios.post(`${API_BASE_URL}player`, playerData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+                .then(response => {
+                    alert(response.data.info);
+                    form.style.display = "none";
+                    clearForm();
+                    loadData();
+                })
+                .catch(error => {
+                    alert(error.response?.data?.info || error.message);
+                });
+        } else {
+            axios.put(`${API_BASE_URL}player/${updateId}`, playerData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+                .then(response => {
+                    alert(response.data.info);
+                    form.style.display = "none";
+                    clearForm();
+                    loadData();
+                })
+                .catch(error => {
+                    alert(error.response?.data?.info || error.message);
+                });
+        }
+    });
 
 
     cancelBtn.addEventListener("click", function () {
