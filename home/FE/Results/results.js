@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       // Sắp xếp ngày tăng dần
       const sortedDates = Object.keys(matchesByDate).sort();
 
-      // Hàm format ngày tiếng Việt
+      // Hàm format ngày tiếng Anh
       function formatDateEN(dateString) {
         const options = { weekday: "long", day: "numeric", month: "long", year: "numeric" };
         return new Date(dateString).toLocaleDateString("en-GB", options);
@@ -45,7 +45,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         dateHeader.className = "date-header";
         dateHeader.textContent = formatDateEN(date);
         recentMatchesContainer.appendChild(dateHeader);
-
 
         matchesByDate[date].forEach(match => {
           const matchItem = document.createElement("div");
@@ -84,18 +83,83 @@ document.addEventListener("DOMContentLoaded", async () => {
             });
             
             if (detailDiv.style.display === "none") {
-              // Lọc sự kiện trận này
+              // Lấy events của trận đấu này
               const matchEvents = events.filter(e => e.match.matchId === match.matchId);
 
+              console.log("Match ID:", match.matchId);
+              console.log("Home Team ID:", match.homeTeamId.teamId);
+              console.log("Away Team ID:", match.awayTeamId.teamId);
+              console.log("Match Events:", matchEvents);
+
+              // Phân chia sự kiện theo đội - SỬA LOGIC TẠI ĐÂY
+              const homeTeamEvents = matchEvents.filter(e => {
+                // Kiểm tra xem player có thuộc về đội nhà không
+                // Dựa vào cấu trúc API: e.player.team.teamId
+                const playerTeamId = e.player && e.player.team ? e.player.team.teamId : null;
+                console.log("Player Team ID:", playerTeamId, "vs Home Team:", match.homeTeamId.teamId);
+                return playerTeamId === match.homeTeamId.teamId;
+              });
+
+              const awayTeamEvents = matchEvents.filter(e => {
+                // Kiểm tra xem player có thuộc về đội khách không
+                const playerTeamId = e.player && e.player.team ? e.player.team.teamId : null;
+                console.log("Player Team ID:", playerTeamId, "vs Away Team:", match.awayTeamId.teamId);
+                return playerTeamId === match.awayTeamId.teamId;
+              });
+
+              console.log("Home Team Events:", homeTeamEvents);
+              console.log("Away Team Events:", awayTeamEvents);
+
+              // Tạo HTML cho từng đội
+              const createTeamEventsHTML = (teamEvents, teamName) => {
+                if (teamEvents.length === 0) {
+                  return `<li style="color: #666; font-style: italic;">No events for ${teamName}</li>`;
+                }
+                
+                return teamEvents
+                  .sort((a, b) => a.minute - b.minute) // Sắp xếp theo phút
+                  .map(e => {
+                    // Lấy tên player trực tiếp từ event (không cần find thêm)
+                    const playerName = e.player && e.player.name ? e.player.name : "Unknown Player";
+                    
+                    // Format event type
+                    const eventTypeFormatted = e.eventType.charAt(0).toUpperCase() + e.eventType.slice(1);
+                    
+                    return `
+                      <li style="margin-bottom: 8px; padding: 5px; background-color: #f8f9fa; border-radius: 4px;">
+                        <strong style="color: #28a745;">${e.minute}'</strong> - 
+                        <span style="color: #007bff; font-weight: bold;">${eventTypeFormatted}</span> - 
+                        <span>${playerName}</span>
+                        ${e.description ? `<br><small style="color: #666;">${e.description}</small>` : ''}
+                      </li>
+                    `;
+                  }).join("");
+              };
+
               detailDiv.innerHTML = `
-                <h4>Chi tiết trận đấu: ${match.homeTeamId.name} vs ${match.awayTeamId.name}</h4>
-                <ul>
-                  ${
-                    matchEvents.length > 0 
-                      ? matchEvents.map(e => `<li>Minute ${e.minute}: ${e.eventType} - ${e.description || ''}</li>`).join("")
-                      : "<li>Không có sự kiện nào.</li>"
-                  }
-                </ul>
+                <div style="display: flex; gap: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 8px; margin-top: 10px;">
+                  <div style="flex: 1;">
+                    <h4 style="color: #007bff; margin-bottom: 10px; display: flex; align-items: center;">
+                      <img src="${match.homeTeamId.logoUrl}" alt="${match.homeTeamId.name}" style="width: 20px; height: 20px; margin-right: 8px;">
+                      ${match.homeTeamId.name} (Home)
+                    </h4>
+                    <ul style="list-style-type: none; padding-left: 0; margin: 0;">
+                      ${createTeamEventsHTML(homeTeamEvents, match.homeTeamId.name)}
+                    </ul>
+                  </div>
+                  
+                  <div style="width: 2px; background-color: #ddd; margin: 0 10px;"></div>
+                  
+                  <div style="flex: 1;">
+                    <h4 style="color: #dc3545; margin-bottom: 10px; display: flex; align-items: center;">
+                      <img src="${match.awayTeamId.logoUrl}" alt="${match.awayTeamId.name}" style="width: 20px; height: 20px; margin-right: 8px;">
+                      ${match.awayTeamId.name} (Away)
+                    </h4>
+                    <ul style="list-style-type: none; padding-left: 0; margin: 0;">
+                      ${createTeamEventsHTML(awayTeamEvents, match.awayTeamId.name)}
+                    </ul>
+                  </div>
+                </div>
               `;
               detailDiv.style.display = "block";
             } else {
