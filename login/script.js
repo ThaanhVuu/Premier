@@ -2,7 +2,7 @@ import { API_BASE_URL } from "../config.js";
 
 const initLogin = () => {
     console.log(API_BASE_URL);
-    
+
     const container = document.getElementById('container');
     const registerBtn = document.getElementById('register');
     const loginBtn = document.getElementById('login');
@@ -17,7 +17,7 @@ const initLogin = () => {
 
 
     let signUp = document.getElementById("signup");
-    signUp.onclick = function() {
+    signUp.onclick = function () {
         let emailSignUp = document.getElementById("email");
         let passwordSignUp = document.getElementById("password");
         let rePasswordSignUp = document.getElementById("re-password");
@@ -57,7 +57,7 @@ const initLogin = () => {
     }
 
     let signin = document.getElementById("signin");
-    signin.onclick = function(){
+    signin.onclick = function () {
         let username = document.getElementsByClassName("EmailSigin")[0].value;
         let password = document.getElementsByClassName("PasswordSignin")[0].value;
         axios.post(`${API_BASE_URL}auth/token`, {
@@ -75,10 +75,15 @@ const initLogin = () => {
 
                 // Điều hướng theo scope
                 if (scope === "ADMIN") {
-                    window.location.href = "../manager/manager.html";
-                } else {
-                    alert("Chi co the dang nhap bang tai khoan Admin");
+                    window.location.href = "../admin/admin.html";
                 }
+                else if (scope === 'MANAGER'){
+                    window.location.href = "../manager/manager.html";
+                }
+                else{
+                    window.location.href = "../home/home.html";
+                }
+
             })
             .catch(error => {
                 console.error("Login failed:", error);
@@ -87,7 +92,7 @@ const initLogin = () => {
                 if (error.code === "ECONNABORTED") {
                     message = "Server không phản hồi, vui lòng thử lại sau";
                     console.log(`${API_BASE_URL}auth/token`);
-                    
+
                 } else if (error.response) {
                     // Server trả về lỗi (4xx, 5xx)
                     message = error.response.data.info || "Sai tên đăng nhập hoặc mật khẩu";
