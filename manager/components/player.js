@@ -5,13 +5,14 @@ const init = () => {
     let createMode = true;
     let teamId = -1;
     const token = sessionStorage.getItem("accessToken");
+    let updateId = -1;
     // ===== DOM ELEMENTS =====
     const form = document.getElementById("form-popup");
     const createBtn = document.getElementById("createBtn");
     const saveBtn = document.getElementById("saveBtn");
     const cancelBtn = document.getElementById("cancelBtn");
     const formData = document.getElementById("playerForm");
-    const teamSelection = document.getElementById("team")
+    const teamSelection = document.getElementById("team");
 
     // ===== RENDER FUNCTIONS =====
     //render team
@@ -77,8 +78,8 @@ const init = () => {
                 <span>Club: ${player.team?.name}</span>
                 <span>Jersey number: ${player.jerseyNumber}</span>
                 <span>Date of birth: ${player.dateOfBirth}</span>
-                <span>Height: ${player.height.toFixed(2)}</span>
-                <span>Weight: ${player.weight}</span>
+                <span>Height (m): ${player.height.toFixed(2)}</span>
+                <span>Weight (kg): ${player.weight}</span>
             `;
             //tao info player trong card
 
@@ -103,6 +104,7 @@ const init = () => {
                 createMode = false;
                 renderInfoToForm(player);
                 form.style.display = "flex";
+                updateId = player.playerId;
             }
 
             //gan logic cho delete btn
@@ -138,6 +140,8 @@ const init = () => {
                 console.log("error from loadData \n", error);
             })
     }
+
+    
     // ===== FORM HANDLING =====
     const getDataFromForm = () => {
         const formPlayer = new FormData(formData);
@@ -180,6 +184,21 @@ const init = () => {
     
     if (createMode) {
         axios.post(`${API_BASE_URL}player`, playerData, {
+            headers: {
+                Authorization: `Bearer ${token}` 
+            }
+        })
+        .then(response => {
+            alert(response.data.info);
+            form.style.display = "none";  
+            clearForm();                  
+            loadData();                   
+        })
+        .catch(error => {
+            alert(error.response?.data?.info || error.message);
+        });
+    }else{
+        axios.post(`${API_BASE_URL}player/${updateId}`, playerData, {
             headers: {
                 Authorization: `Bearer ${token}` 
             }

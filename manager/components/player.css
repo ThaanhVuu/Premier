@@ -204,7 +204,7 @@ form>div{
     background-color: #30b929;
 }
 
-#team{
+#team, #club{
     padding: 10px;
     border: 1px solid grey;
     border-radius: 8px;
