@@ -8,8 +8,9 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface PlayerMapper {
-    @Mapping(target = "team", ignore = true)
+    @Mapping(target = "playerId", ignore = true)
     Player toPlayer(PlayerRequest rq);
-    @Mapping(target = "team", ignore = true)
+
+    @Mapping(target = "playerId", ignore = true)
     void updatePlayer(PlayerRequest rq, @MappingTarget Player player);
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-27T14:31:20+0700",
+    date = "2025-05-27T17:12:47+0700",
     comments = "version: 1.6.2, compiler: javac, environment: Java 21.0.7 (Oracle Corporation)"
 )
 @Component
@@ -22,7 +22,6 @@ public class PlayerMapperImpl implements PlayerMapper {
 
         Player.PlayerBuilder player = Player.builder();
 
-        player.playerId( rq.getPlayerId() );
         player.name( rq.getName() );
         player.nationality( rq.getNationality() );
         player.position( rq.getPosition() );
@@ -43,7 +42,6 @@ public class PlayerMapperImpl implements PlayerMapper {
             return;
         }
 
-        player.setPlayerId( rq.getPlayerId() );
         player.setName( rq.getName() );
         player.setNationality( rq.getNationality() );
         player.setPosition( rq.getPosition() );

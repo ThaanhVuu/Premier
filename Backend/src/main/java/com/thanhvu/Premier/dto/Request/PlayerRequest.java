@@ -6,7 +6,6 @@ import java.time.LocalDate;
 
 @Value
 public class PlayerRequest {
-    long playerId;
     String name;
     String nationality;
     String position;
