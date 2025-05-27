@@ -1,0 +1,342 @@
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+main{
+    flex: 1;
+}
+header{
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: rgb(255, 255, 255);
+    border-bottom: 1px solid #dcdcdc; 
+}
+.header-container{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding-left: 180px;
+    gap: 40px;
+}
+.clubsites{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.header-font-gray{
+    color: #76766f;
+    font-size: 13px;
+    text-decoration: none;
+    font-weight: 700;
+}
+.nav-links{
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    margin: 0;
+    padding-left: 20px;
+}
+.nav-links li a img {
+    width: auto;
+    height: 30px;
+    transition: transform 0.3s;
+}
+.nav-links li a img:hover {
+    transform: scale(1.2);
+}
+.header-container1{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+.space-between {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: #37003c;
+}
+.header-navleft{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 167px;
+    height: 50px;
+}
+.header-menuText{
+    align-items: center;
+    font-weight: 800;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-trigger {
+    padding: 13px 13px;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+.dropdown-content {
+    position: absolute;
+    top: 98%;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    opacity: 0; 
+    background-color: #963cff;
+    z-index: 1;
+    white-space: nowrap;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    transition: transform 0.1s ease-in-out, opacity 0.3s ease-in-out;
+}
+.dropdown-content a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+}
+.dropdown-content a:hover {
+    text-decoration: underline;
+}
+.dropdown:hover .dropdown-content {
+    transform: translateX(-50%) scale(1);
+    opacity: 1; 
+}
+.header-navright{
+    display: flex;
+    margin-left: auto;
+    gap: 10px;
+    padding-right: 15px;
+}
+.header-boder{
+    display: flex;
+    gap: 20px;
+    border-left: 2px solid #80307b88;
+    border-right: 2px solid #80307b88;
+    height: 35px;
+    width: 100px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+}
+.signin-btn{
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+}
+.line-hover{
+    position: relative;
+    padding: 3px 0;
+    cursor: pointer;
+}
+.line-hover::after{
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: -20%;
+  height: 2px;
+  width: calc(140%);
+  background: linear-gradient(to right, #00f0ff, #7b2ff7); 
+  transform: scaleY(0); 
+  transform-origin: bottom;
+  transition: transform 0.08s linear;
+}
+.line-hover:hover::after{
+    transform: scaleY(1);
+}
+#main-logo{
+    position: absolute;
+    width: 90.8px;
+    height: 110px;
+    margin-top: 15px;
+    margin-left: 25px;
+    cursor: pointer;
+}
+/* footer  */
+.footer {
+    background-color: #37003c;
+    color: #fff; 
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-family: 'Arial', sans-serif; 
+}
+.footer-container {
+    display: flex;
+    align-items: flex-start; 
+}
+.footer-column {
+    min-width: 20px; 
+    padding-left: 50px;
+}
+.footer-column h3 {
+    font-size: 20px; 
+    white-space: nowrap; 
+}
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+.footer-column ul li {
+    font-size: 15px;
+    margin-bottom: 8px; 
+    cursor: pointer;
+    transition: color 0.3s ease; 
+}
+.footer-column ul li:hover {
+    color: #ff2882;
+    text-decoration: none;
+}
+.footer-column ul li:last-child {
+    margin-bottom: 0; 
+}
+/* main  */
+.container{
+    color: #37003c;
+    padding: 20px;
+}
+.section-header {
+  background: linear-gradient(120deg, #5bd7ff, #7139eb, #832acd),
+              url('https://www.premierleague.com/resources/rebrand/v7.153.70/i/elements/backgrounds/primary-graphic.svg');
+  background-size: cover;
+  background-blend-mode: overlay;
+  background-repeat: no-repeat;
+  background-size: auto;
+  width: 100%;
+  color: white;
+  padding: 40px 25px;
+  font-size: 36px;
+  font-weight: bold;
+  position: relative;
+  overflow: hidden;
+}
+
+.section-header h2 {
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+.header-result{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #37003c;
+    padding: 20px;
+}
+.header-result img{
+    height: 32px;
+    margin-right: 20px;
+}
+.result-section{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.result-section i{
+    margin-right: 20px;
+}
+.match-result{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    
+}
+.name-left{
+    width: 200px;   
+    text-align: right;
+    font-weight: 500;
+    font-size: 18px;
+}
+.name-right{
+    width: 200px;   
+    text-align: left;
+    font-weight: 500;
+    font-size: 18px;
+}
+.match-result img{
+    width: 30px;
+    height: 32px;
+}
+.match-result span{
+    background-color: #37003c;
+    color: white;
+    font-size: 16px;
+    font-weight: 800;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+.stadium-location{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.stadium-location svg{
+    width: 18px;
+    height: auto;
+    vertical-align: middle;
+}
+.stadium-location p{
+    font-size: 15px;
+    margin: 0;
+}
+.result-section:hover{
+    background: linear-gradient(90deg, #5a91f3, #8e4bff);
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+.upc-area{
+    width: 100%;
+
+}
+.match-upc{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 280px;
+    height: auto;
+    margin: 0 auto;
+}
+.match-upc img{
+    width: 28px;
+    height: 30px;
+}
+.match-upc p{
+    font-size: 18px;
+    font-weight: 800;
+    width: 40px;
+}
+.match-upc-area{
+    cursor: pointer;
+}
+.match-upc-area:hover{
+    background: linear-gradient(90deg, #5a91f3, #8e4bff);
+    border-radius: 5px;
+    color: white;
+}
+.match-upc-area:hover span{
+    border: 1px solid #ffffff;
+}
+.match-upc span{
+    border: 1px solid #37003c;
+    font-size: 16px;
+    border-radius: 5px;
+    padding: 5px 10px;
+}

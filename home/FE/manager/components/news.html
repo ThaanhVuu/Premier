@@ -1,0 +1,73 @@
+<div class="nav">
+  <h2>Football news</h2>
+  <div>
+    <input type="search" id="searchInput" placeholder="Search" />
+    <button id="createBtn">+ Create news</button>
+  </div>
+</div>
+
+<div>
+  <div class="card">
+    <div class="card-in">
+      <h2 id="totalNews"></h2>
+      <span>Total of news</span>
+    </div>
+    <div class="card-in">
+      <h2 id="totalViews"></h2>
+      <span>Total of views</span>
+    </div>
+    <div class="card-in">
+      <h2 id="newsInDay"></h2>
+      <span>News of the day</span>
+    </div>
+    <div class="card-in">
+      <h2 id="viewsInDay"></h2>
+      <span>Total views in day</span>
+    </div>
+  </div>
+</div>
+
+<!-- content news -->
+<div class="content" id="news-container"></div>
+
+<!-- form -->
+<form id="popup-form">
+  <h3>News</h3>
+  <div>
+    <span>Title</span>
+    <input type="text" name="" id="title" />
+  </div>
+  <div>
+    <span>Content</span>
+    <textarea name="" id="contentNews"></textarea>
+  </div>
+  <div>
+    <span>Image URL</span>
+    <input type="text" name="" id="imgURL" />
+  </div>
+  <div>
+    <span>Time</span>
+    <input type="datetime-local" name="" id="timePost" />
+  </div>
+  <!-- <div>
+    <span>Author</span>
+    <select name="" id="author">
+      <option value=""></option>
+    </select>
+  </div> -->
+  <button type="button" id="submit-btn">Post</button>
+  <button type="button" id="cancel-btn">Cancel</button>
+</form>
+
+<div id="detail-popup" class="popup" style="display:none;">
+  <div class="popup-content">
+    <h2 id="detail-title"></h2>
+    <img id="detail-img" src="" alt="Image" style="width:100%; height:auto;" />
+    <p><strong>Ngày đăng:</strong> <span id="detail-date"></span></p>
+    <p><strong>Lượt xem:</strong> <span id="detail-views"></span></p>
+    <p><strong>Tác giả:</strong> <span id="detail-author"></span></p>
+    <div><strong>Nội dung:</strong></div>
+    <p id="detail-content"></p>
+    <button id="close-detail">Đóng</button>
+  </div>
+</div>
