@@ -240,9 +240,6 @@ function initNews() {
         })
             .then(response => {
                 let stats = response.data.result;
-                console.log("Total News:", stats.totalNews);
-                console.log("Total Views:", stats.totalViews);
-                console.log("News In Day:", stats.newsInDay);
 
                 // Ví dụ: cập nhật HTML
                 document.getElementById("totalNews").innerText = stats.totalNews;

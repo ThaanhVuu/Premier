@@ -187,14 +187,14 @@ form>div{
     margin-top: 20px;
 }
 
-.cancelBtn {
+#cancelBtn {
     background-color: #e74c3c;
     color: white;
     margin-right: 10px;
     float: right;
 }
 
-.saveBtn {
+#saveBtn {
     background-color: #2ebb5d;
     color: white;
     float: right;
@@ -202,4 +202,10 @@ form>div{
 
 #saveBtn:hover {
     background-color: #30b929;
+}
+
+#team{
+    padding: 10px;
+    border: 1px solid grey;
+    border-radius: 8px;
 }

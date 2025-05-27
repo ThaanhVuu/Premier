@@ -3,31 +3,55 @@ import { API_BASE_URL } from "../../config.js";
 const init = () => {
     // ===== STATE =====
     let createMode = true;
+    let teamId = -1;
     const token = sessionStorage.getItem("accessToken");
     // ===== DOM ELEMENTS =====
     const form = document.getElementById("form-popup");
-
-    // ===== CLASS =====
-    class Player {
-        constructor(playerId, name, nationality, position, club, jerseyNumber, dateOfBirth, height, weight, photoUrl) {
-            this.playerId = playerId;
-            this.name = name;
-            this.nationality = nationality;
-            this.position = position;
-            this.club = club;
-            this.jerseyNumber = jerseyNumber;
-            this.dateOfBirth = dateOfBirth;
-            this.height = height;
-            this.weight = weight;
-            this.photoUrl = photoUrl;
-        }
-    }
+    const createBtn = document.getElementById("createBtn");
+    const saveBtn = document.getElementById("saveBtn");
+    const cancelBtn = document.getElementById("cancelBtn");
+    const formData = document.getElementById("playerForm");
+    const teamSelection = document.getElementById("team")
 
     // ===== RENDER FUNCTIONS =====
+    //render team
+    const renderTeam = (teams) => {
+        teamSelection.innerHTML = "";
+        teamSelection.innerHTML = `
+            <option value = "-1">N/A</option>
+        `;
+        teams.forEach(team => {
+            teamSelection.innerHTML += `
+            <option value="${team.teamId}">${team.name}</option>
+            `;
+        })
+    }
+
+    const loadTeamSelection = () => {
+        axios.get(`${API_BASE_URL}team`)
+            .then(response => {
+                renderTeam(response.data.result);
+            })
+            .catch(error => {
+                console.log("error in loadteamselection");
+                
+                alert(error.response.data.info) || alert(error.message);
+            })
+    }
+
+
+
+    //render player
     const renderData = (players) => {
+        let playerFilter = players;
         const container = document.getElementById("player-container");
         container.innerHTML = "";
-        players.forEach(player => {
+        //loc player theo team id
+        if(teamId != -1){
+            playerFilter = players.filter(player => player.team.teamId == teamId);
+        }
+        
+        playerFilter.forEach(player => {
             let card = document.createElement("div");
             card.className = "card-player";
             container.appendChild(card)
@@ -50,10 +74,10 @@ const init = () => {
                 <span class="name">${player.name}</span>
                 <span>Nationality: ${player.nationality}</span>
                 <span>Position: ${player.position}</span>
-                <span>Club ${player.team?.name}</span>
+                <span>Club: ${player.team?.name}</span>
                 <span>Jersey number: ${player.jerseyNumber}</span>
                 <span>Date of birth: ${player.dateOfBirth}</span>
-                <span>Height: ${player.height}</span>
+                <span>Height: ${player.height.toFixed(2)}</span>
                 <span>Weight: ${player.weight}</span>
             `;
             //tao info player trong card
@@ -77,6 +101,7 @@ const init = () => {
             //gan logic cho updatebtn
             action.querySelector(".updateBtn").onclick = () => {
                 createMode = false;
+                renderInfoToForm(player);
                 form.style.display = "flex";
             }
 
@@ -99,7 +124,6 @@ const init = () => {
                         .finally(() => loadData())
                 }
             }
-
         })
     }
 
@@ -115,8 +139,76 @@ const init = () => {
             })
     }
     // ===== FORM HANDLING =====
+    const getDataFromForm = () => {
+        const formPlayer = new FormData(formData);
+        const player = Object.fromEntries(formPlayer.entries());
+        return player;
+    }
+
+    const renderInfoToForm = (player) => {
+        document.getElementById("playerName").value = player.name;
+        document.getElementById("nationality").value = player.nationality;
+        document.getElementById("position").value = player.position;
+        document.getElementById("club").value = player.team?.name;
+        document.getElementById("jersey").value = player.jerseyNumber;
+        document.getElementById("dob").value = player.dateOfBirth;
+        document.getElementById("height").value = player.height;
+        document.getElementById("weight").value = player.weight;
+        document.getElementById("photoUrl").value = player.photoUrl;
+    }
+
+    const clearForm = () => {
+        document.getElementById("playerName").value = "";
+        document.getElementById("nationality").value = "";
+        document.getElementById("position").value = "";
+        document.getElementById("club").value = "";
+        document.getElementById("jersey").value = "";
+        document.getElementById("dob").value = "";
+        document.getElementById("height").value = "";
+        document.getElementById("weight").value = "";
+        document.getElementById("photoUrl").value = "";
+    }
+
     // ===== EVENT HANDLERS =====
+    createBtn.addEventListener("click", function () {
+        createMode = true;
+        form.style.display = "flex";
+    });
+
+    saveBtn.addEventListener("click", function () {
+    const playerData = getDataFromForm();
+    
+    if (createMode) {
+        axios.post(`${API_BASE_URL}player`, playerData, {
+            headers: {
+                Authorization: `Bearer ${token}` 
+            }
+        })
+        .then(response => {
+            alert(response.data.info);
+            form.style.display = "none";  
+            clearForm();                  
+            loadData();                   
+        })
+        .catch(error => {
+            alert(error.response?.data?.info || error.message);
+        });
+    }
+});
+
+
+    cancelBtn.addEventListener("click", function () {
+        form.style.display = "none";
+        clearForm();
+    })
+
+    teamSelection.addEventListener("click", function () {
+        teamId = teamSelection.value;
+        loadData();
+    })
     // ===== INITIAL LOAD =====
     loadData();
+    loadTeamSelection();
+
 }
 init();
