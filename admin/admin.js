@@ -1,18 +1,21 @@
 const API_BASE_URL = 'https://premier-dl8h.onrender.com/api/';
 const token = sessionStorage.getItem("accessToken");
-console.log("Token from sessionStorage:", token);
 
 
-if (!token || token === "null") {
+if (!token || token == null) {
     window.location.href = "../login/index.html";
 }
 
-axios.get(`${API_BASE_URL}user`)
+axios.get(`${API_BASE_URL}user`, {
+    headers: {
+        authorization: `Bearer ${token}`
+    }
+})
     .then(response => {
-        console.log(response);
+        console.log(response.data.result);
     })
     .catch(error => {
-        console.error("API error:", error.message);
+        console.error(error.response.data.info || error.message);
     });
 
 // DOM elements
@@ -68,7 +71,6 @@ function loadSectionContent(sectionId) {
 
 // Dashboard data loading
 function loadDashboardData() {
-    console.log('Loading dashboard data...');
     // In a real implementation, you would fetch data from your API:
     /*
     axios.get(`${API_BASE_URL}dashboard/stats`)
@@ -111,13 +113,13 @@ function loadUserData() {
     // In a real implementation:
 
     axios.get(`${API_BASE_URL}user`,
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { authorization: `Bearer ${token}` } }
     )
         .then(response => {
             populateUserTable(response.data);
         })
         .catch(error => {
-            console.error('Error loading user data:', error);
+            console.log(error.response?.data.info || error.message);
             showEmptyState(userTableBody, 'No users found');
         });
 
@@ -362,6 +364,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Load dashboard data by default
     loadDashboardData();
-
-    console.log('Admin dashboard initialized successfully');
 });
