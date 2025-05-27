@@ -1,46 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="admin.css"/>
-  </head>
-  <body>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
     <header>
-      <section class="header-container">
-        <a href="#" class="Logo">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/vi/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/1200px-Starbucks_Corporation_Logo_2011.svg.png"
-            alt="Logo"
-          />
-          <span>Dashboard</span>
-        </a>
-        <div class="User">
-          <img
-            src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small_2x/user-profile-icon-free-vector.jpg"
-            alt="Logo"
-          /><span>User</span>
-        </div>
-      </section>
+        <section class="header-container">
+            <a href="#" class="Logo">
+                <img
+                    src="https://upload.wikimedia.org/wikipedia/vi/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/1200px-Starbucks_Corporation_Logo_2011.svg.png"
+                    alt="Logo"
+                />
+                <span>Dashboard</span>
+            </a>
+            <div class="User">
+                <img
+                    src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small_2x/user-profile-icon-free-vector.jpg"
+                    alt="User Profile"
+                />
+                <span>User</span>
+            </div>
+        </section>
     </header>
+    
     <main>
-      <aside>
-        <nav>
-          <ul>
-            <li id="Dashboard"></i>Dashboard</li>
-            <li id="User"></i>User</li>
-            <li id="Log"></i>Log</li>
-            <li id="Back up"></i>Back up</li>
-          </ul>
-        </nav>
-      </aside>
-      <section id="content"></section>
-    </main>
+        <aside>
+            <nav>
+                <ul>
+                    <li id="Dashboard" class="menu-item active">Dashboard</li>
+                    <li id="User" class="menu-item">User</li>
+                    <li id="Log" class="menu-item">Log</li>
+                    <li id="Back-up" class="menu-item">Back up</li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <section id="content">
+            <!-- Dashboard Content -->
+            <div id="dashboard-content" class="content-section active">
+                <h2>Dashboard Overview</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Users</h3>
+                        <p class="stat-number">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Logs</h3>
+                        <p class="stat-number">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Backups</h3>
+                        <p class="stat-number">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>System Status</h3>
+                        <p class="stat-number">Online</p>
+                    </div>
+                </div>
+            </div>
 
+            <!-- User Content -->
+            <div id="user-content" class="content-section">
+                <div class="section-header">
+                    <h2>User Management</h2>
+                    <button class="add-btn">Add New User</button>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Created Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Empty table for now -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Log Content -->
+            <div id="log-content" class="content-section">
+                <div class="section-header">
+                    <h2>System Logs</h2>
+                    <div class="filter-controls">
+                        <select class="filter-select">
+                            <option value="all">All Logs</option>
+                            <option value="error">Error</option>
+                            <option value="warning">Warning</option>
+                            <option value="info">Info</option>
+                        </select>
+                        <button class="refresh-btn">Refresh</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Timestamp</th>
+                                <th>Level</th>
+                                <th>Message</th>
+                                <th>User</th>
+                                <th>IP Address</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Empty table for now -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Backup Content -->
+            <div id="backup-content" class="content-section">
+                <div class="section-header">
+                    <h2>Backup Management</h2>
+                    <button class="add-btn">Create Backup</button>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Backup Name</th>
+                                <th>Type</th>
+                                <th>Size</th>
+                                <th>Status</th>
+                                <th>Created Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Empty table for now -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+    
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
     <script src="admin.js"></script>
-    <script></script>
-  </body>
+</body>
 </html>
