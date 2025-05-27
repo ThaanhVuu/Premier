@@ -1,539 +1,367 @@
+const API_BASE_URL = 'https://premier-dl8h.onrender.com/api/';
 const token = sessionStorage.getItem("accessToken");
-if (token == null){
-    window.location.href = "../login/index.html"
+console.log("Token from sessionStorage:", token);
+
+
+if (!token || token === "null") {
+    window.location.href = "../login/index.html";
 }
 
+axios.get(`${API_BASE_URL}user`)
+    .then(response => {
+        console.log(response);
+    })
+    .catch(error => {
+        console.error("API error:", error.message);
+    });
 
+// DOM elements
+const menuItems = document.querySelectorAll('.menu-item');
+const contentSections = document.querySelectorAll('.content-section');
 
-// Dashboard JavaScript
-class AdminDashboard {
-    constructor() {
-        this.currentPage = 'Dashboard';
-        this.token = localStorage.getItem('authToken');
-        this.init();
-    }
+// Menu navigation functionality
+function initializeNavigation() {
+    menuItems.forEach(item => {
+        item.addEventListener('click', function () {
+            const targetId = this.id.toLowerCase();
 
-    init() {
-        this.setupEventListeners();
-        this.loadPage('Dashboard');
-        this.setActiveNavItem('Dashboard');
-    }
+            // Remove active class from all menu items
+            menuItems.forEach(menu => menu.classList.remove('active'));
 
-    setupEventListeners() {
-        // Navigation event listeners
-        const navItems = document.querySelectorAll('aside nav ul li');
-        navItems.forEach(item => {
-            item.addEventListener('click', (e) => {
-                const pageName = e.target.id;
-                this.loadPage(pageName);
-                this.setActiveNavItem(pageName);
-            });
-        });
+            // Add active class to clicked menu item
+            this.classList.add('active');
 
-        // Logout functionality (if needed)
-        document.querySelector('.User').addEventListener('click', () => {
-            this.showUserMenu();
-        });
-    }
+            // Hide all content sections
+            contentSections.forEach(section => section.classList.remove('active'));
 
-    setActiveNavItem(pageName) {
-        // Remove active class from all nav items
-        document.querySelectorAll('aside nav ul li').forEach(item => {
-            item.classList.remove('active');
-        });
-        
-        // Add active class to clicked item
-        const activeItem = document.getElementById(pageName);
-        if (activeItem) {
-            activeItem.classList.add('active');
-        }
-        
-        this.currentPage = pageName;
-    }
-
-    loadPage(pageName) {
-        const contentDiv = document.getElementById('content');
-        
-        switch(pageName) {
-            case 'Dashboard':
-                this.loadDashboard(contentDiv);
-                break;
-            case 'User':
-                this.loadUserManagement(contentDiv);
-                break;
-            case 'Log':
-                this.loadLogManagement(contentDiv);
-                break;
-            case 'Back up':
-                this.loadBackupManagement(contentDiv);
-                break;
-            default:
-                this.loadDashboard(contentDiv);
-        }
-    }
-
-    loadDashboard(container) {
-        container.innerHTML = `
-            <div style="background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
-                <h2>Dashboard Overview</h2>
-                <div class="dashboard-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
-                    <div class="stat-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px; text-align: center;">
-                        <h3>Total Users</h3>
-                        <p style="font-size: 2em; margin: 10px 0;" id="totalUsers">Loading...</p>
-                    </div>
-                    <div class="stat-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 20px; border-radius: 10px; text-align: center;">
-                        <h3>Active Sessions</h3>
-                        <p style="font-size: 2em; margin: 10px 0;" id="activeSessions">Loading...</p>
-                    </div>
-                    <div class="stat-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 20px; border-radius: 10px; text-align: center;">
-                        <h3>System Health</h3>
-                        <p style="font-size: 2em; margin: 10px 0;" id="systemHealth">Loading...</p>
-                    </div>
-                </div>
-                
-                <div style="margin-top: 30px;">
-                    <h3>Recent Activity</h3>
-                    <div id="recentActivity" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 10px;">
-                        Loading recent activities...
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        // Load dashboard data
-        this.loadDashboardData();
-    }
-
-    loadUserManagement(container) {
-        container.innerHTML = `
-            <div style="background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h2>User Management</h2>
-                    <button onclick="dashboard.showAddUserForm()" style="background-color: #28a745; color: white;">
-                        <i class="fas fa-plus"></i> Add User
-                    </button>
-                </div>
-                
-                <div style="margin-bottom: 20px;">
-                    <input type="text" id="userSearchInput" placeholder="Search users..." 
-                           style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;"
-                           onkeyup="dashboard.searchUsers()">
-                </div>
-                
-                <div class="table-container" style="overflow-x: auto;">
-                    <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-                        <thead>
-                            <tr style="background-color: #f8f9fa;">
-                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">ID</th>
-                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Name</th>
-                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Email</th>
-                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Role</th>
-                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Status</th>
-                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="userTableBody">
-                            <tr>
-                                <td colspan="6" style="text-align: center; padding: 20px;">Loading users...</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        `;
-        
-        this.loadUsers();
-    }
-
-    loadLogManagement(container) {
-        container.innerHTML = `
-            <div style="background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h2>System Logs</h2>
-                    <div>
-                        <select id="logFilter" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
-                            <option value="all">All Levels</option>
-                            <option value="error">Error</option>
-                            <option value="warning">Warning</option>
-                            <option value="info">Info</option>
-                        </select>
-                        <button onclick="dashboard.refreshLogs()" style="background-color: #17a2b8; color: white;">
-                            <i class="fas fa-refresh"></i> Refresh
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="log-container" style="max-height: 500px; overflow-y: auto; background: #f8f9fa; padding: 15px; border-radius: 8px; font-family: monospace;">
-                    <div id="logContent">Loading logs...</div>
-                </div>
-                
-                <div style="margin-top: 15px; text-align: right;">
-                    <button onclick="dashboard.downloadLogs()" style="background-color: #6c757d; color: white;">
-                        <i class="fas fa-download"></i> Download Logs
-                    </button>
-                </div>
-            </div>
-        `;
-        
-        this.loadLogs();
-    }
-
-    loadBackupManagement(container) {
-        container.innerHTML = `
-            <div style="background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
-                <h2>Backup Management</h2>
-                
-                <div style="margin: 20px 0;">
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-                        <div style="border: 1px solid #ddd; padding: 20px; border-radius: 8px;">
-                            <h3>Create Backup</h3>
-                            <p>Create a new system backup</p>
-                            <button onclick="dashboard.createBackup()" style="background-color: #28a745; color: white; width: 100%;">
-                                <i class="fas fa-save"></i> Create Backup
-                            </button>
-                        </div>
-                        
-                        <div style="border: 1px solid #ddd; padding: 20px; border-radius: 8px;">
-                            <h3>Scheduled Backups</h3>
-                            <p>Manage automatic backup schedule</p>
-                            <button onclick="dashboard.manageSchedule()" style="background-color: #007bff; color: white; width: 100%;">
-                                <i class="fas fa-clock"></i> Manage Schedule
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <h3>Backup History</h3>
-                <div class="table-container" style="overflow-x: auto; margin-top: 10px;">
-                    <table style="width: 100%; border-collapse: collapse;">
-                        <thead>
-                            <tr style="background-color: #f8f9fa;">
-                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Date</th>
-                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Type</th>
-                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Size</th>
-                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Status</th>
-                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="backupTableBody">
-                            <tr>
-                                <td colspan="5" style="text-align: center; padding: 20px;">Loading backup history...</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        `;
-        
-        this.loadBackupHistory();
-    }
-
-    // Dashboard Data Loading Methods
-    async loadDashboardData() {
-        try {
-            // Simulate API calls - replace with actual API endpoints
-            const stats = await this.fetchDashboardStats();
-            
-            document.getElementById('totalUsers').textContent = stats.totalUsers || '0';
-            document.getElementById('activeSessions').textContent = stats.activeSessions || '0';
-            document.getElementById('systemHealth').textContent = stats.systemHealth || 'Good';
-            
-            this.loadRecentActivity();
-        } catch (error) {
-            console.error('Error loading dashboard data:', error);
-            this.showNotification('Error loading dashboard data', 'error');
-        }
-    }
-
-    async fetchDashboardStats() {
-        // TODO: Replace with actual API call
-        // return await axios.get('/api/dashboard/stats', { headers: { Authorization: `Bearer ${this.token}` }});
-        
-        // Mock data for now
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve({
-                    totalUsers: 1250,
-                    activeSessions: 89,
-                    systemHealth: 'Excellent'
-                });
-            }, 1000);
-        });
-    }
-
-    loadRecentActivity() {
-        const activityDiv = document.getElementById('recentActivity');
-        // Mock recent activities
-        const activities = [
-            { time: '2 minutes ago', action: 'User john.doe@email.com logged in', type: 'info' },
-            { time: '15 minutes ago', action: 'Backup completed successfully', type: 'success' },
-            { time: '1 hour ago', action: 'Failed login attempt detected', type: 'warning' },
-            { time: '2 hours ago', action: 'System maintenance completed', type: 'info' }
-        ];
-
-        activityDiv.innerHTML = activities.map(activity => `
-            <div style="padding: 10px; margin: 5px 0; border-left: 3px solid ${this.getActivityColor(activity.type)}; background: white; border-radius: 4px;">
-                <span style="color: #666; font-size: 0.9em;">${activity.time}</span> - ${activity.action}
-            </div>
-        `).join('');
-    }
-
-    getActivityColor(type) {
-        const colors = {
-            'info': '#17a2b8',
-            'success': '#28a745',
-            'warning': '#ffc107',
-            'error': '#dc3545'
-        };
-        return colors[type] || '#6c757d';
-    }
-
-    // User Management Methods
-    async loadUsers() {
-        try {
-            // TODO: Replace with actual API call
-            const users = await this.fetchUsers();
-            this.renderUserTable(users);
-        } catch (error) {
-            console.error('Error loading users:', error);
-            this.showNotification('Error loading users', 'error');
-        }
-    }
-
-    async fetchUsers() {
-        // TODO: Replace with actual API call
-        // return await axios.get('/api/users', { headers: { Authorization: `Bearer ${this.token}` }});
-        
-        // Mock data
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve([
-                    { id: 1, name: 'John Doe', email: 'john.doe@email.com', role: 'Admin', status: 'Active' },
-                    { id: 2, name: 'Jane Smith', email: 'jane.smith@email.com', role: 'User', status: 'Active' },
-                    { id: 3, name: 'Bob Johnson', email: 'bob.johnson@email.com', role: 'User', status: 'Inactive' }
-                ]);
-            }, 500);
-        });
-    }
-
-    renderUserTable(users) {
-        const tbody = document.getElementById('userTableBody');
-        tbody.innerHTML = users.map(user => `
-            <tr>
-                <td style="padding: 12px; border-bottom: 1px solid #eee;">${user.id}</td>
-                <td style="padding: 12px; border-bottom: 1px solid #eee;">${user.name}</td>
-                <td style="padding: 12px; border-bottom: 1px solid #eee;">${user.email}</td>
-                <td style="padding: 12px; border-bottom: 1px solid #eee;">${user.role}</td>
-                <td style="padding: 12px; border-bottom: 1px solid #eee;">
-                    <span style="padding: 4px 8px; border-radius: 4px; font-size: 0.9em; background-color: ${user.status === 'Active' ? '#d4edda' : '#f8d7da'}; color: ${user.status === 'Active' ? '#155724' : '#721c24'};">
-                        ${user.status}
-                    </span>
-                </td>
-                <td style="padding: 12px; border-bottom: 1px solid #eee;">
-                    <button onclick="dashboard.editUser(${user.id})" style="background-color: #007bff; color: white; margin-right: 5px; padding: 6px 12px;">Edit</button>
-                    <button onclick="dashboard.deleteUser(${user.id})" style="background-color: #dc3545; color: white; padding: 6px 12px;">Delete</button>
-                </td>
-            </tr>
-        `).join('');
-    }
-
-    searchUsers() {
-        const searchTerm = document.getElementById('userSearchInput').value.toLowerCase();
-        // TODO: Implement user search functionality
-        console.log('Searching for:', searchTerm);
-    }
-
-    showAddUserForm() {
-        // TODO: Show add user modal/form
-        this.showNotification('Add user form - to be implemented', 'info');
-    }
-
-    editUser(userId) {
-        // TODO: Show edit user modal/form
-        this.showNotification(`Edit user ${userId} - to be implemented`, 'info');
-    }
-
-    deleteUser(userId) {
-        if (confirm('Are you sure you want to delete this user?')) {
-            // TODO: Implement user deletion
-            this.showNotification(`Delete user ${userId} - to be implemented`, 'info');
-        }
-    }
-
-    // Log Management Methods
-    async loadLogs() {
-        try {
-            const logs = await this.fetchLogs();
-            this.renderLogs(logs);
-        } catch (error) {
-            console.error('Error loading logs:', error);
-            this.showNotification('Error loading logs', 'error');
-        }
-    }
-
-    async fetchLogs() {
-        // TODO: Replace with actual API call
-        // Mock data
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve([
-                    { timestamp: '2024-01-15 10:30:25', level: 'INFO', message: 'User authentication successful' },
-                    { timestamp: '2024-01-15 10:29:18', level: 'WARNING', message: 'High memory usage detected' },
-                    { timestamp: '2024-01-15 10:28:45', level: 'ERROR', message: 'Database connection timeout' },
-                    { timestamp: '2024-01-15 10:27:32', level: 'INFO', message: 'Backup process started' }
-                ]);
-            }, 500);
-        });
-    }
-
-    renderLogs(logs) {
-        const logContent = document.getElementById('logContent');
-        logContent.innerHTML = logs.map(log => `
-            <div style="margin-bottom: 5px; color: ${this.getLogColor(log.level)};">
-                [${log.timestamp}] ${log.level}: ${log.message}
-            </div>
-        `).join('');
-    }
-
-    getLogColor(level) {
-        const colors = {
-            'ERROR': '#dc3545',
-            'WARNING': '#ffc107',
-            'INFO': '#17a2b8'
-        };
-        return colors[level] || '#6c757d';
-    }
-
-    refreshLogs() {
-        this.loadLogs();
-        this.showNotification('Logs refreshed', 'success');
-    }
-
-    downloadLogs() {
-        // TODO: Implement log download functionality
-        this.showNotification('Download logs - to be implemented', 'info');
-    }
-
-    // Backup Management Methods
-    async loadBackupHistory() {
-        try {
-            const backups = await this.fetchBackupHistory();
-            this.renderBackupTable(backups);
-        } catch (error) {
-            console.error('Error loading backup history:', error);
-            this.showNotification('Error loading backup history', 'error');
-        }
-    }
-
-    async fetchBackupHistory() {
-        // TODO: Replace with actual API call
-        // Mock data
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve([
-                    { date: '2024-01-15 02:00:00', type: 'Full', size: '2.3 GB', status: 'Completed' },
-                    { date: '2024-01-14 02:00:00', type: 'Incremental', size: '450 MB', status: 'Completed' },
-                    { date: '2024-01-13 02:00:00', type: 'Full', size: '2.1 GB', status: 'Failed' }
-                ]);
-            }, 500);
-        });
-    }
-
-    renderBackupTable(backups) {
-        const tbody = document.getElementById('backupTableBody');
-        tbody.innerHTML = backups.map(backup => `
-            <tr>
-                <td style="padding: 12px; border-bottom: 1px solid #eee;">${backup.date}</td>
-                <td style="padding: 12px; border-bottom: 1px solid #eee;">${backup.type}</td>
-                <td style="padding: 12px; border-bottom: 1px solid #eee;">${backup.size}</td>
-                <td style="padding: 12px; border-bottom: 1px solid #eee;">
-                    <span style="padding: 4px 8px; border-radius: 4px; font-size: 0.9em; background-color: ${backup.status === 'Completed' ? '#d4edda' : '#f8d7da'}; color: ${backup.status === 'Completed' ? '#155724' : '#721c24'};">
-                        ${backup.status}
-                    </span>
-                </td>
-                <td style="padding: 12px; border-bottom: 1px solid #eee;">
-                    <button onclick="dashboard.downloadBackup('${backup.date}')" style="background-color: #28a745; color: white; margin-right: 5px; padding: 6px 12px;">Download</button>
-                    <button onclick="dashboard.restoreBackup('${backup.date}')" style="background-color: #007bff; color: white; padding: 6px 12px;">Restore</button>
-                </td>
-            </tr>
-        `).join('');
-    }
-
-    createBackup() {
-        if (confirm('Are you sure you want to create a new backup? This may take some time.')) {
-            this.showNotification('Creating backup...', 'info');
-            // TODO: Implement backup creation
-        }
-    }
-
-    manageSchedule() {
-        // TODO: Show backup schedule management form
-        this.showNotification('Backup schedule management - to be implemented', 'info');
-    }
-
-    downloadBackup(date) {
-        // TODO: Implement backup download
-        this.showNotification(`Download backup from ${date} - to be implemented`, 'info');
-    }
-
-    restoreBackup(date) {
-        if (confirm(`Are you sure you want to restore backup from ${date}? This will overwrite current data.`)) {
-            // TODO: Implement backup restoration
-            this.showNotification(`Restore backup from ${date} - to be implemented`, 'info');
-        }
-    }
-
-    // Utility Methods
-    showUserMenu() {
-        // TODO: Show user dropdown menu with logout option
-        if (confirm('Do you want to logout?')) {
-            this.logout();
-        }
-    }
-
-    logout() {
-        localStorage.removeItem('authToken');
-        window.location.href = 'login.html'; // Adjust path as needed
-    }
-
-    showNotification(message, type = 'info') {
-        // Create notification element
-        const notification = document.createElement('div');
-        notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 20px;
-            border-radius: 4px;
-            color: white;
-            z-index: 1000;
-            max-width: 300px;
-            font-weight: 500;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        `;
-        
-        const colors = {
-            'success': '#28a745',
-            'error': '#dc3545',
-            'warning': '#ffc107',
-            'info': '#17a2b8'
-        };
-        
-        notification.style.backgroundColor = colors[type] || colors.info;
-        notification.textContent = message;
-        
-        document.body.appendChild(notification);
-        
-        // Remove notification after 3 seconds
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.parentNode.removeChild(notification);
+            // Show corresponding content section
+            const targetSection = document.getElementById(`${targetId}-content`);
+            if (targetSection) {
+                targetSection.classList.add('active');
             }
-        }, 3000);
+
+            // Load specific content based on selection
+            loadSectionContent(targetId);
+        });
+    });
+}
+
+// Load content for specific sections
+function loadSectionContent(sectionId) {
+    switch (sectionId) {
+        case 'dashboard':
+            loadDashboardData();
+            break;
+        case 'user':
+            loadUserData();
+            break;
+        case 'log':
+            loadLogData();
+            break;
+        case 'back-up':
+            loadBackupData();
+            break;
+        default:
+            console.log('Unknown section:', sectionId);
     }
 }
 
-// Initialize dashboard when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    window.dashboard = new AdminDashboard();
+// Dashboard data loading
+function loadDashboardData() {
+    console.log('Loading dashboard data...');
+    // In a real implementation, you would fetch data from your API:
+    /*
+    axios.get(`${API_BASE_URL}dashboard/stats`)
+    .then(response => {
+        updateDashboardStats(response.data);
+    })
+    .catch(error => {
+        console.error('Error loading dashboard data:', error);
+    });
+    */
+
+    // For now, we'll simulate loading with empty data
+    updateDashboardStats({
+        totalUsers: 0,
+        totalLogs: 0,
+        totalBackups: 0,
+        systemStatus: 'Online'
+    });
+}
+
+// Update dashboard statistics
+function updateDashboardStats(data) {
+    const statNumbers = document.querySelectorAll('.stat-number');
+    if (statNumbers.length >= 4) {
+        statNumbers[0].textContent = data.totalUsers || 0;
+        statNumbers[1].textContent = data.totalLogs || 0;
+        statNumbers[2].textContent = data.totalBackups || 0;
+        statNumbers[3].textContent = data.systemStatus || 'Online';
+    }
+}
+
+// User data loading
+function loadUserData() {
+    console.log('Loading user data...');
+    const userTableBody = document.querySelector('#user-content .data-table tbody');
+
+    // Clear existing content
+    userTableBody.innerHTML = '';
+
+    // In a real implementation:
+
+    axios.get(`${API_BASE_URL}user`,
+        { headers: { Authorization: `Bearer ${token}` } }
+    )
+        .then(response => {
+            populateUserTable(response.data);
+        })
+        .catch(error => {
+            console.error('Error loading user data:', error);
+            showEmptyState(userTableBody, 'No users found');
+        });
+
+
+    // For now, show empty state
+    showEmptyState(userTableBody, 'No users found', 7);
+}
+
+// Log data loading
+function loadLogData() {
+    console.log('Loading log data...');
+    const logTableBody = document.querySelector('#log-content .data-table tbody');
+
+    // Clear existing content
+    logTableBody.innerHTML = '';
+
+    // In a real implementation:
+    /*
+    axios.get(`${API_BASE_URL}logs`)
+    .then(response => {
+        populateLogTable(response.data);
+    })
+    .catch(error => {
+        console.error('Error loading log data:', error);
+        showEmptyState(logTableBody, 'No logs found');
+    });
+    */
+
+    // For now, show empty state
+    showEmptyState(logTableBody, 'No logs found', 7);
+}
+
+// Backup data loading
+function loadBackupData() {
+    console.log('Loading backup data...');
+    const backupTableBody = document.querySelector('#backup-content .data-table tbody');
+
+    // Clear existing content
+    backupTableBody.innerHTML = '';
+
+    // In a real implementation:
+    /*
+    axios.get(`${API_BASE_URL}backups`)
+    .then(response => {
+        populateBackupTable(response.data);
+    })
+    .catch(error => {
+        console.error('Error loading backup data:', error);
+        showEmptyState(backupTableBody, 'No backups found');
+    });
+    */
+
+    // For now, show empty state
+    showEmptyState(backupTableBody, 'No backups found', 7);
+}
+
+// Show empty state in tables
+function showEmptyState(tableBody, message, columnCount = 7) {
+    const row = document.createElement('tr');
+    const cell = document.createElement('td');
+    cell.colSpan = columnCount;
+    cell.style.textAlign = 'center';
+    cell.style.padding = '40px';
+    cell.style.color = '#666';
+    cell.style.fontStyle = 'italic';
+    cell.textContent = message;
+    row.appendChild(cell);
+    tableBody.appendChild(row);
+}
+
+// Populate user table (for future use)
+function populateUserTable(users) {
+    const tableBody = document.querySelector('#user-content .data-table tbody');
+    tableBody.innerHTML = '';
+
+    users.forEach(user => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${user.id}</td>
+            <td>${user.name}</td>
+            <td>${user.email}</td>
+            <td>${user.role}</td>
+            <td><span class="status ${user.status.toLowerCase()}">${user.status}</span></td>
+            <td>${formatDate(user.createdDate)}</td>
+            <td>
+                <button onclick="editUser(${user.id})" class="action-btn edit-btn">Edit</button>
+                <button onclick="deleteUser(${user.id})" class="action-btn delete-btn">Delete</button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+// Populate log table (for future use)
+function populateLogTable(logs) {
+    const tableBody = document.querySelector('#log-content .data-table tbody');
+    tableBody.innerHTML = '';
+
+    logs.forEach(log => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${log.id}</td>
+            <td>${formatDateTime(log.timestamp)}</td>
+            <td><span class="log-level ${log.level.toLowerCase()}">${log.level}</span></td>
+            <td>${log.message}</td>
+            <td>${log.user || 'System'}</td>
+            <td>${log.ipAddress}</td>
+            <td>
+                <button onclick="viewLogDetails(${log.id})" class="action-btn view-btn">View</button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+// Populate backup table (for future use)
+function populateBackupTable(backups) {
+    const tableBody = document.querySelector('#backup-content .data-table tbody');
+    tableBody.innerHTML = '';
+
+    backups.forEach(backup => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${backup.id}</td>
+            <td>${backup.name}</td>
+            <td>${backup.type}</td>
+            <td>${formatFileSize(backup.size)}</td>
+            <td><span class="status ${backup.status.toLowerCase()}">${backup.status}</span></td>
+            <td>${formatDate(backup.createdDate)}</td>
+            <td>
+                <button onclick="downloadBackup(${backup.id})" class="action-btn download-btn">Download</button>
+                <button onclick="deleteBackup(${backup.id})" class="action-btn delete-btn">Delete</button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+// Utility functions
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+    });
+}
+
+function formatDateTime(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+}
+
+function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+// Button event handlers (placeholder functions)
+function editUser(userId) {
+    console.log('Edit user:', userId);
+    // Implement edit user functionality
+}
+
+function deleteUser(userId) {
+    if (confirm('Are you sure you want to delete this user?')) {
+        console.log('Delete user:', userId);
+        // Implement delete user functionality
+    }
+}
+
+function viewLogDetails(logId) {
+    console.log('View log details:', logId);
+    // Implement view log details functionality
+}
+
+function downloadBackup(backupId) {
+    console.log('Download backup:', backupId);
+    // Implement download backup functionality
+}
+
+function deleteBackup(backupId) {
+    if (confirm('Are you sure you want to delete this backup?')) {
+        console.log('Delete backup:', backupId);
+        // Implement delete backup functionality
+    }
+}
+
+// Filter functionality for logs
+function initializeFilters() {
+    const filterSelect = document.querySelector('.filter-select');
+    const refreshBtn = document.querySelector('.refresh-btn');
+
+    if (filterSelect) {
+        filterSelect.addEventListener('change', function () {
+            const filterValue = this.value;
+            console.log('Filter logs by:', filterValue);
+            // Implement log filtering functionality
+            loadLogData(); // Reload with filter
+        });
+    }
+
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', function () {
+            console.log('Refreshing logs...');
+            loadLogData();
+        });
+    }
+
+    // Add new user button
+    const addUserBtn = document.querySelector('#user-content .add-btn');
+    if (addUserBtn) {
+        addUserBtn.addEventListener('click', function () {
+            console.log('Add new user');
+            // Implement add user functionality
+        });
+    }
+
+    // Create backup button
+    const createBackupBtn = document.querySelector('#backup-content .add-btn');
+    if (createBackupBtn) {
+        createBackupBtn.addEventListener('click', function () {
+            console.log('Create new backup');
+            // Implement create backup functionality
+        });
+    }
+}
+
+// Initialize the application
+document.addEventListener('DOMContentLoaded', function () {
+    initializeNavigation();
+    initializeFilters();
+
+    // Load dashboard data by default
+    loadDashboardData();
+
+    console.log('Admin dashboard initialized successfully');
 });
