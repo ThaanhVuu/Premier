@@ -6,6 +6,7 @@ const init = () => {
     let teamId = -1;
     const token = sessionStorage.getItem("accessToken");
     let updateId = -1;
+    let searchKeyword = "";
     // ===== DOM ELEMENTS =====
     const form = document.getElementById("form-popup");
     const createBtn = document.getElementById("createBtn");
@@ -14,6 +15,7 @@ const init = () => {
     const teamSelection = document.getElementById("team");
     const clubSelect = document.getElementById("club");
     const container = document.getElementById("player-container");
+    const searchInput = document.getElementById(`searchInput`);
 
     // ===== RENDER FUNCTIONS =====
     //render team
@@ -58,6 +60,13 @@ const init = () => {
         //loc player theo team id
         if (teamId != -1) {
             playerFilter = players.filter(player => player.team.teamId == teamId);
+        }
+        //loc player theo searchInput
+        if (searchKeyword !== "") {
+            playerFilter = playerFilter.filter(player =>
+                player.name.toLowerCase().includes(searchKeyword) ||
+                player.nationality.toLowerCase().includes(searchKeyword)
+            );
         }
 
         playerFilter.forEach(player => {
@@ -227,7 +236,7 @@ const init = () => {
                     loadData();
                 })
                 .catch(error => {
-                    alert(error.message );
+                    alert(error.message);
                 });
         }
     });
@@ -242,9 +251,14 @@ const init = () => {
         teamId = parseInt(this.value);
         loadData();
     })
+
+    searchInput.addEventListener("input", function () {
+        searchKeyword = this.value.trim().toLowerCase();
+        loadData();
+    });
+
     // ===== INITIAL LOAD =====
     loadData();
     loadTeamSelection();
-
 }
 init();

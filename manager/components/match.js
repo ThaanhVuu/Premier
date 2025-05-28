@@ -1,17 +1,25 @@
 import { API_BASE_URL } from "../../config.js";
 
+const token = sessionStorage.getItem("accessToken");
+
 if (token == null) {
     window.location.href = "../login/index.html";
 }
 
 
+
 let initClubs = () => {
     // ===== STATE =====
     let saveMode = true;
-
+    let updateId = -1;
+    let keyword = "";
     // ===== DOM ELEMENTS =====
 
-    const form = document.getElementById
+    const form = document.getElementById("form-popup");
+    const saveBtn = document.getElementById("saveBtn");
+    const cancelBtn = document.getElementById("cancelBtn");
+    const createBtn = document.getElementById("createBtn");
+    const searchInput = document.getElementById(`searchInput`);
 
     // ===== CLASS =====
     class match {
@@ -33,6 +41,11 @@ let initClubs = () => {
 
     // ===== RENDER FUNCTIONS =====
     let render = (matches) => {
+        let matchFilter = matches;
+        if(keyword !== ""){
+            matchFilter.filter(match => )
+        }
+
         let container = document.getElementById("matches-container");
         container.innerHTML = "";
 
@@ -73,8 +86,9 @@ let initClubs = () => {
             const deleteBtn = matchEl.querySelector(".deleteBtn");
 
             updateBtn.addEventListener("click", () => {
-                alert(`Cập nhật trận đấu ID: ${match.matchId}`);
-                // TODO: Mở form update hoặc gọi API cập nhật
+                saveMode = false;
+                form.style.display = "flex";
+                updateId = match.matchId;
             });
 
             deleteBtn.addEventListener("click", () => {
@@ -106,11 +120,85 @@ let initClubs = () => {
     const loadTable = () => {
         axios.get(`${API_BASE_URL}match`)
             .then(response => {
-                console.log(response.data);
                 render(response.data.result);
+            })
+            .catch(error => {
+                alert(error.response?.data.info || error.message); 
             })
     }
     loadTable();
+    // ===============Form handling
+    const getDataInForm = () => {
+        match = {
+            homeTeamId: document.getElementById(`homeTeam`),
+            awayTeamId: document.getElementById(`awayTeam`),
+            homeScore: document.getElementById(`homeScore`),
+            awayScore: document.getElementById(`awayScore`),
+            stadiumId: document.getElementById(`stadium`),
+            matchDate: document.getElementById(`matchDate`),
+            matchWeek: document.getElementById(`matchWeek`),
+            season: document.getElementById(`season`),
+            referee: document.getElementById(`referee`),
+            attendance: document.getElementById(`attendance`),
+            status: document.getElementById(`status`),
+        }
+        return match;
+    }
+
+    const clearForm = () => {
+        document.getElementById(`homeTeam`).value = "";
+        document.getElementById(`awayTeam`).value = "";
+        document.getElementById(`homeScore`).value = "";
+        document.getElementById(`awayScore`).value = "";
+        document.getElementById(`stadium`).value = "";
+        document.getElementById(`matchDate`).value = "";
+        document.getElementById(`matchWeek`).value = "";
+        document.getElementById(`season`).value = "";
+        document.getElementById(`referee`).value = "";
+        document.getElementById(`attendance`).value = "";
+        document.getElementById(`status`).value = "";
+    }
+
+    // ===============Event handling
+    cancelBtn.addEventListener(`click`, function () {
+        form.style.display = `none`;
+    })
+
+    createBtn.addEventListener(`click`, function () {
+        form.style.display = `flex`;
+        saveMode = true;
+    })
+
+    saveBtn.addEventListener(`click`, function () {
+        let matchObj = getDataInForm();
+        if (saveMode) {
+            axios.post(`${API_BASE_URL}match`, matchObj, {
+                headers: {
+                    authorization: `Bearer ${token}`
+                }
+            })
+                .then(response => {
+                    alert(response.data.info);
+                })
+                .catch(error => {
+                    alert(error.response?.data.info || error.message);
+                })
+        } else {
+            axios.put(`${API_BASE_URL}match/${updateId}`, matchObj, {
+                headers: {
+                    authorization: `Bearer ${token}`
+                }
+            })
+                .then(response => {
+                    alert(response.data.info);
+                })
+                .catch(error => {
+                    alert(error.response?.data.info || error.message);
+                })
+        }
+        clearForm();
+        loadTable();
+    })
 }
 
 initClubs();

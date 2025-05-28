@@ -9,6 +9,7 @@ let initClubs = () => {
     let saveMode = true;
     let editingTeamId = null;
     let currentEditingStadium = null;
+    let searchKeyword = ``;
 
     // ===== DOM ELEMENTS =====
     const form = document.getElementById("popup-form");
@@ -17,7 +18,7 @@ let initClubs = () => {
     const submitBtn = document.getElementById("submit-btn");
     const clubContainer = document.getElementById("clubs-container");
     const stadiumSelect = document.getElementById("stadiumInForm");
-
+    const searchInput = document.getElementById(`searchInput`);
     // ===== CLASS =====
     class Team {
         constructor(teamId, name, shortname, foundedYear, logoUrl, website, coach, currentPosition, stadiumId) {
@@ -36,7 +37,17 @@ let initClubs = () => {
     // ===== RENDER FUNCTIONS =====
     function renderClubs(teams) {
         clubContainer.innerHTML = "";
-        teams.forEach(team => {
+
+        let teamFilter = teams;
+
+        if (searchKeyword != null || searchKeyword !== "") {
+            teamFilter = teams.filter(
+                team => team.name.toLowerCase().includes(searchKeyword) ||
+                    team.shortName.toLowerCase().includes(searchKeyword)
+            )
+        }
+
+        teamFilter.forEach(team => {
 
             const card = document.createElement("div");
             card.className = "club-card";
@@ -183,6 +194,10 @@ let initClubs = () => {
             });
     };
 
+    searchInput.addEventListener(`input`, function () {
+        searchKeyword = this.value.trim().toLowerCase();
+        loadClubs();
+    })
     // ===== INITIAL LOAD =====
     function loadClubs() {
         axios.get(`${API_BASE_URL}team`)
