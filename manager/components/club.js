@@ -36,7 +36,6 @@ let initClubs = () => {
     // ===== RENDER FUNCTIONS =====
     function renderClubs(teams) {
         clubContainer.innerHTML = "";
-        console.log(teams);
         teams.forEach(team => {
 
             const card = document.createElement("div");

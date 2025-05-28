@@ -11,9 +11,9 @@ const init = () => {
     const createBtn = document.getElementById("createBtn");
     const saveBtn = document.getElementById("saveBtn");
     const cancelBtn = document.getElementById("cancelBtn");
-    const formData = document.getElementById("playerForm");
     const teamSelection = document.getElementById("team");
     const clubSelect = document.getElementById("club");
+    const container = document.getElementById("player-container");
 
     // ===== RENDER FUNCTIONS =====
     //render team
@@ -54,7 +54,6 @@ const init = () => {
     //render player
     const renderData = (players) => {
         let playerFilter = players;
-        const container = document.getElementById("player-container");
         container.innerHTML = "";
         //loc player theo team id
         if (teamId != -1) {
@@ -114,8 +113,6 @@ const init = () => {
                 renderInfoToForm(player);
                 form.style.display = "flex";
                 updateId = player.playerId;
-                console.log(updateId);
-                
             }
 
             //gan logic cho delete btn
@@ -154,30 +151,26 @@ const init = () => {
 
     // ===== FORM HANDLING =====
     const getDataFromForm = () => {
-    const formPlayer = new FormData(formData);
-    const raw = Object.fromEntries(formPlayer.entries());
-
-    const player = {
-        name: raw.name,
-        nationality: raw.nationality,
-        position: raw.position,
-        jerseyNumber: parseInt(raw.jerseyNumber, 10),
-        dateOfBirth: raw.dateOfBirth, // giữ nguyên định dạng "yyyy-MM-dd"
-        height: parseFloat(raw.height),
-        weight: parseInt(raw.weight, 10),
-        photoUrl: raw.photoUrl,
-        teamId: parseInt(raw.teamId, 10),
+        const player = {
+            name: document.getElementById("playerName").value,
+            nationality: document.getElementById("nationality").value,
+            position: document.getElementById("position").value,
+            jerseyNumber: parseInt(document.getElementById("jersey").value, 10),
+            dateOfBirth: document.getElementById("dob").value,
+            height: parseFloat(document.getElementById("height").value),
+            weight: parseInt(document.getElementById("weight").value, 10),
+            photoUrl: document.getElementById("photoUrl").value,
+            teamId: parseInt(document.getElementById("club").value, 10)
+        };
+        return player;
     };
-
-    return player;
-};
 
 
     const renderInfoToForm = (player) => {
         document.getElementById("playerName").value = player.name;
         document.getElementById("nationality").value = player.nationality;
         document.getElementById("position").value = player.position;
-        document.getElementById("club").value = player.team?.name;
+        document.getElementById("club").value = player.team?.teamId;
         document.getElementById("jersey").value = player.jerseyNumber;
         document.getElementById("dob").value = player.dateOfBirth;
         document.getElementById("height").value = player.height;
@@ -205,8 +198,7 @@ const init = () => {
 
     saveBtn.addEventListener("click", function () {
         const playerData = getDataFromForm();
-        console.log(playerData);
-        
+
         if (createMode) {
             axios.post(`${API_BASE_URL}player`, playerData, {
                 headers: {
@@ -235,7 +227,7 @@ const init = () => {
                     loadData();
                 })
                 .catch(error => {
-                    alert(error.response?.data?.info || error.message);
+                    alert(error.message );
                 });
         }
     });
@@ -246,8 +238,8 @@ const init = () => {
         clearForm();
     })
 
-    teamSelection.addEventListener("click", function () {
-        teamId = teamSelection.value;
+    teamSelection.addEventListener("change", function () {
+        teamId = parseInt(this.value);
         loadData();
     })
     // ===== INITIAL LOAD =====

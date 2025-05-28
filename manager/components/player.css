@@ -94,13 +94,15 @@
 }
 
 .image-wrapper {
-    width: 100%px;
-    height: 100%px;
+    width: auto;
+    height: 230.38px;
+    object-fit: contain;
     display: flex;
     justify-content: center;
 }
 
 .image-wrapper img {
+    object-fit: contain;
     width: 100%;
     border-radius: 8px;
 }
