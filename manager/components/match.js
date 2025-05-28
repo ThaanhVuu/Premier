@@ -43,7 +43,7 @@ let initClubs = () => {
     let render = (matches) => {
         let matchFilter = matches;
         if(keyword !== ""){
-            matchFilter.filter(match => )
+            // matchFilter.filter(match => )
         }
 
         let container = document.getElementById("matches-container");
