@@ -1,0 +1,468 @@
+#content {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    gap: 20px;
+}
+
+#title>div{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+#title {
+    gap: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#title div>* {
+    padding: 14px 16px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: white;
+}
+
+#title div input {
+    width: 250px;
+}
+
+#content img {
+    width: 350px;
+    height: 220px;
+    border-radius: 6px;
+}
+
+#card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.h {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    padding: 20px;
+    width: 756px;
+    height: fit-content;
+}
+
+.card:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+}
+
+.card button{
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-func{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.update {
+    background-color: #38b6ff;
+    color: white;
+}
+
+#content #createBtn {
+    background-color: #0c4076;
+    color: white;
+    font-size: 14px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+}
+
+#content #createBtn:hover {
+    background-color: #093563;
+}
+
+.update:hover {
+    background-color: #1da3f1;
+}
+
+.delete {
+    background-color: #e74c3c; /* Màu đỏ đậm hiện đại */
+    color: white;
+    transition: background-color 0.25s ease, transform 0.2s ease;
+}
+
+.delete:hover {
+    background-color: #c0392b;
+}
+
+.card > div{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+/* =====pop up form======== */
+
+#popup-form {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    padding: 25px;
+    width: 450px;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    z-index: 1000;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: fit-content;
+}
+
+#popup-form h3 {
+    margin-top: 0;
+    color: #2c3e50;
+    font-size: 24px;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+#popup-form div {
+    margin-bottom: 16px;
+}
+
+#popup-form span {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #34495e;
+    font-size: 14px;
+}
+
+#popup-form input,
+#popup-form textarea,
+#popup-form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+#popup-form textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+#popup-form input:focus,
+#popup-form textarea:focus,
+#popup-form select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Overlay background */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+/* Add form button styling */
+#submit-btn {
+    background-color: #3498db;
+    color: white;
+    float: right;
+}
+
+#submit-btn:hover {
+    background-color: #2980b9;
+}
+
+#cancel-btn {
+    background-color: #e74c3c;
+    color: white;
+    margin-right: 10px;
+    float: right;
+}
+
+#cancel-btn:hover {
+    background-color: #c0392b;
+}
+
+/* Clear float */
+.form-buttons::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Animation for popup */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+#popup-form {
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Form validation */
+input:invalid,
+textarea:invalid,
+select:invalid {
+    border-color: #e74c3c;
+}
+
+/* Responsive adjustments */
+@media (max-width: 500px) {
+    #popup-form {
+        padding: 15px;
+    }
+
+    #submit-btn,
+    #cancel-btn {
+        width: 100%;
+        float: none;
+        margin: 10px 0 0 0;
+    }
+}
+
+
+/* CSS hiện tại của bạn */
+
+/* =================== RESPONSIVE DESIGN =================== */
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+
+    .header-container,
+    main {
+        width: 90%;
+    }
+
+    main {
+        grid-template-columns: 1fr 2fr;
+    }
+
+    .card {
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+    }
+
+    #content img {
+        width: 100%;
+        height: auto;
+    }
+
+    .content {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Mobile (480px - 767px) */
+@media (max-width: 767px) {
+    .header-container {
+        width: 95%;
+        height: 10vh;
+    }
+
+    .header-container .Logo {
+        font-size: 18px;
+    }
+
+    .header-container .User {
+        font-size: 14px;
+    }
+
+    main {
+        width: 95%;
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    aside {
+        position: static;
+        margin-bottom: 20px;
+    }
+
+    aside li {
+        padding: 8px 10px;
+        margin: 5px;
+        font-size: 14px;
+    }
+
+    .card {
+        grid-template-columns: 1fr;
+        padding: 15px;
+    }
+
+    .btn-func {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    #title {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #title div {
+        width: 100%;
+        display: flex;
+    }
+
+    #title div input {
+        width: 100%;
+        flex-grow: 1;
+    }
+
+    #searchInput {
+        width: 100%;
+        height: 45px;
+    }
+
+    button {
+        padding: 10px 12px;
+        font-size: 12px;
+    }
+}
+
+/* Small Mobile Devices (Under 480px) */
+@media (max-width: 480px) {
+    .header-container .Logo {
+        font-size: 16px;
+    }
+
+    .header-container .Logo img {
+        max-height: 5vh;
+        margin: 5px;
+    }
+
+    .header-container .User img {
+        max-width: 3vh;
+    }
+
+    .card-in {
+        padding: 0px 10px 8px 10px;
+    }
+
+    #popup-form {
+        padding: 15px;
+        width: 85%;
+    }
+
+    .image-wrapper {
+        height: 150px;
+    }
+}
+
+/* Specific adjustments for very small devices */
+@media (max-width: 360px) {
+    .header-container .Logo {
+        font-size: 14px;
+    }
+
+    aside li {
+        padding: 6px 8px;
+        font-size: 12px;
+    }
+
+    button {
+        padding: 8px 10px;
+        font-size: 11px;
+    }
+
+    #content h3 {
+        font-size: 16px;
+    }
+}
+
+/* Landscape orientation adjustments for mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .header-container {
+        height: 15vh;
+    }
+
+    #popup-form {
+        max-height: 80vh;
+    }
+
+    aside {
+        display: flex;
+        overflow-x: auto;
+    }
+
+    aside nav ul {
+        display: flex;
+        flex-wrap: nowrap;
+    }
+
+    aside li {
+        white-space: nowrap;
+    }
+}
+
+/* Print styles */
+@media print {
+    body {
+        background-color: white;
+    }
+
+    header,
+    aside,
+    button,
+    #popup-form,
+    .popup-overlay {
+        display: none !important;
+    }
+
+    main {
+        width: 100%;
+        grid-template-columns: 1fr;
+    }
+
+    .card,
+    .content>div {
+        box-shadow: none !important;
+        border: 1px solid #ddd;
+        break-inside: avoid;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+}

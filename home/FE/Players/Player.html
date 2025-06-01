@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premier Leauge</title>
+    <link rel="stylesheet" href="Player.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+         <!-- logo_PremierLeauge -->
+         <div>
+            <img id="main-logo" src="https://www.premierleague.com/resources/rebrand/v7.153.55/i/elements/pl-main-logo.png" alt="Premier League Logo"/>
+        </div>
+        <section>
+            <!-- header1 -->
+            <div class="header-container">
+                <nav class="clubsites">
+                    <a href="#" class="header-font-gray">Club sites <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    <ul class="nav-links">
+                        <li id="logo-template">
+                            <a href=""><img src="" alt="Team logo" /></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <!-- header2 -->
+            <div class="header-container1 space-between">
+                <!-- navleft -->
+                <div class="header-navleft">
+                    <span class="dropdown">
+                        <span class="dropdown-trigger">
+                            <span class="header-menuText">Premier League <i class="fa-solid fa-caret-down" style="font-size: 10px; padding-left: 5px;"></i></span>
+                        </span>
+                        <div class="dropdown-content">
+                            <a href="../home/home.html">Home</a>
+                            <a href="../News/News.html">News</a>
+                            <a href="../Stadium/Stadium.html">Stadiums</a>
+                        </div>
+                    </span>
+                    <span class="dropdown">
+                        <span class="dropdown-trigger">
+                            <span class="header-menuText">Teams <i class="fa-solid fa-caret-down" style="font-size: 10px; padding-left: 5px;"></i></span>
+                        </span>
+                        <div class="dropdown-content">
+                            <a href="../Clubs/Clubs.html">Clubs</a>
+                            <a href="../Players/Player.html">Players</a>
+                        </div>
+                    </span>
+                    <span class="dropdown">
+                        <span class="dropdown-trigger">
+                            <span class="header-menuText">Result <i class="fa-solid fa-caret-down" style="font-size: 10px; padding-left: 5px;"></i></span>
+                        </span>
+                        <div class="dropdown-content">
+                            <a href="../Results/Results.html">Results</a>
+                            <a href="../Tables/table.html">Tables</a>
+                        </div>
+                    </span>
+                </div>
+                <!-- navright -->
+                <div class="header-navright">
+                    <div class="header-boder" >
+                        <a href="/login/index.html">
+                            <button class="signin-btn">Sign in</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="header-container">
+                <a href="../home/home.html" class="header-font-gray line-hover">Home</a>
+                <a href="../News/News.html"class="header-font-gray line-hover">News</a>
+                <a href="../Stadium/Stadium.html"class="header-font-gray line-hover">Stadiums</a>
+                <a href="../Clubs/Clubs.html"class="header-font-gray line-hover">Clubs</a>
+                <a href="../Players/Player.html"class="header-font-gray line-hover">Players</a>
+                <a href="../Results/Results.html"class="header-font-gray line-hover">Results</a>
+                <a href="../Tables/table.html" class="header-font-gray line-hover">Tables</a>
+            </div>
+        </section>
+    </header>
+
+       <main>
+        <div class="section-header">
+            <h2>Players</h2>
+        </div>
+        <div class="container">
+            <div class="filters">
+                <div style="display: flex;">
+                    <div class="filters-group">
+                        <label for="positionFilter" class="filters-label">Filter by Position</label>
+                        <select name="positionFilter" id="positionFilter" class="filters-select">
+                            <option value="">All Positions</option>
+                            <option value="Goalkeeper">Goalkeeper</option>
+                            <option value="Defender">Defender</option>
+                            <option value="Midfielder">Midfielder</option>
+                            <option value="Forward">Forward</option>
+                        </select>
+                     </div>
+                    <div class="filters-group">
+                        <label for="countryFilter" class="filters-label">Filter by Country</label>
+                        <select name="countryFilter" id="countryFilter" class="filters-select">
+                            <option value="">All Countries</option>
+                        </select>
+                    </div>
+                    <div class="filters-group">
+                        <label for="clubFilter" class="filters-label">Filter by Club</label>
+                        <select name="clubFilter" id="clubFilter" class="filters-select">
+                            <option value="">All Clubs</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="search-container">
+                    <input type="text" id="searchInput" class="searchInput" placeholder="Search players...">
+                    <button type="button" id="searchBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+                <button class="reset-btn" id="reset-filter">
+                    <span class="reset-icon">↺</span>
+                    RESET FILTERS
+                </button>
+            </div>
+        </div>
+        <div class="table-container">
+            <div id="loading" style="text-align: center; padding: 20px;">
+                <i class="fa-solid fa-spinner fa-spin"></i> Loading players...
+            </div>
+            <table class="player-table" id="playerTable" style="display: none;">
+                <thead class="table-header">
+                    <tr>
+                        <th>Player</th>
+                        <th>Position</th>
+                        <th>Nationality</th>
+                    </tr>
+                </thead>
+                <tbody id="playerTableBody">
+                    <!-- Player data will be inserted here -->
+                </tbody>
+            </table>
+            <div id="noResults" style="display: none; text-align: center; padding: 20px;">
+                <p>No players found matching your criteria.</p>
+            </div>
+        </div>
+        
+        <div id="playerDetails" style="display: none; margin-top: 10px; background: #f9f9f9; border-radius: 8px;">
+            <h3 style="margin-left: 20px;">Player Details</h3>
+            <div id="playerDetailContent" style="margin-left: 20px;">
+            </div>
+        </div>
+
+
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Premier League</h3>
+                <ul>
+                    <li>Home</li>
+                    <li>News</li>
+                    <li>Stadiums</li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Teams</h3>
+                <ul>
+                    <li>Clubs</li>
+                    <li>Players</li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Result</h3>
+                <ul>
+                    <li>Results</li>
+                    <li>Tables</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/logo_clubsite.js"></script>
+    <script src="player.js"></script>
+</body>
+</html>

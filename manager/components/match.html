@@ -1,0 +1,122 @@
+<section class="nav">
+  <h2>Football news</h2>
+  <div class="in-nav">
+    <input type="search" id="searchInput" placeholder="Search" />
+    <button id="createBtn">+ Create news</button>
+  </div>
+</section>
+
+<div>
+  <div class="card">
+    <div class="card-in">
+      <h2 id="totalNews"></h2>
+      <span>Total of news</span>
+    </div>
+    <div class="card-in">
+      <h2 id="totalViews"></h2>
+      <span>Total of views</span>
+    </div>
+    <div class="card-in">
+      <h2 id="newsInDay"></h2>
+      <span>News of the day</span>
+    </div>
+    <div class="card-in">
+      <h2 id="viewsInDay"></h2>
+      <span>Total views in day</span>
+    </div>
+  </div>
+</div>
+
+<section id="matches-container"></section>
+
+<section id="form-popup" style="display: none">
+  <form id="matchForm" class="form-container">
+    <h3>Match Form</h3>
+
+    <label for="homeTeam">Home Team:</label>
+    <select id="homeTeam" name="homeTeamId" required>
+      <option value="">-- Select Home Team --</option>
+      <!-- Injected dynamically -->
+    </select>
+
+    <label for="awayTeam">Away Team:</label>
+    <select id="awayTeam" name="awayTeamId" required>
+      <option value="">-- Select Away Team --</option>
+      <!-- Injected dynamically -->
+    </select>
+
+    <label for="homeScore">Home Score:</label>
+    <input
+      type="number"
+      id="homeScore"
+      name="homeScore"
+      placeholder="e.g., 2"
+      min="0"
+    />
+
+    <label for="awayScore">Away Score:</label>
+    <input
+      type="number"
+      id="awayScore"
+      name="awayScore"
+      placeholder="e.g., 1"
+      min="0"
+    />
+
+    <label for="stadium">Stadium:</label>
+    <select id="stadium" name="stadium" required>
+      <option value="">-- Select Stadium --</option>
+      <!-- Injected dynamically -->
+    </select>
+    <label for="matchDate">Match Date:</label>
+    <input type="datetime-local" id="matchDate" name="matchDate" required />
+
+    <label for="matchWeek">Match Week:</label>
+    <input
+      type="number"
+      id="matchWeek"
+      name="matchWeek"
+      placeholder="e.g., 12"
+      min="1"
+    />
+
+    <label for="season">Season:</label>
+    <input
+      type="text"
+      id="season"
+      name="season"
+      placeholder="e.g., 2024-2025"
+      required
+    />
+
+    <label for="referee">Referee:</label>
+    <input
+      type="text"
+      id="referee"
+      name="referee"
+      placeholder="e.g., Michael Oliver"
+    />
+
+    <label for="attendance">Attendance:</label>
+    <input
+      type="number"
+      id="attendance"
+      name="attendance"
+      placeholder="e.g., 60000"
+      min="0"
+    />
+
+    <label for="status">Status:</label>
+    <select id="status" name="status" required>
+      <option value="canceled">canceled</option>
+      <option value="in_play">in_play</option>
+      <option value="finished">finished</option>
+      <option value="scheduled">scheduled</option>
+    </select>
+
+    <div class="form-actions">
+      <button id="saveBtn" type="button">Save</button>
+      <button id="cancelBtn" type="button">Cancel</button>
+    </div>
+  </form>
+</section>

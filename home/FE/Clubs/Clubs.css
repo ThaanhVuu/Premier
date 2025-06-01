@@ -1,0 +1,439 @@
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+main{
+    flex: 1;
+}
+header{
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: rgb(255, 255, 255);
+    border-bottom: 1px solid #dcdcdc; 
+}
+.header-container{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding-left: 180px;
+    gap: 40px;
+}
+.clubsites{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.header-font-gray{
+    color: #76766f;
+    font-size: 13px;
+    text-decoration: none;
+    font-weight: 700;
+}
+.nav-links{
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    margin: 0;
+    padding-left: 20px;
+}
+.nav-links li a img {
+    width: auto;
+    height: 30px;
+    transition: transform 0.3s;
+}
+.nav-links li a img:hover {
+    transform: scale(1.2);
+}
+.header-container1{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+.space-between {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: #37003c;
+}
+.header-navleft{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 167px;
+    height: 50px;
+}
+.header-menuText{
+    align-items: center;
+    font-weight: 800;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-trigger {
+    padding: 13px 13px;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+.dropdown-content {
+    position: absolute;
+    top: 98%;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    opacity: 0; 
+    background-color: #963cff;
+    z-index: 1;
+    white-space: nowrap;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    transition: transform 0.1s ease-in-out, opacity 0.3s ease-in-out;
+}
+.dropdown-content a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+}
+.dropdown-content a:hover {
+    text-decoration: underline;
+}
+.dropdown:hover .dropdown-content {
+    transform: translateX(-50%) scale(1);
+    opacity: 1; 
+}
+.header-navright{
+    display: flex;
+    margin-left: auto;
+    gap: 10px;
+    padding-right: 15px;
+}
+.header-boder{
+    display: flex;
+    gap: 20px;
+    border-left: 2px solid #80307b88;
+    border-right: 2px solid #80307b88;
+    height: 35px;
+    width: 100px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+}
+.signin-btn{
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+}
+.line-hover{
+    position: relative;
+    padding: 3px 0;
+    cursor: pointer;
+}
+.line-hover::after{
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: -20%;
+  height: 2px;
+  width: calc(140%);
+  background: linear-gradient(to right, #00f0ff, #7b2ff7); 
+  transform: scaleY(0); 
+  transform-origin: bottom;
+  transition: transform 0.08s linear;
+}
+.line-hover:hover::after{
+    transform: scaleY(1);
+}
+#main-logo{
+    position: absolute;
+    width: 90.8px;
+    height: 110px;
+    margin-top: 15px;
+    margin-left: 25px;
+    cursor: pointer;
+}
+/* footer  */
+.footer {
+    background-color: #37003c;
+    color: #fff; 
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-family: 'Arial', sans-serif; 
+}
+.footer-container {
+    display: flex;
+    align-items: flex-start; 
+}
+.footer-column {
+    min-width: 20px; 
+    padding-left: 50px;
+}
+.footer-column h3 {
+    font-size: 20px; 
+    white-space: nowrap; 
+}
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+.footer-column ul li {
+    font-size: 15px;
+    margin-bottom: 8px; 
+    cursor: pointer;
+    transition: color 0.3s ease; 
+}
+.footer-column ul li:hover {
+    color: #ff2882;
+    text-decoration: none;
+}
+.footer-column ul li:last-child {
+    margin-bottom: 0; 
+}
+/* main  */
+.section-header {
+    background: linear-gradient(120deg, #5bd7ff, #7139eb, #832acd),
+                url('https://www.premierleague.com/resources/rebrand/v7.153.70/i/elements/backgrounds/primary-graphic.svg');
+  background-size: cover;
+  background-blend-mode: overlay;
+  background-repeat: no-repeat;
+  background-size: auto;
+  width: 100%;
+  color: white;
+  padding: 40px 25px;
+  font-size: 36px;
+  font-weight: bold;
+  position: relative;
+  overflow: hidden;
+}
+.section-header h2 {
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+.container{
+    color: #37003c;
+    gap: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+.club-area{
+    width: 320px;
+    height: auto;
+    border-radius: 5px;
+    outline: .1rem solid #ebe5eb;
+    position: relative;
+    overflow: hidden;
+}
+.club-area img{
+    width: auto;
+    height: 90px;
+    padding: 10px;
+}
+.club-name{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.club-name{
+    font-size: 18px;
+    font-weight: 700;
+}
+.line{
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(284.38deg, #be000a, #ff0203);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.club-area:hover {
+    background:linear-gradient(284.38deg, #be000a, #ff0203);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    color: white;
+}
+
+.club-area:hover::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: url('https://www.premierleague.com/resources/rebrand/v7.153.70/i/elements/backgrounds/primary-graphic.svg') no-repeat center center;
+    background-size: cover;
+     filter: hue-rotate(+90deg) saturate(1); /* Đổi màu */
+    opacity: 0.2; 
+    pointer-events: none;
+}
+.club-area > *:not(.line) {
+    position: relative;
+    z-index: 1;
+}
+/* detail  */
+.detail-section-header {
+  background:linear-gradient(224.38deg, #a0070f, #f21a1a);
+  position: relative;
+  color: white;
+  padding: 90px 60px;
+  font-size: 36px;
+  font-weight: bold;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.detail-section-header img{
+    width: 100px;
+    height: auto;
+    display: block;
+    padding-top: 10px;
+    padding-left: 80px;
+}
+
+.detail-section-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('https://www.premierleague.com/resources/rebrand/v7.153.70/i/elements/backgrounds/primary-graphic.svg') repeat;
+  background-size: cover;
+  filter: hue-rotate(120deg) saturate(0.1) brightness(0.2);
+  z-index: 0;
+}
+
+.detail-section-header * {
+  position: relative;
+  z-index: 1;
+}
+.title {
+  display: flex;
+  flex-direction: column;
+  gap:5px; 
+  color: white;
+  opacity: 1;
+}
+
+.title h2, .mini-title p {
+  margin: 0;
+}
+
+.mini-title{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    font-size: 14px;
+    font-weight: 600;
+    gap: 10px;
+}
+.detail-container{
+    color: #37003c;
+    padding: 20px;
+}
+.detail-container > div {
+        margin-bottom: 50px;
+    }
+.detail-container h2 {
+    border-left: 4px solid #097fba;  /* Màu xanh bạn thích */
+    padding-left: 10px;
+    margin-left: 0;
+}
+
+.detail-container-section{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+}
+.detail-content{
+    width: 300px;
+    height: 350px;
+    border-radius: 5px;
+    border: 1px solid #ebe5eb;
+    display: grid;
+    grid-template-rows: 8fr 2fr;
+}
+.detail-header-content{
+    display: grid;
+    grid-template-columns: 3fr 7fr;
+    overflow: hidden;
+}
+.detail-header-content img{
+    overflow: hidden;
+    width: 260px;
+    height: auto;
+}
+.header-content-statistic{
+    display: grid;
+    grid-template-rows: 22% 22% 22% 30%;
+    padding-left: 5px;
+    overflow: hidden;
+}
+.header-content-point{
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+.header-content-point p{
+    font-size: 12px;
+}
+.header-content-point a{
+    font-size: 18px;
+    font-weight: 800;
+}
+.detail-main-content{
+    overflow: hidden;
+    padding: 10px;
+}
+.detail-main-content b{
+    font-size: 20px;
+    font-weight: 800;
+}
+.main-content-detail b{
+    font-size: 14px;
+    font-weight: normal;
+}
+.main-flex{
+    display: flex;
+    gap: 5px;
+    font-size: 14px;
+}
+.main-content-detail{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.line1 {
+    height: 2px;
+    border-bottom: 3px solid red;
+    width: 100%;
+    border-radius: 5px;
+}
+.detail-content:hover{
+    cursor: pointer;
+}
+.detail-content:hover .detail-main-content{
+    text-decoration: underline;
+}

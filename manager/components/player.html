@@ -1,0 +1,88 @@
+<div class="nav">
+  <h2>Football news</h2>
+  <div class="in-nav">
+    <input type="search" id="searchInput" placeholder="Search" />
+    <button id="createBtn">+ Create Player</button>
+  </div>
+</div>
+
+<div>
+  <div class="card">
+    <div class="card-in">
+      <h2 id="totalNews">3</h2>
+      <span>Total of news</span>
+    </div>
+    <div class="card-in">
+      <h2 id="totalViews">1</h2>
+      <span>Total of views</span>
+    </div>
+    <div class="card-in">
+      <h2 id="newsInDay">2</h2>
+      <span>News of the day</span>
+    </div>
+    <div class="card-in">
+      <h2 id="viewsInDay">3</h2>
+      <span>Total views in day</span>
+    </div>
+  </div>
+</div>
+
+<select name="Team" id="team">
+</select>
+
+<br>
+
+<section id="player-container">
+  
+</section>
+
+<section id="form-popup">
+  <form id="playerForm">
+    <h3>Players Update</h3>
+
+    <label>Name:</label>
+    <input
+      type="text"
+      placeholder="name"
+      required
+      id="playerName"
+      name="name"
+    />
+
+    <label>Nationality:</label>
+    <input
+      type="text"
+      placeholder="nationality"
+      id="nationality"
+      name="nationality"
+    />
+
+    <label>Position:</label>
+    <input type="text" placeholder="position" id="position" name="position" />
+
+    <label>Club:</label>
+    <select placeholder="club" id="club" name="teamId">
+      
+    </select>
+
+    <label>Jersey Number:</label>
+    <input type="number" placeholder="jersey" id="jersey" name="jerseyNumber" />
+
+    <label>Date of Birth:</label>
+    <input type="date" placeholder="dob" id="dob" name="dateOfBirth" />
+
+    <label>Height (cm):</label>
+    <input type="number" placeholder="height" id="height" name="height" />
+
+    <label>Weight (kg):</label>
+    <input type="number" placeholder="weight" id="weight" name="weight" />
+
+    <label>Photo URL:</label>
+    <input type="text" placeholder="photoURL" id="photoUrl" name="photoUrl" />
+
+    <div>
+      <button id="saveBtn" type="button">Save</button>
+      <button id="cancelBtn" type="button">Cancel</button>
+    </div>
+  </form>
+</section>
