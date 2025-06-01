@@ -80,7 +80,46 @@
     </header>
 
     <main>
-        
+        <div class="section-header">
+            <h2>News</h2>
+        </div>
+        <div class="filters">
+                <div style="display: flex;">
+                    <div class="filters-group">
+                        <div class="filters-label">
+                            Filter by View
+                        </div>
+                        <div class="dropdown2">
+                            <div class="filters-select" id="filters-select">All News</div>
+                            <div class="dropdown-content2" id="home-away-dropdown">
+                                <a href="#" data-filter="all" >All News</a>
+                                <a href="#" data-filter="home">Top Views</a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="filters-group">
+                        <div class="filters-label">
+                            Filter by Date
+                        </div>
+                        <div class="dropdown2">
+                            <div class="filters-select" id="home-away-select">All News</div>
+                            <div class="dropdown-content2" id="home-away-dropdown">
+                                <a href="#" data-filter="all" >All News</a>
+                                <a href="#" data-filter="home">Newest</a>
+                                <a href="#" data-filter="away">Oldest</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="reset-btn" id="reset-filter">
+                    <span class="reset-icon">↺</span>
+                    RESET FILTERS
+                </button>
+        </div>
+        <div class="container">
+
+        </div>
     </main>
 
     <footer class="footer">
