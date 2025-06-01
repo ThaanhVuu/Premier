@@ -7,7 +7,6 @@ if (token == null) {
 }
 
 
-
 let initClubs = () => {
     // ===== STATE =====
     let saveMode = true;
@@ -40,16 +39,25 @@ let initClubs = () => {
     }
 
     // ===== RENDER FUNCTIONS =====
+    //render data match và tạo hiển thị
     let render = (matches) => {
         let matchFilter = matches;
-        if(keyword !== ""){
-            // matchFilter.filter(match => )
+        if (keyword !== "") {
+            matchFilter = matches.filter(match =>
+                match.homeTeamId.name.toLowerCase().includes(keyword) ||
+                match.awayTeamId.name.toLowerCase().includes(keyword) ||
+                match.season.toLowerCase().includes(keyword) ||
+                match.matchDate.toLowerCase().includes(keyword) ||
+                match.homeTeamId.shortName.toLowerCase().includes(keyword) ||
+                match.awayTeamId.shortName.toLowerCase().includes(keyword) ||
+                match.referee.toLowerCase().includes(keyword)
+            );
         }
 
         let container = document.getElementById("matches-container");
         container.innerHTML = "";
 
-        matches.forEach(match => {
+        matchFilter.forEach(match => {
             let statusColor = "#ccc";
             if (match.status === "finished") statusColor = "#89c789";
             if (match.status === "scheduled") statusColor = "#f3e7a3";
@@ -67,7 +75,7 @@ let initClubs = () => {
                 <span>${match.awayTeamId.shortName}</span>
             </div>
             <div class="info">
-                <span>Stadium: ${match.stadium.name}</span>
+                <span>Stadium: ${match.stadium?.name}</span>
                 <span>Match Date: ${match.matchDate}</span>
                 <span>Match Week: ${match.matchWeek}</span>
                 <span>Season: ${match.season}</span>
@@ -89,6 +97,9 @@ let initClubs = () => {
                 saveMode = false;
                 form.style.display = "flex";
                 updateId = match.matchId;
+                getTeam();
+                getDataStadium();
+                putDataToForm(match);
             });
 
             deleteBtn.addEventListener("click", () => {
@@ -116,35 +127,96 @@ let initClubs = () => {
         });
     };
 
-
+    //load match
     const loadTable = () => {
         axios.get(`${API_BASE_URL}match`)
             .then(response => {
                 render(response.data.result);
             })
             .catch(error => {
-                alert(error.response?.data.info || error.message); 
+                alert(error.response?.data.info || error.message);
             })
     }
+
     loadTable();
-    // ===============Form handling
-    const getDataInForm = () => {
-        match = {
-            homeTeamId: document.getElementById(`homeTeam`),
-            awayTeamId: document.getElementById(`awayTeam`),
-            homeScore: document.getElementById(`homeScore`),
-            awayScore: document.getElementById(`awayScore`),
-            stadiumId: document.getElementById(`stadium`),
-            matchDate: document.getElementById(`matchDate`),
-            matchWeek: document.getElementById(`matchWeek`),
-            season: document.getElementById(`season`),
-            referee: document.getElementById(`referee`),
-            attendance: document.getElementById(`attendance`),
-            status: document.getElementById(`status`),
-        }
-        return match;
+
+    // ========================Render team ============================
+    //render team để hiển thị trong select (chọn home team và awayteam nếu muốn tạo mới
+    const renderTeam = (teams) => {
+        let awayTeams = document.getElementById(`awayTeam`);
+        let homeTeams = document.getElementById(`homeTeam`);
+        awayTeams.innerHTML = ``;
+        homeTeams.innerHTML = ``;
+        teams.forEach(team => {
+            let awayTeam = document.createElement(`option`);
+            awayTeam.value = team.teamId;
+            awayTeam.innerText = team.name
+            let homeTeam = document.createElement(`option`);
+            homeTeam.value = team.teamId;
+            homeTeam.innerText = team.name;
+
+            awayTeams.appendChild(awayTeam);
+            homeTeams.appendChild(homeTeam);
+        })
     }
 
+    const getTeam = () => {
+        axios.get(`${API_BASE_URL}team`)
+            .then(response => {
+                renderTeam(response.data.result);
+            })
+            .catch(error => {
+                alert(`Lỗi khi lấy team trong select`);
+                console.log(error.response.data || error.message);
+            })
+    }
+
+
+    // ========================================Render stadium trong select
+    const renderStadium = (stadiums) => {
+        let stadiumSelect = document.getElementById(`stadium`);
+        stadiumSelect.innerHTML = ``;
+        stadiums.forEach(stadium => {
+            let option = document.createElement(`option`);
+            option.value = stadium.stadiumId;
+            option.innerText = stadium.name;
+
+            stadiumSelect.appendChild(option);
+        })
+    }
+
+    const getDataStadium = () => {
+        axios.get(`${API_BASE_URL}stadium`)
+            .then(response => {
+                renderStadium(response.data.result);
+            })
+            .catch(error => {
+                alert(`Lỗi khi lấy stadium trong select`);
+                console.log(error.response.data || error.message);
+            })
+
+    }
+
+
+    // ===============Form handling
+    //lấy data từ form 
+    const getDataInForm = () => {
+        return {
+            homeTeamId: parseInt(document.getElementById(`homeTeam`).value),
+            awayTeamId: parseInt(document.getElementById(`awayTeam`).value),
+            homeScore: parseInt(document.getElementById(`homeScore`).value),
+            awayScore: parseInt(document.getElementById(`awayScore`).value),
+            stadiumId: parseInt(document.getElementById(`stadium`).value),
+            matchDate: document.getElementById(`matchDate`).value,
+            matchWeek: parseInt(document.getElementById(`matchWeek`).value),
+            season: document.getElementById(`season`).value,
+            referee: document.getElementById(`referee`).value,
+            attendance: parseInt(document.getElementById(`attendance`).value),
+            status: document.getElementById(`status`).value
+        };
+    }
+
+    // clear form khi done hành động
     const clearForm = () => {
         document.getElementById(`homeTeam`).value = "";
         document.getElementById(`awayTeam`).value = "";
@@ -159,16 +231,42 @@ let initClubs = () => {
         document.getElementById(`status`).value = "";
     }
 
+    const putDataToForm = (match) => {
+        document.getElementById("homeTeam").value = match.homeTeamId.teamId;
+        document.getElementById("awayTeam").value = match.awayTeamId.teamId;
+        document.getElementById("homeScore").value = match.homeScore;
+        document.getElementById("awayScore").value = match.awayScore;
+        document.getElementById("stadium").value = match.stadium?.stadiumId || "";
+        document.getElementById("matchDate").value = match.matchDate;
+        document.getElementById("matchWeek").value = match.matchWeek;
+        document.getElementById("season").value = match.season;
+        document.getElementById("referee").value = match.referee;
+        document.getElementById("attendance").value = match.attendance;
+        document.getElementById("status").value = match.status;
+    }
+
     // ===============Event handling
+    // khi ấn nút cancel
     cancelBtn.addEventListener(`click`, function () {
         form.style.display = `none`;
     })
 
+    //khi tìm kiếm
+    searchInput.addEventListener("input", (e) => {
+        keyword = e.target.value.toLowerCase();
+        loadTable(); // hoặc filter lại danh sách nếu đã có
+    });
+
+
+    //khi ấn nút create
     createBtn.addEventListener(`click`, function () {
         form.style.display = `flex`;
         saveMode = true;
+        getTeam();
+        getDataStadium();
     })
 
+    //khi ấn nút save
     saveBtn.addEventListener(`click`, function () {
         let matchObj = getDataInForm();
         if (saveMode) {
@@ -179,6 +277,9 @@ let initClubs = () => {
             })
                 .then(response => {
                     alert(response.data.info);
+                    loadTable();
+                    clearForm();
+                    form.style.display = `none`;
                 })
                 .catch(error => {
                     alert(error.response?.data.info || error.message);
@@ -191,14 +292,17 @@ let initClubs = () => {
             })
                 .then(response => {
                     alert(response.data.info);
+                    loadTable();
+                    clearForm();
+                    form.style.display = `none`;
                 })
                 .catch(error => {
                     alert(error.response?.data.info || error.message);
                 })
         }
-        clearForm();
-        loadTable();
-    })
+
+    });
+
 }
 
 initClubs();
