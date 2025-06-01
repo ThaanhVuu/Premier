@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-26T16:32:40+0700",
-    comments = "version: 1.6.2, compiler: javac, environment: Java 21.0.7 (Oracle Corporation)"
+    date = "2025-06-01T13:47:14+0700",
+    comments = "version: 1.6.2, compiler: Eclipse JDT (IDE) 3.42.0.v20250514-1000, environment: Java 21.0.7 (Eclipse Adoptium)"
 )
 @Component
 public class MatchMapperImpl implements MatchMapper {
@@ -21,14 +21,14 @@ public class MatchMapperImpl implements MatchMapper {
 
         Match.MatchBuilder match = Match.builder();
 
+        match.attendance( rq.getAttendance() );
+        match.awayScore( rq.getAwayScore() );
+        match.homeScore( rq.getHomeScore() );
         match.matchDate( rq.getMatchDate() );
         match.matchWeek( rq.getMatchWeek() );
+        match.referee( rq.getReferee() );
         match.season( rq.getSeason() );
         match.status( rq.getStatus() );
-        match.referee( rq.getReferee() );
-        match.attendance( rq.getAttendance() );
-        match.homeScore( rq.getHomeScore() );
-        match.awayScore( rq.getAwayScore() );
 
         return match.build();
     }
@@ -39,13 +39,13 @@ public class MatchMapperImpl implements MatchMapper {
             return;
         }
 
+        match.setAttendance( rq.getAttendance() );
+        match.setAwayScore( rq.getAwayScore() );
+        match.setHomeScore( rq.getHomeScore() );
         match.setMatchDate( rq.getMatchDate() );
         match.setMatchWeek( rq.getMatchWeek() );
+        match.setReferee( rq.getReferee() );
         match.setSeason( rq.getSeason() );
         match.setStatus( rq.getStatus() );
-        match.setReferee( rq.getReferee() );
-        match.setAttendance( rq.getAttendance() );
-        match.setHomeScore( rq.getHomeScore() );
-        match.setAwayScore( rq.getAwayScore() );
     }
 }
