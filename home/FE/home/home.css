@@ -256,6 +256,9 @@ header{
     align-items: center;
     padding: 10px;
 }
+.match-footer a{
+    text-decoration: none; 
+}
 .match-footer button{
     width: 100%;
     height: 35px;
@@ -269,7 +272,7 @@ header{
     transition: background-color 0.2s ease;
     cursor: pointer;
 }
-.match-footer button:hover p{
+.match-footer button:hover a{
     text-decoration: underline;
 }
 .match-upc{
@@ -354,7 +357,7 @@ td.team {
 .news-header{
     display: grid;
     grid-template-rows: 9fr 1fr;
-    height: 40.5vw;
+    height: 35vw;
     background-color: #37003c;
     color: white;
     padding: 10px;
@@ -370,14 +373,20 @@ td.team {
     grid-template-rows: 7fr 3fr;
     cursor: pointer;
 }
+.news-hover{
+    cursor: pointer;
+}
 .news-hover:hover p{
     text-decoration: underline;
     cursor: pointer;
 }
 .news-img{
-    overflow: hidden;
+    position: relative;
+    width: 100%;
+    background-color: #ccc; 
     border-radius: 8px;
-    cursor: pointer;
+    overflow: hidden;
+    padding-top: 56.25%;
 }
 .news-img img{
     width: 100%;
@@ -385,7 +394,8 @@ td.team {
     border-radius: 8px;
 }
 .news-hover:hover .news-img img{
-    transform: scale(1.1);  
+    transform: scale(1.1); 
+    cursor: pointer; 
 }.news-header-content{
     font-size: 18px;
     padding-top: 3px;
@@ -410,22 +420,12 @@ td.team {
 .news-header-top-smallNews-news:hover .news-img img{
     transform: scale(1.1);
 }
-.news-header-bottom{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    width: 100%;
-    font-size: 12px;
-    margin-top: 10px;
-    border-top: 1.5px solid #5a0561;
-}
-.news-header-bottom div:hover p{
-    text-decoration: underline;
-    cursor: pointer;
-}
+
 /* news-bottom  */
 .latest-news{
     color: #37003c;
     padding-top: 10px;
+    cursor: pointer;
 }
 .main-fontTitle, .main-seeMore {
     list-style: none;
@@ -443,12 +443,17 @@ td.team {
     font-size: 1.6vw;
     font-weight: 800;
 }
-.main-title ul:hover {
+
+.main-title p:hover {
     text-decoration: underline;
     cursor: pointer;
 }
 .main-seeMore{
     font-size: 1.2vw;
+    text-decoration: none; 
+}
+.main-seeMore:hover{
+    text-decoration: underline;
 }
 .latest-news-content{
     width: 101%;

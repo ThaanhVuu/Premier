@@ -88,7 +88,8 @@ if (!teamId) {
                 <div class="header-content-statistic">
                   <div class="header-content-point">
                     <p>Height</p>
-                    <a>${player.height ? player.height + ' m' : '-'}</a>
+                    <a>${player.height ? Number(player.height).toFixed(2) + ' m' : '-'}</a>
+
                   </div>
                   <div class="header-content-point">
                     <p>Weight</p>
