@@ -39,9 +39,10 @@ public class PlayerService {
     }
 
     @PreAuthorize("hasRole('MANAGER')")
-    public Player updatePlayer(long id, PlayerRequest rq){
+    public Player updatePlayer(int id, PlayerRequest rq){
         Player player = getPlayer(id);
         mp.updatePlayer(rq, player);
+        player.setTeam(teamService.getTeamById(rq.getTeamId()));
         return rp.save(player);
     }
 

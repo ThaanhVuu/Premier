@@ -31,7 +31,7 @@ public class PlayerController {
     }
 
     @PutMapping("{id}")
-    APIResponse<?> updatePlayer(@PathVariable long id, @RequestBody PlayerRequest rq){
+    APIResponse<?> updatePlayer(@PathVariable int id, @RequestBody PlayerRequest rq){
         return APIResponse.builder()
                 .code(200)
                 .info("Update player successful!")

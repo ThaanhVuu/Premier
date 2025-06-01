@@ -12,9 +12,6 @@ import java.io.File;
 public class PremierApplication {
 
 	public static void main(String[] args) {
-		Date a = new Date();
-		System.out.println(a);
-		System.out.println("DB path = " + new File("app.db").getAbsolutePath());
 		SpringApplication.run(PremierApplication.class, args);
 	}
 }

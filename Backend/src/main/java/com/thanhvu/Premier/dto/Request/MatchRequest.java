@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public class MatchRequest {
     int homeTeamId;
     int awayTeamId;
+    int stadiumId;
     LocalDateTime matchDate;
     int matchWeek;
     String season;

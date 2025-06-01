@@ -21,6 +21,7 @@ public class MatchService {
     MatchMapper mp;
     MatchRepository rp;
     TeamService teamService;
+    StadiumService stadiumService;
 
     public List<Match> getAllMatches(){
         return rp.findAll();
@@ -36,11 +37,13 @@ public class MatchService {
         mp.updateMatch(rq, match);
         match.setHomeTeamId(teamService.getTeamById(rq.getHomeTeamId()));
         match.setAwayTeamId(teamService.getTeamById(rq.getAwayTeamId()));
+        match.setStadium(stadiumService.getStadium(rq.getStadiumId()));
         return rp.save(match);
     }
     @PreAuthorize("hasRole('MANAGER')")
     public Match createMatch(MatchRequest rq){
         Match match = mp.toMatch(rq);
+        match.setStadium(stadiumService.getStadium(rq.getStadiumId()));
         match.setHomeTeamId(teamService.getTeamById(rq.getHomeTeamId()));
         match.setAwayTeamId(teamService.getTeamById(rq.getAwayTeamId()));
         return rp.save(match);
