@@ -366,7 +366,7 @@ header{
     gap: 20px;
 }
 .detail-content{
-    width: 300px;
+    width: 350px;
     height: 350px;
     border-radius: 5px;
     border: 1px solid #ebe5eb;
@@ -385,7 +385,7 @@ header{
 }
 .header-content-statistic{
     display: grid;
-    grid-template-rows: 22% 22% 22% 30%;
+    grid-template-rows: 28% 28% 32% ;
     padding-left: 5px;
     overflow: hidden;
 }
