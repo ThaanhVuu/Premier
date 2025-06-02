@@ -343,3 +343,31 @@ header{
 .container:hover p{
     text-decoration: underline;
 }
+/* detail  */
+.main{
+    width: 100%;
+}
+.news{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 60%;
+    margin: 0 auto;
+    color: #37003c;
+}
+.news img{
+    border-radius: 5px;
+    width: 100%;
+    align-items: center;
+}
+.news-content{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.more-news{
+    width: 60%;
+    margin: 0 auto;
+    color: #37003c;
+    padding-top: 50px;
+}
