@@ -315,6 +315,25 @@ let initMatch = () => {
         }
 
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // ===============================================Event match
     //state
     let formMode = true;
@@ -327,8 +346,9 @@ let initMatch = () => {
     const eventForm = document.getElementById(`eventForm`);
     const formClose = document.getElementById(`formClose`);
     const formSubmit = document.getElementById(`formSubmit`);
-    // Render
 
+    // Render
+    //render match event của match khi ấn vào thẻ match
     function showEventModal(matchId) {
         axios.get(`${API_BASE_URL}matchevent/${matchId}`)
             .then(response => {
@@ -340,58 +360,68 @@ let initMatch = () => {
             });
     }
 
+    // hiển thị event match
     function renderEventModal(eventModals) {
         const evenMatchContent = document.getElementById(`eventMatchContent`);
         evenMatchContent.innerHTML = ``;
-        eventModals.forEach(eventModal => {
-            evenMatchContent.innerHTML += `
-                <div class="event-row">
-                <img src="${eventModal.player.photoUrl}" alt="${eventModal.player.name}" />
-                <div>
-                <h3>${eventModal.eventType} (${eventModal.minute}')</h3>
-                <p><strong>Player:</strong> ${eventModal.player.name}</p>
-                <p><strong>Team:</strong> ${eventModal.player.team.name}</p>
-                <p><strong>Description:</strong> ${eventModal.description}</p>
-                </div>
-                </div>
-                <hr/>
-                <p><strong>Stadium:</strong> ${eventModal.match.stadium.name}</p>
-                <p><strong>Match:</strong> ${eventModal.match.homeTeamId.name} ${eventModal.match.homeScore} - ${eventModal.match.awayScore} ${eventModal.match.awayTeamId.name}</p>
-                <p><strong>Date:</strong> ${new Date(eventModal.match.matchDate).toLocaleString()}</p>
-                <p><strong>Season:</strong> ${eventModal.match.season} | <strong>Week:</strong> ${eventModal.match.matchWeek}</p>
-                <p><strong>Referee:</strong> ${eventModal.match.referee}</p>
-                <p><strong>Attendance:</strong> ${eventModal.match.attendance.toLocaleString()}</p> 
-                <div style = "display: flex; gap: 20px">
-                <button class="update">Update</button>
-                <button class="delete">Delete</button>
-                </div>   
-            `;
-            const updateModal = document.querySelector(".update");
-            const deleteModal = document.querySelector(".delete");
 
-            updateModal.addEventListener(`click`, () => {
+        eventModals.forEach(eventModal => {
+            const eventRow = document.createElement("div");
+            eventRow.className = "event-row";
+            eventRow.innerHTML = `
+                 <div>
+                    <img src="${eventModal.player.photoUrl}" alt="${eventModal.player.name}" />
+                    <div style="display:flex; flex-direction: column; gap: 10px">
+                        <h3>${eventModal.eventType} (${eventModal.minute}')</h3>
+                        <span><strong>Player:</strong> ${eventModal.player.name}</span>
+                        <span><strong>Team:</strong> ${eventModal.player.team.name}</span>
+                        <span><strong>Description:</strong> ${eventModal.description}</span>
+                    </div>
+                    </div>
+                        <span><strong>Stadium:</strong> ${eventModal.match.stadium.name}</span>
+                        <span><strong>Match:</strong> ${eventModal.match.homeTeamId.name} ${eventModal.match.homeScore} - ${eventModal.match.awayScore} ${eventModal.match.awayTeamId.name}</span>
+                        <span><strong>Date:</strong> ${new Date(eventModal.match.matchDate).toLocaleString()}</span>
+                        <span><strong>Season:</strong> ${eventModal.match.season} | <strong>Week:</strong> ${eventModal.match.matchWeek}</span>
+                        <span><strong>Referee:</strong> ${eventModal.match.referee}</span>
+                        <span><strong>Attendance:</strong> ${eventModal.match.attendance.toLocaleString()}</span> 
+                        <div style = "display: flex; gap: 20px">
+                        <button class="update">Update</button>
+                        <button class="delete">Delete</button>
+                    </div>   
+                `;
+            // Gắn sự kiện riêng cho từng nút
+            const updateButton = eventRow.querySelector(".update");
+            const deleteButton = eventRow.querySelector(".delete");
+
+            updateButton.addEventListener("click", () => {
                 formMode = false;
                 eventMatchId = eventModal.eventId;
-                eventForm.style.display = `flex`;
+                eventForm.style.display = "flex";
                 getPlayerInTeam();
+                showEventModal(matchIdGlobal);
+                fillFormForUpdate(eventModal);
             });
 
-            deleteModal.addEventListener(`click`, () => {
+            deleteButton.addEventListener("click", () => {
                 axios.delete(`${API_BASE_URL}matchevent/${eventModal.eventId}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 })
                     .then(response => {
-                        alert(response.data.info)
+                        alert(response.data.info);
                         eventForm.style.display = `none`;
+                        showEventModal(matchIdGlobal);
                     })
                     .catch(error => {
-                        alert(response.data.info);
-                        console.log(error.message);
-                    })
+                        alert("Delete failed: " + error.message);
+                    });
             });
+
+            evenMatchContent.appendChild(eventRow);
         });
     }
 
+
+    //lấy player, mục đích nhết vào select trong form
     function getPlayerInTeam() {
         Promise.all([
             axios.get(`${API_BASE_URL}player/${teamHomeIdGlobal}`),
@@ -401,6 +431,7 @@ let initMatch = () => {
                 const allPlayers = [...homeRes.data.result, ...awayRes.data.result];
                 renderPlayerInTeam(allPlayers);
                 renderRelatedPlayers(allPlayers);
+
             })
             .catch(error => {
                 alert(error.response?.data?.info || "Error fetching players");
@@ -408,6 +439,7 @@ let initMatch = () => {
             });
     }
 
+    //select related player
     function renderRelatedPlayers(players) {
         const relatedSelect = document.getElementById("related_player_id");
         relatedSelect.innerHTML = `<option value="">-- Select Related Player --</option>`;
@@ -418,8 +450,9 @@ let initMatch = () => {
         });
     }
 
+    //select player
     function renderPlayerInTeam(players) {
-        let selectModalPlayer = document.getElementById(`playerId`);
+        let selectModalPlayer = document.getElementById(`pickPlayer`);
         selectModalPlayer.innerHTML = ``;
         players.forEach(player => {
             selectModalPlayer.innerHTML += `
@@ -428,27 +461,30 @@ let initMatch = () => {
         })
     }
 
+    //nút đóng form matchevent
     closeModalEvent.addEventListener("click", () => {
         eventModalForm.style.display = `none`;
     })
-
+    //nút đóng 2 matchevent
     closeModalEvent2.addEventListener(`click`, () => {
         eventModalForm.style.display = `none`;
     })
-
+    //nút đóng 3(dấu x)
     formClose.addEventListener(`click`, () => {
         eventForm.style.display = `none`;
         clearFormModal();
     })
 
+    //nút tạo eventmatch
     createEventMatch.addEventListener(`click`, () => {
         formMode = true;
         eventForm.style.display = `flex`;
-        getPlayerInTeam();
+        getPlayerInTeam(); //khi sự kiện xảy ra, tải player của 2 đội vào select 
     })
 
+    //hàm lấy data từ form, trả về eventmatch obj
     function getDataFromEventForm() {
-        return matchEvent = {
+        return {
             matchId: matchIdGlobal,
             playerId: document.getElementById(`pickPlayer`).value,
             eventType: document.getElementById(`eventType`).value,
@@ -458,6 +494,7 @@ let initMatch = () => {
         }
     };
 
+    //hàm clear form eventmatch
     function clearFormModal() {
         document.getElementById("pickPlayer").value = "";
         document.getElementById("eventType").value = "";
@@ -466,15 +503,24 @@ let initMatch = () => {
         document.getElementById("description").value = "";
     }
 
-    function getDataFromFormForPut(matchEvent) {
-        matchEvent.playerId = document.getElementById("pickPlayer").value;
-        matchEvent.eventType = document.getElementById("eventType").value;
-        matchEvent.minute = parseInt(document.getElementById("minute").value);
-        matchEvent.related_player_id = document.getElementById("related_player_id").value;
-        matchEvent.description = document.getElementById("description").value;
+    //hàm lấy dữ liệu và đẩy lên form (gọi ở hàm sự kiện click update matchevent)
+    function fillFormForUpdate(matchEvent) {
+
+        // let sele = document.getElementById("pickPlayer");
+        // let option = document.createElement('option');
+        // option.value = matchEvent.player.id;
+        // option.textContent = matchEvent.player.name;
+        // option.selected = true;
+        // sele.appendChild(option);
+
+        document.getElementById("pickPlayer").value = matchEvent.player.playerId;
+        document.getElementById("eventType").value = matchEvent.eventType;
+        document.getElementById("minute").value = matchEvent.minute;
+        document.getElementById("related_player_id").value = matchEvent.related_player_id;
+        document.getElementById("description").value = matchEvent.description;
     }
 
-
+    //hàm submit form eventmatch (true là thêm, false là sửa)
     formSubmit.addEventListener("click", () => {
         let matchEvent = getDataFromEventForm();
 
@@ -484,17 +530,18 @@ let initMatch = () => {
                 headers: { Authorization: `Bearer ${token}` }
             })
                 .then(response => {
-                    alert(response.data.info);
                     eventForm.style.display = `none`;
                     clearFormModal();
                     showEventModal(matchIdGlobal);
+                    alert(response.data.info);
+
                 })
                 .catch(error => {
                     alert(error.response?.data?.info || "Có lỗi xảy ra khi thêm sự kiện.");
+                    console.log(error.message);
                 });
         } else {
             // UPDATE
-            getDataFromFormForPut(matchEvent); // cập nhật giá trị lại trước khi gửi PUT
             axios.put(`${API_BASE_URL}matchevent/${eventMatchId}`, matchEvent, {
                 headers: { Authorization: `Bearer ${token}` }
             })
