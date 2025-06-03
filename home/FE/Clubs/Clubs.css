@@ -366,12 +366,15 @@ header{
     gap: 20px;
 }
 .detail-content{
-    width: 350px;
+    width: 320px;
     height: 350px;
     border-radius: 5px;
     border: 1px solid #ebe5eb;
     display: grid;
     grid-template-rows: 8fr 2fr;
+        display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .detail-header-content{
     display: grid;
@@ -400,7 +403,7 @@ header{
     font-size: 12px;
 }
 .header-content-point a{
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 800;
 }
 .detail-main-content{

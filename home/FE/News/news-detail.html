@@ -61,7 +61,7 @@
                 <!-- navright -->
                 <div class="header-navright">
                     <div class="header-boder" >
-                        <a href="../../../login/index.html">
+                        <a href="/login/index.html">
                             <button class="signin-btn">Sign in</button>
                         </a>
                     </div>
@@ -83,57 +83,22 @@
         <div class="section-header">
             <h2>News</h2>
         </div>
-        <div class="filters">
-                <div style="display: flex;">
-                    <div class="filters-group">
-                        <div class="filters-label">
-                            Filter by View
-                        </div>
-                        <div class="dropdown2">
-                            <div class="filters-select" id="filters-select">All News</div>
-                            <div class="dropdown-content2" id="home-away-dropdown">
-                                <a href="#" data-filter="all" >All News</a>
-                                <a href="#" data-filter="home">Top Views</a>
-                            </div>
-                        </div>
 
-                    </div>
-                    <div class="filters-group">
-                        <div class="filters-label">
-                            Filter by Date
-                        </div>
-                        <div class="dropdown2">
-                            <div class="filters-select" id="home-away-select">All News</div>
-                            <div class="dropdown-content2" id="home-away-dropdown">
-                                <a href="#" data-filter="all" >All News</a>
-                                <a href="#" data-filter="home">Newest</a>
-                                <a href="#" data-filter="away">Oldest</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button class="reset-btn" id="reset-filter">
-                    <span class="reset-icon">↺</span>
-                    RESET FILTERS
-                </button>
+        <div class="news">
+            <img src="" alt="">
+            <div class="news-content">
+            <p class="news-title" style="font-size: 22px; font-weight: 800;"></p>
+            <p class="news-description"></p>
+            <a class="news-date"></a>
+            </div>
         </div>
-        <div class="container-section">
-            <div class="container">
-                <img src="https://resources.premierleague.pulselive.com/photo-resources/2025/05/28/2e5aa301-4690-4792-8870-f9dbabffb093/Cunha-Amorim.jpg?width=451&height=268" alt="">
-                <div class="title">
-                    <p>VAR controversies continue to divide opinions</p>
-                    <a>2024-03-15T10:20:00</a>
-                </div>
-            </div>
-            <div class="container">
-                <img src="https://resources.premierleague.pulselive.com/photo-resources/2025/05/28/2e5aa301-4690-4792-8870-f9dbabffb093/Cunha-Amorim.jpg?width=451&height=268" alt="">
-                <div class="title">
-                    <p>VAR controversies continue to divide opinions</p>
-                    <a>2024-03-15T10:20:00</a>
-                </div>
-            </div>
+
+        <div class="more-news">
+            <h2>More news</h2>
+            <!-- More news sẽ được JS render vào đây -->
         </div>
     </main>
+
 
     <footer class="footer">
         <div class="footer-container">
@@ -164,5 +129,6 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="../js/logo_clubsite.js"></script>
     <script src="news.js"></script>
+    <script src="news-detail.js"></script>
 </body>
 </html>
