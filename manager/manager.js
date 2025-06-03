@@ -75,3 +75,8 @@ switch (savedTab) {
     case "Club": clubBtn.onclick(); break;
     default: matchBtn.onclick(); break;  // Mặc định mở .. nếu không có gì
 }
+
+document.getElementById("signOut").addEventListener('click', () => {
+    sessionStorage.removeItem("accessToken");
+    window.location.href = '../index.html';
+});
