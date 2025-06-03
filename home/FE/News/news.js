@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
     containerSection.innerHTML = "";
     newsList.forEach(news => {
       const newsHTML = `
-        <div class="container">
+        <div class="container" data-id="${news.newsId}">
           <img src="${news.imageURL}" alt="">
           <div class="title">
             <p>${news.title}</p>
