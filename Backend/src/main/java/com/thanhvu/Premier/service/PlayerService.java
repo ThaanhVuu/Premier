@@ -31,6 +31,10 @@ public class PlayerService {
         return rp.findById(id).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
     }
 
+    public List<Player> getPlayerByTeam(int teamId){
+        return rp.getPlayerByTeam(teamId);
+    }
+
     @PreAuthorize("hasRole('MANAGER')")
     public Player createPlayer(PlayerRequest rq){
         Player player = mp.toPlayer(rq);

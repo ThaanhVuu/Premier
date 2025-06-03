@@ -47,4 +47,13 @@ public class PlayerController {
                 .result(service.deletePlayer(id))
                 .build();
     }
+
+    @GetMapping("{id}")
+    APIResponse<?> getPlayerByTeam(@PathVariable int id){
+        return APIResponse.builder()
+                .code(200)
+                .info("Success get player by team")
+                .result(service.getPlayerByTeam(id))
+                .build();
+    }
 }
