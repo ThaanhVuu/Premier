@@ -47,4 +47,13 @@ public class MatchEventController {
                 .result(service.deleteMatchEvents(id))
                 .build();
     }
+
+    @GetMapping("{id}")
+    APIResponse<?> getMatchEventByMatch(@PathVariable long id){
+        return APIResponse.builder()
+                .code(200)
+                .info("get match event by match id success!")
+                .result(service.getMatchEventByMatchId(id))
+                .build();
+    }
 }

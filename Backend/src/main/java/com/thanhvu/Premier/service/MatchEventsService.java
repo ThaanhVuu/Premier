@@ -30,6 +30,11 @@ public class MatchEventsService {
     public MatchEvent getMatchEvent(long id){
         return rp.findById(id).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
     }
+
+    public List<MatchEvent> getMatchEventByMatchId(long id){
+        return rp.getMatchEventByMatch(id);
+    }
+
     @PreAuthorize("hasRole('MANAGER')")
     public MatchEvent createMatch(MatchEventRequest rq){
         MatchEvent matchEvent = mp.toMatch(rq);
