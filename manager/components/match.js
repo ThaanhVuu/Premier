@@ -7,11 +7,14 @@ if (token == null) {
 }
 
 
-let initClubs = () => {
+let initMatch = () => {
     // ===== STATE =====
     let saveMode = true;
     let updateId = -1;
     let keyword = "";
+    let matchIdGlobal = -1;
+    let teamHomeIdGlobal = -1;
+    let teamAwayIdGlobal = -1;
     // ===== DOM ELEMENTS =====
 
     const form = document.getElementById("form-popup");
@@ -93,7 +96,8 @@ let initClubs = () => {
             const updateBtn = matchEl.querySelector(".updateBtn");
             const deleteBtn = matchEl.querySelector(".deleteBtn");
 
-            updateBtn.addEventListener("click", () => {
+            updateBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
                 saveMode = false;
                 form.style.display = "flex";
                 updateId = match.matchId;
@@ -102,7 +106,8 @@ let initClubs = () => {
                 putDataToForm(match);
             });
 
-            deleteBtn.addEventListener("click", () => {
+            deleteBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
                 const confirmDelete = confirm(`Bạn có chắc muốn xoá trận đấu ID: ${match.matchId}?`);
                 if (confirmDelete) {
                     const token = sessionStorage.getItem("accessToken");
@@ -124,6 +129,14 @@ let initClubs = () => {
             });
 
             container.appendChild(matchEl);
+
+            matchEl.addEventListener("click", (e) => {
+                matchIdGlobal = match.matchId;
+                teamHomeIdGlobal = match.homeTeamId.teamId;
+                teamAwayIdGlobal = match.awayTeamId.teamId;
+                document.getElementById(`eventMatchModal`).style.display = `flex`;
+                showEventModal(match.matchId);
+            });
         });
     };
 
@@ -302,7 +315,200 @@ let initClubs = () => {
         }
 
     });
+    // ===============================================Event match
+    //state
+    let formMode = true;
+    let eventMatchId = -1;
+    // DOM
+    const closeModalEvent = document.getElementById("closeEventModal");
+    const eventModalForm = document.getElementById(`eventMatchModal`);
+    const closeModalEvent2 = document.getElementById(`CloseEventMatch`);
+    const createEventMatch = document.getElementById(`AddEventMatch`);
+    const eventForm = document.getElementById(`eventForm`);
+    const formClose = document.getElementById(`formClose`);
+    const formSubmit = document.getElementById(`formSubmit`);
+    // Render
+
+    function showEventModal(matchId) {
+        axios.get(`${API_BASE_URL}matchevent/${matchId}`)
+            .then(response => {
+                renderEventModal(response.data.result)
+            })
+            .catch(error => {
+                alert(error.response?.data.info);
+                console.log(error.message);
+            });
+    }
+
+    function renderEventModal(eventModals) {
+        const evenMatchContent = document.getElementById(`eventMatchContent`);
+        evenMatchContent.innerHTML = ``;
+        eventModals.forEach(eventModal => {
+            evenMatchContent.innerHTML += `
+                <div class="event-row">
+                <img src="${eventModal.player.photoUrl}" alt="${eventModal.player.name}" />
+                <div>
+                <h3>${eventModal.eventType} (${eventModal.minute}')</h3>
+                <p><strong>Player:</strong> ${eventModal.player.name}</p>
+                <p><strong>Team:</strong> ${eventModal.player.team.name}</p>
+                <p><strong>Description:</strong> ${eventModal.description}</p>
+                </div>
+                </div>
+                <hr/>
+                <p><strong>Stadium:</strong> ${eventModal.match.stadium.name}</p>
+                <p><strong>Match:</strong> ${eventModal.match.homeTeamId.name} ${eventModal.match.homeScore} - ${eventModal.match.awayScore} ${eventModal.match.awayTeamId.name}</p>
+                <p><strong>Date:</strong> ${new Date(eventModal.match.matchDate).toLocaleString()}</p>
+                <p><strong>Season:</strong> ${eventModal.match.season} | <strong>Week:</strong> ${eventModal.match.matchWeek}</p>
+                <p><strong>Referee:</strong> ${eventModal.match.referee}</p>
+                <p><strong>Attendance:</strong> ${eventModal.match.attendance.toLocaleString()}</p> 
+                <div style = "display: flex; gap: 20px">
+                <button class="update">Update</button>
+                <button class="delete">Delete</button>
+                </div>   
+            `;
+            const updateModal = document.querySelector(".update");
+            const deleteModal = document.querySelector(".delete");
+
+            updateModal.addEventListener(`click`, () => {
+                formMode = false;
+                eventMatchId = eventModal.eventId;
+                eventForm.style.display = `flex`;
+                getPlayerInTeam();
+            });
+
+            deleteModal.addEventListener(`click`, () => {
+                axios.delete(`${API_BASE_URL}matchevent/${eventModal.eventId}`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                })
+                    .then(response => {
+                        alert(response.data.info)
+                        eventForm.style.display = `none`;
+                    })
+                    .catch(error => {
+                        alert(response.data.info);
+                        console.log(error.message);
+                    })
+            });
+        });
+    }
+
+    function getPlayerInTeam() {
+        Promise.all([
+            axios.get(`${API_BASE_URL}player/${teamHomeIdGlobal}`),
+            axios.get(`${API_BASE_URL}player/${teamAwayIdGlobal}`)
+        ])
+            .then(([homeRes, awayRes]) => {
+                const allPlayers = [...homeRes.data.result, ...awayRes.data.result];
+                renderPlayerInTeam(allPlayers);
+                renderRelatedPlayers(allPlayers);
+            })
+            .catch(error => {
+                alert(error.response?.data?.info || "Error fetching players");
+                console.error(error);
+            });
+    }
+
+    function renderRelatedPlayers(players) {
+        const relatedSelect = document.getElementById("related_player_id");
+        relatedSelect.innerHTML = `<option value="">-- Select Related Player --</option>`;
+        players.forEach(player => {
+            relatedSelect.innerHTML += `
+      <option value="${player.playerId}">${player.name}</option>
+    `;
+        });
+    }
+
+    function renderPlayerInTeam(players) {
+        let selectModalPlayer = document.getElementById(`playerId`);
+        selectModalPlayer.innerHTML = ``;
+        players.forEach(player => {
+            selectModalPlayer.innerHTML += `
+                <option value="${player.playerId}">${player.name}</option>
+            `;
+        })
+    }
+
+    closeModalEvent.addEventListener("click", () => {
+        eventModalForm.style.display = `none`;
+    })
+
+    closeModalEvent2.addEventListener(`click`, () => {
+        eventModalForm.style.display = `none`;
+    })
+
+    formClose.addEventListener(`click`, () => {
+        eventForm.style.display = `none`;
+        clearFormModal();
+    })
+
+    createEventMatch.addEventListener(`click`, () => {
+        formMode = true;
+        eventForm.style.display = `flex`;
+        getPlayerInTeam();
+    })
+
+    function getDataFromEventForm() {
+        return matchEvent = {
+            matchId: matchIdGlobal,
+            playerId: document.getElementById(`pickPlayer`).value,
+            eventType: document.getElementById(`eventType`).value,
+            minute: document.getElementById(`minute`).value,
+            related_player_id: document.getElementById(`related_player_id`).value,
+            description: document.getElementById(`description`).value
+        }
+    };
+
+    function clearFormModal() {
+        document.getElementById("pickPlayer").value = "";
+        document.getElementById("eventType").value = "";
+        document.getElementById("minute").value = "";
+        document.getElementById("related_player_id").value = "";
+        document.getElementById("description").value = "";
+    }
+
+    function getDataFromFormForPut(matchEvent) {
+        matchEvent.playerId = document.getElementById("pickPlayer").value;
+        matchEvent.eventType = document.getElementById("eventType").value;
+        matchEvent.minute = parseInt(document.getElementById("minute").value);
+        matchEvent.related_player_id = document.getElementById("related_player_id").value;
+        matchEvent.description = document.getElementById("description").value;
+    }
+
+
+    formSubmit.addEventListener("click", () => {
+        let matchEvent = getDataFromEventForm();
+
+        if (formMode) {
+            // CREATE
+            axios.post(`${API_BASE_URL}matchevent`, matchEvent, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+                .then(response => {
+                    alert(response.data.info);
+                    eventForm.style.display = `none`;
+                    clearFormModal();
+                    showEventModal(matchIdGlobal);
+                })
+                .catch(error => {
+                    alert(error.response?.data?.info || "Có lỗi xảy ra khi thêm sự kiện.");
+                });
+        } else {
+            // UPDATE
+            getDataFromFormForPut(matchEvent); // cập nhật giá trị lại trước khi gửi PUT
+            axios.put(`${API_BASE_URL}matchevent/${eventMatchId}`, matchEvent, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+                .then(response => {
+                    alert(response.data.info);
+                    eventForm.style.display = `none`;
+                    clearFormModal();
+                    showEventModal(matchIdGlobal);
+                })
+                .catch(error => {
+                    alert(error.response?.data?.info || "Có lỗi xảy ra khi cập nhật sự kiện.");
+                });
+        }
+    });
 
 }
-
-initClubs();
+initMatch();

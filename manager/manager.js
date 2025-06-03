@@ -4,7 +4,7 @@ let playerBtn = document.getElementById("Player");
 let matchBtn = document.getElementById("Match");
 let stadiumBtn = document.getElementById("Stadium");
 let clubBtn = document.getElementById("Club");
-let resultBtn = document.getElementById("Result");
+let matchEventBtn = document.getElementById("Match-Event");
 
 let oldBtn = null;
 
@@ -63,7 +63,6 @@ playerBtn.onclick = () => handleNavClick(playerBtn, "components/player.html", "c
 matchBtn.onclick = () => handleNavClick(matchBtn, "components/match.html", "components/match.js", "components/match.css");
 stadiumBtn.onclick = () => handleNavClick(stadiumBtn, "components/stadium.html", "components/stadium.js", "components/stadium.css");
 clubBtn.onclick = () => handleNavClick(clubBtn, "components/club.html", "components/club.js", "components/club.css");
-resultBtn.onclick = () => handleNavClick(resultBtn, "components/result.html", "components/result.js", "components/result.css");
 
 // 👉 Khi tải lại trang: tự động mở tab đang được lưu (mặc định là News)
 const savedTab = sessionStorage.getItem("activeTab");
@@ -74,6 +73,5 @@ switch (savedTab) {
     case "Match": matchBtn.onclick(); break;
     case "Stadium": stadiumBtn.onclick(); break;
     case "Club": clubBtn.onclick(); break;
-    case "Result": resultBtn.onclick(); break;
-    default: playerBtn.onclick(); break;  // Mặc định mở .. nếu không có gì
+    default: matchBtn.onclick(); break;  // Mặc định mở .. nếu không có gì
 }

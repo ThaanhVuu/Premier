@@ -120,3 +120,55 @@
     </div>
   </form>
 </section>
+
+<!-- // ===============================================Event match -->
+<!-- Event Modal -->
+<div id="eventMatchModal" class="modal">
+  <div class="modal-content">
+    <span id="closeEventModal">&times;</span>
+    <h2>Match Event Details</h2>
+    <div id="eventMatchContent" class="event-details">
+      <!-- Nội dung được thêm bằng JS -->
+    </div>
+    <hr />
+    <div style="display: flex; gap: 20px">
+      <button id="AddEventMatch">Create Event</button>
+      <button id="CloseEventMatch">Close Event</button>
+    </div>
+  </div>
+</div>
+<!-- form add event modal -->
+
+<section id="eventForm">
+  <form>
+    <br />
+    <label for="playerId">Player:</label>
+    <select name="" id="pickPlayer"></select>
+    <br />
+
+    <label for="eventType">Event Type:</label>
+    <select id="eventType" name="eventType" required>
+      <option value="">-- Select Event Type --</option>
+      <option value="goal">GOAL</option>
+      <option value="yellow_card">YELLOW_CARD</option>
+      <option value="red_card">RED_CARD</option>
+      <option value="substitution">SUBSTITUTION</option></select
+    ><br />
+
+    <label for="minute">Minute:</label>
+    <input type="number" id="minute" name="minute" required /><br /><br />
+
+    <label for="related_player_id">Related Player:</label>
+    <select name="" id="related_player_id"></select>
+    <br />
+
+    <label for="description">Description:</label><br />
+    <input id="description" name="description"></input
+    ><br />
+
+    <div style="display: flex; gap: 20px">
+      <button type="button" id="formSubmit">Submit</button>
+      <button type="button" id="formClose">Close</button>
+    </div>
+  </form>
+</section>
