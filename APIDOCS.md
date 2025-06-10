@@ -1,400 +1,639 @@
-# 🚀 API Documentation
+# Premier League Management System API Documentation
 
-## 📋 Table of Contents
-
-- [Authentication](#authentication)
-- [Stadiums](#stadiums)
-- [Clubs](#clubs)
-- [Players](#players)
-- [Matches](#matches)
-- [News](#news)
-- [Users](#users)
-
-## 🔐 Authentication
-
-### Login
-
-```http
-POST /api/auth/login
-Content-Type: application/json
-
-{
-    "username": "string",
-    "password": "string"
-}
+## Base URL
+```
+http://localhost:8080/api
 ```
 
-**Response**
+## Authentication
 
+### Register User
+```http
+POST /auth/register
+```
+
+**Request Body:**
 ```json
-{
-  "token": "string"
-}
-```
-
-### Register
-
-```http
-POST /api/auth/register
-Content-Type: application/json
-
 {
     "username": "string",
     "email": "string",
+    "password": "string",
+    "fullName": "string"
+}
+```
+
+**Response:**
+```json
+{
+    "id": "string",
+    "username": "string",
+    "email": "string",
+    "fullName": "string",
+    "role": "string"
+}
+```
+
+### Login
+```http
+POST /auth/login
+```
+
+**Request Body:**
+```json
+{
+    "username": "string",
     "password": "string"
 }
 ```
 
-## 🏟 Stadiums
-
-### Get All Stadiums
-
-```http
-GET /api/stadiums
-Authorization: Bearer {token}
-```
-
-### Get Stadium by ID
-
-```http
-GET /api/stadiums/{id}
-Authorization: Bearer {token}
-```
-
-### Create Stadium (Manager only)
-
-```http
-POST /api/stadiums
-Authorization: Bearer {token}
-Content-Type: application/json
-
+**Response:**
+```json
 {
-    "name": "string",
-    "capacity": "number",
-    "location": "string",
-    "description": "string"
+    "token": "string",
+    "refreshToken": "string",
+    "type": "Bearer"
 }
 ```
 
-### Update Stadium (Manager only)
-
+### Logout
 ```http
-PUT /api/stadiums/{id}
-Authorization: Bearer {token}
-Content-Type: application/json
+POST /auth/logout
+```
 
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+## Teams
+
+### Get All Teams
+```http
+GET /teams
+```
+
+**Response:**
+```json
+[
+    {
+        "id": "string",
+        "name": "string",
+        "shortName": "string",
+        "logo": "string",
+        "stadium": {
+            "id": "string",
+            "name": "string"
+        },
+        "manager": "string",
+        "foundedYear": "number"
+    }
+]
+```
+
+### Get Team by ID
+```http
+GET /teams/{id}
+```
+
+**Response:**
+```json
 {
+    "id": "string",
     "name": "string",
-    "capacity": "number",
-    "location": "string",
-    "description": "string"
-}
-```
-
-### Delete Stadium (Manager only)
-
-```http
-DELETE /api/stadiums/{id}
-Authorization: Bearer {token}
-```
-
-## ⚽ Clubs
-
-### Get All Clubs
-
-```http
-GET /api/clubs
-Authorization: Bearer {token}
-```
-
-### Get Club by ID
-
-```http
-GET /api/clubs/{id}
-Authorization: Bearer {token}
-```
-
-### Create Club (Manager only)
-
-```http
-POST /api/clubs
-Authorization: Bearer {token}
-Content-Type: application/json
-
-{
-    "name": "string",
-    "stadium": "number",
+    "shortName": "string",
+    "logo": "string",
+    "stadium": {
+        "id": "string",
+        "name": "string",
+        "capacity": "number",
+        "location": "string"
+    },
+    "manager": "string",
     "foundedYear": "number",
-    "description": "string"
-}
-```
-
-### Update Club (Manager only)
-
-```http
-PUT /api/clubs/{id}
-Authorization: Bearer {token}
-Content-Type: application/json
-
-{
-    "name": "string",
-    "stadium": "number",
-    "foundedYear": "number",
-    "description": "string"
-}
-```
-
-### Delete Club (Manager only)
-
-```http
-DELETE /api/clubs/{id}
-Authorization: Bearer {token}
-```
-
-## 👥 Players
-
-### Get All Players
-
-```http
-GET /api/players
-Authorization: Bearer {token}
-```
-
-### Get Player by ID
-
-```http
-GET /api/players/{id}
-Authorization: Bearer {token}
-```
-
-### Create Player (Manager only)
-
-```http
-POST /api/players
-Authorization: Bearer {token}
-Content-Type: application/json
-
-{
-    "name": "string",
-    "club": "number",
-    "position": "string",
-    "number": "number",
-    "nationality": "string",
-    "birthDate": "date"
-}
-```
-
-### Update Player (Manager only)
-
-```http
-PUT /api/players/{id}
-Authorization: Bearer {token}
-Content-Type: application/json
-
-{
-    "name": "string",
-    "club": "number",
-    "position": "string",
-    "number": "number",
-    "nationality": "string",
-    "birthDate": "date"
-}
-```
-
-### Delete Player (Manager only)
-
-```http
-DELETE /api/players/{id}
-Authorization: Bearer {token}
-```
-
-## 🏆 Matches
-
-### Get All Matches
-
-```http
-GET /api/matches
-Authorization: Bearer {token}
-```
-
-### Get Match by ID
-
-```http
-GET /api/matches/{id}
-Authorization: Bearer {token}
-```
-
-### Create Match (Manager only)
-
-```http
-POST /api/matches
-Authorization: Bearer {token}
-Content-Type: application/json
-
-{
-    "homeClub": "number",
-    "awayClub": "number",
-    "stadium": "number",
-    "date": "datetime",
-    "status": "string"
-}
-```
-
-### Update Match (Manager only)
-
-```http
-PUT /api/matches/{id}
-Authorization: Bearer {token}
-Content-Type: application/json
-
-{
-    "homeClub": "number",
-    "awayClub": "number",
-    "stadium": "number",
-    "date": "datetime",
-    "status": "string"
-}
-```
-
-### Delete Match (Manager only)
-
-```http
-DELETE /api/matches/{id}
-Authorization: Bearer {token}
-```
-
-### Add Match Result (Manager only)
-
-```http
-POST /api/matches/{id}/result
-Authorization: Bearer {token}
-Content-Type: application/json
-
-{
-    "homeScore": "number",
-    "awayScore": "number",
-    "scorers": [
+    "players": [
         {
-            "player": "number",
-            "minute": "number",
-            "isOwnGoal": "boolean"
+            "id": "string",
+            "name": "string",
+            "position": "string",
+            "number": "number"
         }
     ]
 }
 ```
 
-## 📰 News
+### Create Team
+```http
+POST /teams
+```
+
+**Request Body:**
+```json
+{
+    "name": "string",
+    "shortName": "string",
+    "logo": "string",
+    "stadiumId": "string",
+    "manager": "string",
+    "foundedYear": "number"
+}
+```
+
+### Update Team
+```http
+PUT /teams/{id}
+```
+
+**Request Body:**
+```json
+{
+    "name": "string",
+    "shortName": "string",
+    "logo": "string",
+    "stadiumId": "string",
+    "manager": "string",
+    "foundedYear": "number"
+}
+```
+
+### Delete Team
+```http
+DELETE /teams/{id}
+```
+
+## Matches
+
+### Get All Matches
+```http
+GET /matches
+```
+
+**Response:**
+```json
+[
+    {
+        "id": "string",
+        "homeTeam": {
+            "id": "string",
+            "name": "string"
+        },
+        "awayTeam": {
+            "id": "string",
+            "name": "string"
+        },
+        "stadium": {
+            "id": "string",
+            "name": "string"
+        },
+        "date": "string",
+        "time": "string",
+        "status": "string",
+        "score": {
+            "homeScore": "number",
+            "awayScore": "number"
+        }
+    }
+]
+```
+
+### Get Match by ID
+```http
+GET /matches/{id}
+```
+
+**Response:**
+```json
+{
+    "id": "string",
+    "homeTeam": {
+        "id": "string",
+        "name": "string"
+    },
+    "awayTeam": {
+        "id": "string",
+        "name": "string"
+    },
+    "stadium": {
+        "id": "string",
+        "name": "string"
+    },
+    "date": "string",
+    "time": "string",
+    "status": "string",
+    "score": {
+        "homeScore": "number",
+        "awayScore": "number"
+    },
+    "events": [
+        {
+            "id": "string",
+            "type": "string",
+            "player": {
+                "id": "string",
+                "name": "string"
+            },
+            "team": {
+                "id": "string",
+                "name": "string"
+            },
+            "time": "string",
+            "description": "string"
+        }
+    ]
+}
+```
+
+### Create Match
+```http
+POST /matches
+```
+
+**Request Body:**
+```json
+{
+    "homeTeamId": "string",
+    "awayTeamId": "string",
+    "stadiumId": "string",
+    "date": "string",
+    "time": "string"
+}
+```
+
+### Update Match
+```http
+PUT /matches/{id}
+```
+
+**Request Body:**
+```json
+{
+    "homeTeamId": "string",
+    "awayTeamId": "string",
+    "stadiumId": "string",
+    "date": "string",
+    "time": "string",
+    "status": "string",
+    "score": {
+        "homeScore": "number",
+        "awayScore": "number"
+    }
+}
+```
+
+### Delete Match
+```http
+DELETE /matches/{id}
+```
+
+## Players
+
+### Get All Players
+```http
+GET /players
+```
+
+**Response:**
+```json
+[
+    {
+        "id": "string",
+        "name": "string",
+        "position": "string",
+        "number": "number",
+        "team": {
+            "id": "string",
+            "name": "string"
+        },
+        "nationality": "string",
+        "dateOfBirth": "string"
+    }
+]
+```
+
+### Get Player by ID
+```http
+GET /players/{id}
+```
+
+**Response:**
+```json
+{
+    "id": "string",
+    "name": "string",
+    "position": "string",
+    "number": "number",
+    "team": {
+        "id": "string",
+        "name": "string"
+    },
+    "nationality": "string",
+    "dateOfBirth": "string",
+    "height": "number",
+    "weight": "number",
+    "statistics": {
+        "goals": "number",
+        "assists": "number",
+        "yellowCards": "number",
+        "redCards": "number"
+    }
+}
+```
+
+### Create Player
+```http
+POST /players
+```
+
+**Request Body:**
+```json
+{
+    "name": "string",
+    "position": "string",
+    "number": "number",
+    "teamId": "string",
+    "nationality": "string",
+    "dateOfBirth": "string",
+    "height": "number",
+    "weight": "number"
+}
+```
+
+### Update Player
+```http
+PUT /players/{id}
+```
+
+**Request Body:**
+```json
+{
+    "name": "string",
+    "position": "string",
+    "number": "number",
+    "teamId": "string",
+    "nationality": "string",
+    "dateOfBirth": "string",
+    "height": "number",
+    "weight": "number"
+}
+```
+
+### Delete Player
+```http
+DELETE /players/{id}
+```
+
+## Stadiums
+
+### Get All Stadiums
+```http
+GET /stadiums
+```
+
+**Response:**
+```json
+[
+    {
+        "id": "string",
+        "name": "string",
+        "capacity": "number",
+        "location": "string",
+        "team": {
+            "id": "string",
+            "name": "string"
+        }
+    }
+]
+```
+
+### Get Stadium by ID
+```http
+GET /stadiums/{id}
+```
+
+**Response:**
+```json
+{
+    "id": "string",
+    "name": "string",
+    "capacity": "number",
+    "location": "string",
+    "team": {
+        "id": "string",
+        "name": "string"
+    },
+    "description": "string",
+    "facilities": ["string"]
+}
+```
+
+### Create Stadium
+```http
+POST /stadiums
+```
+
+**Request Body:**
+```json
+{
+    "name": "string",
+    "capacity": "number",
+    "location": "string",
+    "teamId": "string",
+    "description": "string",
+    "facilities": ["string"]
+}
+```
+
+### Update Stadium
+```http
+PUT /stadiums/{id}
+```
+
+**Request Body:**
+```json
+{
+    "name": "string",
+    "capacity": "number",
+    "location": "string",
+    "teamId": "string",
+    "description": "string",
+    "facilities": ["string"]
+}
+```
+
+### Delete Stadium
+```http
+DELETE /stadiums/{id}
+```
+
+## News
 
 ### Get All News
-
 ```http
-GET /api/news
-Authorization: Bearer {token}
+GET /news
+```
+
+**Response:**
+```json
+[
+    {
+        "id": "string",
+        "title": "string",
+        "content": "string",
+        "image": "string",
+        "author": "string",
+        "publishDate": "string",
+        "category": "string"
+    }
+]
 ```
 
 ### Get News by ID
-
 ```http
-GET /api/news/{id}
-Authorization: Bearer {token}
+GET /news/{id}
 ```
 
-### Create News (Manager only)
+**Response:**
+```json
+{
+    "id": "string",
+    "title": "string",
+    "content": "string",
+    "image": "string",
+    "author": "string",
+    "publishDate": "string",
+    "category": "string",
+    "tags": ["string"],
+    "relatedTeams": [
+        {
+            "id": "string",
+            "name": "string"
+        }
+    ]
+}
+```
 
+### Create News
 ```http
-POST /api/news
-Authorization: Bearer {token}
-Content-Type: application/json
+POST /news
+```
 
+**Request Body:**
+```json
 {
     "title": "string",
     "content": "string",
-    "imageUrl": "string",
-    "category": "string"
+    "image": "string",
+    "category": "string",
+    "tags": ["string"],
+    "relatedTeamIds": ["string"]
 }
 ```
 
-### Update News (Manager only)
-
+### Update News
 ```http
-PUT /api/news/{id}
-Authorization: Bearer {token}
-Content-Type: application/json
+PUT /news/{id}
+```
 
+**Request Body:**
+```json
 {
     "title": "string",
     "content": "string",
-    "imageUrl": "string",
-    "category": "string"
+    "image": "string",
+    "category": "string",
+    "tags": ["string"],
+    "relatedTeamIds": ["string"]
 }
 ```
 
-### Delete News (Manager only)
-
+### Delete News
 ```http
-DELETE /api/news/{id}
-Authorization: Bearer {token}
+DELETE /news/{id}
 ```
 
-## 👤 Users
+## Statistics
 
-### Get All Users (Admin only)
-
+### Get Team Statistics
 ```http
-GET /api/users
-Authorization: Bearer {token}
+GET /statistics/teams/{teamId}
 ```
 
-### Get User by ID (Admin only)
-
-```http
-GET /api/users/{id}
-Authorization: Bearer {token}
-```
-
-### Update User Role (Admin only)
-
-```http
-PUT /api/users/{id}/role
-Authorization: Bearer {token}
-Content-Type: application/json
-
+**Response:**
+```json
 {
-    "role": "string"
+    "team": {
+        "id": "string",
+        "name": "string"
+    },
+    "matchesPlayed": "number",
+    "wins": "number",
+    "draws": "number",
+    "losses": "number",
+    "goalsFor": "number",
+    "goalsAgainst": "number",
+    "points": "number",
+    "position": "number"
 }
-```
-
-### Delete User (Admin only)
-
-```http
-DELETE /api/users/{id}
-Authorization: Bearer {token}
-```
-
-## 📊 Statistics
-
-### Get Club Statistics
-
-```http
-GET /api/statistics/clubs/{clubId}
-Authorization: Bearer {token}
 ```
 
 ### Get Player Statistics
-
 ```http
-GET /api/statistics/players/{playerId}
-Authorization: Bearer {token}
+GET /statistics/players/{playerId}
 ```
 
-### Get Global Statistics (Admin only)
-
-```http
-GET /api/statistics/global
-Authorization: Bearer {token}
+**Response:**
+```json
+{
+    "player": {
+        "id": "string",
+        "name": "string",
+        "team": {
+            "id": "string",
+            "name": "string"
+        }
+    },
+    "matchesPlayed": "number",
+    "goals": "number",
+    "assists": "number",
+    "yellowCards": "number",
+    "redCards": "number",
+    "minutesPlayed": "number"
+}
 ```
 
-## 🔄 Response Codes
+**Response:**
+```json
+{
+    "totalMatches": "number",
+    "totalGoals": "number",
+    "averageGoalsPerMatch": "number",
+    "topScorer": {
+        "player": {
+            "id": "string",
+            "name": "string"
+        },
+        "goals": "number"
+    },
+    "topAssists": {
+        "player": {
+            "id": "string",
+            "name": "string"
+        },
+        "assists": "number"
+    },
+    "leagueTable": [
+        {
+            "team": {
+                "id": "string",
+                "name": "string"
+            },
+            "points": "number",
+            "position": "number"
+        }
+    ]
+}
+```
+
+## Response Codes
 
 | Code | HTTP Status               | Description                                   |
 | ---- | ------------------------- | --------------------------------------------- |
@@ -408,9 +647,18 @@ Authorization: Bearer {token}
 | 1008 | 401 Unauthorized          | Authentication is required                    |
 | 1009 | 403 Forbidden             | You are not authorized to perform this action |
 
-## 📝 Notes
+## Notes
 
-- All requests requiring authentication must include the Bearer token in the Authorization header
+- All requests (except get) requiring authentication must include the Bearer token in the Authorization header
 - Date formats should be in ISO 8601 format (YYYY-MM-DD)
 - DateTime formats should be in ISO 8601 format (YYYY-MM-DDTHH:mm:ss.sssZ)
-- All IDs in the API are numeric
+- All IDs in the API are UUID strings
+- Rate limiting: 100 requests per minute for authenticated users, 20 requests per minute for unauthenticated users
+- API version: v1
+- Base URL: http://localhost:8080/api
+
+## Support
+
+For API support or questions, please contact:
+- Email: Thanhvu7623@gmail.com
+- GitHub: [https://github.com/ThaanhVuu/Premier](https://github.com/ThaanhVuu/Premier)

@@ -1,4 +1,4 @@
-let dashboardBtn = document.getElementById("Dashboard");
+
 let newsBtn = document.getElementById("News");
 let playerBtn = document.getElementById("Player");
 let matchBtn = document.getElementById("Match");
@@ -57,7 +57,6 @@ function handleNavClick(button, htmlPath, jsPath, cssPath) {
 }
 
 // Gán sự kiện click cho từng button
-dashboardBtn.onclick = () => handleNavClick(dashboardBtn, "components/dashboard.html", "components/dashboard.js", "components/dashboard.css");
 newsBtn.onclick = () => handleNavClick(newsBtn, "components/news.html", "components/news.js", "components/news.css");
 playerBtn.onclick = () => handleNavClick(playerBtn, "components/player.html", "components/player.js", "components/player.css");
 matchBtn.onclick = () => handleNavClick(matchBtn, "components/match.html", "components/match.js", "components/match.css");
@@ -68,12 +67,11 @@ resultBtn.onclick = () => handleNavClick(resultBtn, "components/result.html", "c
 // 👉 Khi tải lại trang: tự động mở tab đang được lưu (mặc định là News)
 const savedTab = sessionStorage.getItem("activeTab");
 switch (savedTab) {
-    case "Dashboard": dashboardBtn.onclick(); break;
     case "News": newsBtn.onclick(); break;
     case "Player": playerBtn.onclick(); break;
     case "Match": matchBtn.onclick(); break;
     case "Stadium": stadiumBtn.onclick(); break;
     case "Club": clubBtn.onclick(); break;
     case "Result": resultBtn.onclick(); break;
-    default: matchBtn.onclick(); break;  // Mặc định mở .. nếu không có gì
+    default: newsBtn.onclick(); break;  // Mặc định mở .. nếu không có gì
 }
